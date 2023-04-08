@@ -1,5 +1,8 @@
 {
   "index": "Introduction",
+  "authentication": "Authentication",
+  "advanced": "Pro Features",
+  "resources": "Resources",
   "about": {
     "title": "About",
     "type": "page",

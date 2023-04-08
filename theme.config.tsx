@@ -13,6 +13,18 @@ const config: DocsThemeConfig = {
     link: 'https://github.com/fuzehq',
   },
   docsRepositoryBase: 'https://github.com/fuzehq/documentation',
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="Fuze" />
+      <meta property="og:description" content="Documentation site for Fuze" />
+    </>
+  ),
+  useNextSeoProps() {
+    return {
+      titleTemplate: '%s – Fuze'
+    }
+  },
   footer: {
     text: 'Fuze',
   },
