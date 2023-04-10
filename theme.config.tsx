@@ -8,7 +8,7 @@ const config: DocsThemeConfig = {
     </div>
   ),
   darkMode: true,
-  primaryHue: 272,
+  primaryHue: 247,
   project: {
     link: 'https://github.com/fuzehq',
   },
@@ -18,6 +18,7 @@ const config: DocsThemeConfig = {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta property="og:title" content="Fuze" />
       <meta property="og:description" content="Documentation site for Fuze" />
+      <meta property="og:image" content="https://fuze.finance/logo.png" />
     </>
   ),
   useNextSeoProps() {
