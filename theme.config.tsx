@@ -16,8 +16,8 @@ const config: DocsThemeConfig = {
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:title" content="Fuze" />
-      <meta property="og:description" content="Documentation site for Fuze" />
+      <meta property="og:title" content="Fuze Documentation" />
+      <meta property="og:description" content="API documentation for Fuze" />
       <meta property="og:image" content="https://fuze.finance/logo.png" />
     </>
   ),

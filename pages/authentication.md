@@ -104,7 +104,7 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 <hr/>
 
-#### POST request with a body but no query parameters:
+#### POST request with a body and query parameters:
 
 Example use case:
 ```
