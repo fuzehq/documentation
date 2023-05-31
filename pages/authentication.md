@@ -34,7 +34,7 @@ Please note that the order of these four fields (viz. "body", "query", "url" & "
 
 Example use case:
 ```
-Make a GET call to 'https://dev.api.fuze.finance/api/v1/org/'. This does not contain any body or query parameters.
+Make a GET call to 'https://staging.api.fuze.finance/api/v1/org/'. This does not contain any body or query parameters.
 ```
 JSON Payload:
 ```
@@ -54,7 +54,7 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 Example use case:
 ```
-Make a GET call to 'https://dev.api.fuze.finance/api/v1/org/?k1=v1&k2=v2'. This does not contain any body but has a couple of query parameters.
+Make a GET call to 'https://staging.api.fuze.finance/api/v1/org/?k1=v1&k2=v2'. This does not contain any body but has a couple of query parameters.
 ```
 JSON Payload:
 ```
@@ -77,7 +77,7 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 Example use case:
 ```
-Make a POST call to 'https://dev.api.fuze.finance/api/v1/user/'. This contains a body but no query parameters. The body is as follows:
+Make a POST call to 'https://staging.api.fuze.finance/api/v1/user/'. This contains a body but no query parameters. The body is as follows:
 {
     "orgUserId": "ankitshubham97",
     "kyc": false,
@@ -108,7 +108,7 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 Example use case:
 ```
-Make a POST call to 'https://dev.api.fuze.finance/api/v1/user/?k1=v1&k2=v2'. This contains a body and a few query parameters. The body is as follows:
+Make a POST call to 'https://staging.api.fuze.finance/api/v1/user/?k1=v1&k2=v2'. This contains a body and a few query parameters. The body is as follows:
 {
     "orgUserId": "ankitshubham97",
     "kyc": false,
@@ -148,7 +148,7 @@ PHP Sample code:
   $API_SECRET = "MC4CAQAwBQYDK2VwBCIEIEWY0tGWVuA8HEaXFjzC/AT7T2YP9bcW/nsDYnGkk9ib"; // Change this.
   $orgUserId = "ankitshubham97"; // Might change this.
 
-  $API_ENDPOINT = "https://dev.api.fuze.finance";  
+  $API_ENDPOINT = "https://staging.api.fuze.finance";  
   $body = array('orgUserId' => $orgUserId, 'kyc' => True, 'tnc' => True);
   $query = new \stdClass();
   $url = "/api/v1/user/";
@@ -186,7 +186,7 @@ import { DateTime } from 'luxon';
 import * as crypto from 'node:crypto';
 
 async function main() {
-  const API_ENDPOINT = 'https://dev.api.fuze.finance';
+  const API_ENDPOINT = 'https://staging.api.fuze.finance';
   const API_SECRET = 'MC4CAQAwBQYDK2VwBCIEIEWY0tGWVuA8HEaXFjzC/AT7T2YP9bcW/nsDYnGkk9ib'; // Change this.
   const orgUserId = `ankitshubham97`;
   const body = {
