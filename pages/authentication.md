@@ -16,12 +16,12 @@ HMAC SHA256 signing operation requires two inputs: a key (with which the payload
 
 For generating the X-SIGNATURE value, you would use the api-secret as the key.
 The payload (X-SIGNATURE) will be a stringified JSON object where the JSON object would be:
-```
+```json
 {
-  "body": <request body as JSON object>,
-  "query": <query parameters as key-value fields in a JSON object>,
-  "url": <the url slug for the api endpoint>,
-  "ts": <the value of X-TIMESTAMP header casted to string>,
+  "body": "<request body as JSON object>",
+  "query": "<query parameters as key-value fields in a JSON object>",
+  "url": "<the url slug for the api endpoint>",
+  "ts": "<the value of X-TIMESTAMP header casted to string>"
 }
 ```
 Please note that the order of these four fields (viz. "body", "query", "url" & "ts") should be the same as depicted above.
@@ -32,16 +32,14 @@ Please note that the order of these four fields (viz. "body", "query", "url" & "
 
 #### GET request with no query parameters:
 
-Example use case:
-```
-Make a GET call to 'https://staging.api.fuze.finance/api/v1/org/'. This does not contain any body or query parameters.
-```
+Make a GET call to `https://staging.api.fuze.finance/api/v1/org/`. This does not contain any body or query parameters.
+
 JSON Payload:
-```
+```json
 {
   "body": {},
   "query": {},
-  "url": '/api/v1/org/',
+  "url": "/api/v1/org/",
   "ts": "1671444764"
 }
 ```
@@ -52,22 +50,21 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 #### GET request with a few query parameters:
 
-Example use case:
-```
-Make a GET call to 'https://staging.api.fuze.finance/api/v1/org/?k1=v1&k2=v2'. This does not contain any body but has a couple of query parameters.
-```
+Make a GET call to `https://staging.api.fuze.finance/api/v1/org/?k1=v1&k2=v2`. This does not contain any body but has a couple of query parameters.
+
 JSON Payload:
-```
+```json
 {
   "body": {},
   "query": {
     "k1": "v1",
     "k2": "v2"
   },
-  "url": '/api/v1/org/',
+  "url": "/api/v1/org/",
   "ts": "1671444764"
 }
 ```
+
 Note that the value of "ts" is the value of X-TIMESTAMP header that you would pass in the same API call.
 You would need to stringify the above JSON Payload before using it as value in the HMAC SHA256 signing operation.
 
@@ -75,17 +72,18 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 #### POST request with a body but no query parameters:
 
-Example use case:
-```
-Make a POST call to 'https://staging.api.fuze.finance/api/v1/user/'. This contains a body but no query parameters. The body is as follows:
+Make a POST call to `https://staging.api.fuze.finance/api/v1/user/`. This contains a body but no query parameters. The body is as follows:
+
+```json
 {
     "orgUserId": "ankitshubham97",
     "kyc": false,
     "tnc": true
 }
 ```
+
 JSON Payload:
-```
+```json
 {
   "body": {
     "orgUserId": "ankitshubham97",
@@ -93,10 +91,11 @@ JSON Payload:
     "tnc": true
   },
   "query": {},
-  "url": '/api/v1/user/',
+  "url": "/api/v1/user/",
   "ts": "1671444764"
 }
 ```
+
 Note that the value of "ts" is the value of X-TIMESTAMP header that you would pass in the same API call.
 The JSON bosy passed in the API request should be exactly matching the one provided in the "body" field of the above JSON payload.
 You would need to stringify the above JSON Payload before using it as value in the HMAC SHA256 signing operation.
@@ -106,17 +105,18 @@ You would need to stringify the above JSON Payload before using it as value in t
 
 #### POST request with a body and query parameters:
 
-Example use case:
-```
-Make a POST call to 'https://staging.api.fuze.finance/api/v1/user/?k1=v1&k2=v2'. This contains a body and a few query parameters. The body is as follows:
+Make a POST call to `https://staging.api.fuze.finance/api/v1/user/?k1=v1&k2=v2`. This contains a body and a few query parameters. The body is as follows:
+
+```json
 {
     "orgUserId": "ankitshubham97",
     "kyc": false,
     "tnc": true
 }
 ```
+
 JSON Payload:
-```
+```json
 {
   "body": {
     "orgUserId": "ankitshubham97",
@@ -127,10 +127,11 @@ JSON Payload:
     "k1": "v1",
     "k2": "v2"
   },
-  "url": '/api/v1/user/',
+  "url": "/api/v1/user/",
   "ts": "1671444764"
 }
 ```
+
 Note that the value of "ts" is the value of X-TIMESTAMP header that you would pass in the same API call.
 The JSON bosy passed in the API request should be exactly matching the one provided in the "body" field of the above JSON payload.
 You would need to stringify the above JSON Payload before using it as value in the HMAC SHA256 signing operation.
@@ -142,7 +143,8 @@ This section shows how you can generate an HMAC SHA256 signature once you have t
 We will work with an example of createUser API (POST /api/v1/user/) throughout this section.
 
 PHP Sample code:
-```
+
+```php
 <?php
   $API_KEY = "MCowBQYDK2VwAyEA4WzlYqeSEuTIddAOo0VIeaZkjTqp8LUCRZz2qxz7ce4="; // Change this.
   $API_SECRET = "MC4CAQAwBQYDK2VwBCIEIEWY0tGWVuA8HEaXFjzC/AT7T2YP9bcW/nsDYnGkk9ib"; // Change this.
@@ -155,7 +157,11 @@ PHP Sample code:
   $ts = time() + 3600;
 
   // Step 1. Following variable 'payload' contains the stringified JSON payload.
-  $payload = json_encode(array("body" => $body, "query" => $query, "url" => $url, "ts" => strval($ts)), JSON_UNESCAPED_SLASHES);
+  $payload = json_encode(
+    array(
+      "body" => $body, "query" => $query, "url" => $url, "ts" => strval($ts)
+    ), JSON_UNESCAPED_SLASHES
+  );
 
   // Step 2. HMAC SHA256 signature is generated and stored in 'sig' variable.
 	$sig = hash_hmac('sha256', $payload, $API_SECRET);
@@ -180,14 +186,15 @@ PHP Sample code:
 ```
 
 NodeJS sample code:
-```
+```javascript
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import * as crypto from 'node:crypto';
 
 async function main() {
   const API_ENDPOINT = 'https://staging.api.fuze.finance';
-  const API_SECRET = 'MC4CAQAwBQYDK2VwBCIEIEWY0tGWVuA8HEaXFjzC/AT7T2YP9bcW/nsDYnGkk9ib'; // Change this.
+  const API_SECRET = 
+    `MC4CAQAwBQYDK2VwBCIEIEWY0tGWVuA8HEaXFjzC/AT7T2YP9bcW/nsDYnGkk9ib`; // Change this.
   const orgUserId = `ankitshubham97`;
   const body = {
     orgUserId,

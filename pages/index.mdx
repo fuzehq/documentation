@@ -6,7 +6,7 @@ Welcome to Fuze’s API docs. To get started, your organization should have been
 - API secret (apiSecret)
 
 Fuze’s REST APIs uses standard HTTP response codes, authentication, and verbs. It expects the request body, if any, to be in JSON format. For security reasons, we take multiple security measures into account while authentication (Please check the security section). If the authentication fails, we return a status code of `401` along with the following JSON response body:
-```
+```json
 {
   "message": "You're not authorized",
   "status": 401
@@ -14,11 +14,11 @@ Fuze’s REST APIs uses standard HTTP response codes, authentication, and verbs.
 ```
 
 On authentication success, all REST API endpoints return a status code of `200` and a JSON response as response body. The JSON response is of the following format:
-```
+```json
 {
-    "code": <numeric>,
-    "data": <JSON object/array>,
-    "error": <string>
+    "code": "<numeric>",
+    "data": "<JSON object/array>",
+    "error": "<string>"
 }
 ```
 `code` contains the status code for the operation. It captures the usual HTTP response semantics.
@@ -26,8 +26,6 @@ On authentication success, all REST API endpoints return a status code of `200` 
 `error` contains the error message if the operation failed.
 
 All timestamps (Unix epoch time) are in seconds unless mentioned otherwise.
-
-<br></br>
 
 ## Security
 Please make sure that apiKey and apiSecret are kept securely and are not compromised. Also, it is a good practice to keep them rotating on a regular basis. You can use <a href="https://ref.fuze.finance/#tag/apikms/operation/rotateApiKey">rotate API key pair</a> api for rotating them.
