@@ -8,7 +8,7 @@ const config: DocsThemeConfig = {
     </div>
   ),
   darkMode: true,
-  primaryHue: 247,
+  primaryHue: 200,
   project: {
     link: 'https://github.com/fuzehq',
   },
