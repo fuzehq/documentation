@@ -1,9 +1,9 @@
 {
   "index": "Introduction",
   "authentication": "Authentication",
+  "walkthroughs": "Walkthroughs",
   "advanced": "Pro Features",
   "resources": "Resources",
-  "walkthroughs": "Walkthroughs",
   "about": {
     "title": "About",
     "type": "page",
