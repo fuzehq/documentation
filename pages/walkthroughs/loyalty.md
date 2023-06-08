@@ -6,7 +6,7 @@ The Loyalty Implementation on Fuze has two basic parts:
 ### Create a User
 All transactions on Fuze are associated with an `orgUserId`. This can be any string that uniquely identifies your users within your systems. It can be a user name, or even a `UUID`. A ledger for every `orgUserId` is maintained by Fuze, and the balances can be queried at any point. 
 
-In the example request below, we’ve passed the `orgUserId` `barbarra_allen_2`
+In the example request below, we’ve passed the `orgUserId` `barbara_allen_2`
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/user/ HTTP/1.1
@@ -82,7 +82,7 @@ To reward tokens,  you will need to pass the `orgUserId`, along with the `symbol
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
 
-So if you want to reward BTC worth 1 USD for barbarra_allen_2, you pass the request below:
+So if you want to reward BTC worth 1 USD for barbara_allen_2, you pass the request below:
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/loyalty/barbara_allen_2/ HTTP/1.1
@@ -131,7 +131,7 @@ A successful response will contain the final order status, along with the price 
 
 Orders are almost always instant. Nonetheless, you can set up a web hook that will notify you whether the transaction was successful. We’ve covered more details about our web hooks [here](/advanced/webhooks).
 
-Now that we’ve done a transaction, we can once again check the balances of `orgUserId barbarra_allen_2`. The balances will be updated to show the last transaction.
+Now that we’ve done a transaction, we can once again check the balances of `orgUserId barbara_allen_2`. The balances will be updated to show the last transaction.
 
 ```json
 {

@@ -4,7 +4,7 @@ Trade APIs by Fuze offer you a simple and straightforward way to create a digita
 ### Create a User
 All transactions on Fuze are associated with an `orgUserId`. This can be any string that uniquely identifies your users within your systems. It can be a user name, or even a `UUID`. A ledger for every `orgUserId` is maintained by Fuze, and the balances can be queried at any point. 
 
-In the example request below, we’ve passed the `orgUserId` `barbarra_allen_1`
+In the example request below, we’ve passed the `orgUserId` `barbara_allen_2`
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/user/ HTTP/1.1
@@ -80,7 +80,7 @@ To place an order,  you will need to pass the `orgUserId`, along with the `symbo
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
 
-So if you want to buy BTC worth 0.01 USD for barbarra_allen_1, you pass the request below:
+So if you want to buy BTC worth 0.01 USD for barbara_allen_2, you pass the request below:
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2/ HTTP/1.1
@@ -104,7 +104,7 @@ Content-Length: 75
 A successful response will contain an `id` which can be used to query the status of the order later.
 
 ```json
-``{
+{
     "code": 200,
     "data": {
         "id": 107,
