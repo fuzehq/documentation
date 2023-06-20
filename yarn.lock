@@ -1555,10 +1555,10 @@ nextra-theme-docs@2.6.2:
     scroll-into-view-if-needed "^3.0.0"
     zod "^3.20.2"
 
-nextra@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/nextra/-/nextra-2.6.1.tgz#0d950d21515012eff62f317b1a7c73b00b9aa114"
-  integrity sha512-5NN+aTFzW17/42AWp3qAvBTlgZvSQVpHOUb2MdHI6gnslpjik6z7DS1gZJ9zJ/I8veVxdLhdE70TfksAZ9tgxQ==
+nextra@2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/nextra/-/nextra-2.6.2.tgz#02db284c0eb246e51a28e5ded2ab278031a69ae7"
+  integrity sha512-1Rxb04AB9eIieJZq7LQTlcTUdXZcJ4g5rjPBnQ2EGUA8d7jCBhGyQoqDuZtblr8lDTRjIeMnJXCZo2HxIAtWhA==
   dependencies:
     "@mdx-js/mdx" "^2.3.0"
     "@mdx-js/react" "^2.3.0"
