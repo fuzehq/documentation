@@ -76,6 +76,7 @@ You can now place orders against the `orgUserId` we just created.
 
 To place an order,  you will need to pass the `orgUserId`, along with the `symbol`, `quoteQuantity` and the `operation`. 
 
+- `orgUserId`: The user.
 - `symbol`: The currency pair you want to trade. 
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
@@ -83,7 +84,7 @@ To place an order,  you will need to pass the `orgUserId`, along with the `symbo
 So if you want to buy BTC worth 0.01 USD for barbara_allen_2, you pass the request below:
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/trading/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -95,6 +96,7 @@ Accept-Encoding: gzip, deflate, br
 Content-Length: 75
  
 {
+"orgUserId": "barbara_allen_2",
 "symbol": "BTC_USD",
 "operation": "BUY",
 "quoteQuantity": 0.01
@@ -126,7 +128,7 @@ Orders are almost always instant. Nonetheless, you can set up a web hook that wi
 To check the status of the order, using REST, use the `id` obtained while creating the order:
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2/orders/107 HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/trading/orders/107 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -198,6 +200,7 @@ In the response, you will see all the users’ holdings. Along with the invested
 
 ### View Transaction History
 You can also fetch individual transaction details by passing the `orgUserId` in the endpoint below.
+
 ```bash
 GET https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>

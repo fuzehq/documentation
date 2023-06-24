@@ -78,6 +78,7 @@ You can now reward tokens by making purchases against a given `orgUserId`.
 
 To reward tokens,  you will need to pass the `orgUserId`, along with the `symbol`, `quoteQuantity` and the `operation`. 
 
+- `orgUserId`: orgUserId of the user
 - `symbol`: The currency pair you want to trade. 
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
@@ -85,7 +86,7 @@ To reward tokens,  you will need to pass the `orgUserId`, along with the `symbol
 So if you want to reward BTC worth 1 USD for barbara_allen_2, you pass the request below:
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/loyalty/barbara_allen_2/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/loyalty/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -98,6 +99,7 @@ Connection: keep-alive
 Content-Length: 75
  
 {
+"orgUserId": "barbara_allen_2",
 "symbol": "BTC_USD",
 "operation": "BUY",
 "quoteQuantity": 1

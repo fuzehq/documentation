@@ -76,14 +76,16 @@ You can now place orders against the `orgUserId` we just created.
 
 To place an order,  you will need to pass the `orgUserId`, along with the `symbol`, `quoteQuantity` and the `operation`. Unlike a normal trading order, you also required a `quoteId` which expires every `5 seconds`.
 
+- `orgUserId`: The user.
 - `symbol`: The currency pair you want to trade. 
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
 - `quoteId`: generate using `generateQuote` API.
 
 So if you want to buy BTC worth 0.01 USD for barbara_allen_2, you pass the request below:
+
 ```bash
-POST https://staging.api.fuze.finance/api/v1/otc/quote/barbara_allen_2/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/otc/quote/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -97,10 +99,12 @@ Connection: keep-alive
 Content-Length: 73
  
 {
-"symbol": "BTC_USD",
-"quantity": 0.01,
-"operation": "BUY"
+  "orgUserId": "barbara_allen_2",
+  "symbol": "BTC_USD",
+  "quantity": 0.01,
+  "operation": "BUY"
 }
+
 ```
 A successful response will contain an `id` which is the `quoteId` that needs to be passed to the `placeOtcOrder` API
 call.
@@ -123,7 +127,7 @@ call.
 ```
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/otc/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -135,10 +139,11 @@ Accept-Encoding: gzip, deflate, br
 Content-Length: 75
  
 {
-"symbol": "BTC_USD",
-"operation": "BUY",
-"quoteQuantity": 0.01
-"quoteId": 591,
+  "orgUserId": "barbara_allen_2",
+  "symbol": "BTC_USD",
+  "operation": "BUY",
+  "quoteQuantity": 0.01
+  "quoteId": 591,
 }
 ```
 
@@ -167,7 +172,7 @@ Orders are almost always instant. Nonetheless, you can set up a web hook that wi
 To check the status of the order, using REST, use the `id` obtained while creating the order:
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2/orders/107 HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/otc/orders/107 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -239,8 +244,9 @@ In the response, you will see all the users’ holdings. Along with the invested
 
 ### View Transaction History
 You can also fetch individual transaction details by passing the `orgUserId` in the endpoint below.
+
 ```bash
-GET https://staging.api.fuze.finance/api/v1/trading/barbara_allen_2 HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/otc/barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
