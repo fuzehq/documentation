@@ -47,7 +47,7 @@ A successful response will look as follows:
 
 You can also check balances of this `barbara_allen_2` using the endpoint below.
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/barbara_allen_2/balance/ HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/user/balance/?orgUserId=barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -210,7 +210,7 @@ Accept-Encoding: gzip, deflate, br
 You can now fetch the current holdings of a user by passing the `orgUserId` in the endpoint below.
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/barbara_allen_2/holdings/ HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/user/holdings/?orgUserId=barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -246,7 +246,7 @@ In the response, you will see all the users’ holdings. Along with the invested
 You can also fetch individual transaction details by passing the `orgUserId` in the endpoint below.
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/otc/barbara_allen_2 HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/otc/orders/?orgUserId=barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>

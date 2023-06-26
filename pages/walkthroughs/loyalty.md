@@ -49,7 +49,7 @@ A successful response will look as follows:
 
 You can also check balances of this `barbara_allen_2` using the endpoint below.
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/barbara_allen_2/balance/ HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/user/balance/?orgUserId=barbara_allen_2 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
