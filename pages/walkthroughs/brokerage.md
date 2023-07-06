@@ -20,10 +20,10 @@ Connection: keep-alive
 Content-Length: 100
  
 {
-"orgUserId": "barbara_allen_2",
-"userType": "CONSUMER",
-"kyc": true,
-"tnc": true
+    "orgUserId": "barbara_allen_2",
+    "userType": "CONSUMER",
+    "kyc": true,
+    "tnc": true
 }
 ```
 
@@ -48,7 +48,7 @@ A successful response will look as follows:
 You can also check balances of this `barbara_allen_2` using the endpoint below.
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/balance/?orgUserId=barbara_allen_2 HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/balance/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -58,6 +58,10 @@ Postman-Token: <>
 Host: staging.api.fuze.finance
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
+
+{
+    "orgUserId": "barbara_allen_2",
+}
 ```
 
 Since this is a user that was just created, there are currently no balances against this user.
@@ -97,10 +101,10 @@ Accept-Encoding: gzip, deflate, br
 Content-Length: 75
  
 {
-"orgUserId": "barbara_allen_2",
-"symbol": "BTC_USD",
-"operation": "BUY",
-"quoteQuantity": 0.01
+    "orgUserId": "barbara_allen_2",
+    "symbol": "BTC_USD",
+    "operation": "BUY",
+    "quoteQuantity": 0.01
 }
 ```
 
@@ -167,7 +171,7 @@ Accept-Encoding: gzip, deflate, br
 You can now fetch the current holdings of a user by passing the `orgUserId` in the endpoint below.
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/holdings/?orgUserId=barbara_allen_2 HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/holdings/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -177,6 +181,10 @@ Postman-Token: <>
 Host: staging.api.fuze.finance
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
+
+{
+    "orgUserId": "barbara_allen_2",
+}
 ```
 
 In the response, you will see all the users’ holdings. Along with the invested value, and the value based on current prices. You can use this data to create simple and intuitive portfolio views on your app.
@@ -203,7 +211,7 @@ In the response, you will see all the users’ holdings. Along with the invested
 You can also fetch individual transaction details by passing the `orgUserId` in the endpoint below.
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/trading/orders/?orgUserId=barbara_allen_2 HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/trading/orders/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -213,6 +221,10 @@ Postman-Token: <>
 Host: staging.api.fuze.finance
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
+
+{
+    "orgUserId": "barbara_allen_2",
+}
 ```
 
 In the response, you will get a list of all transactions made by a user. You can use this data to create a transaction history view for your users.

@@ -48,8 +48,9 @@ A successful response will look as follows:
 ```
 
 You can also check balances of this `barbara_allen_2` using the endpoint below.
+
 ```bash
-GET https://staging.api.fuze.finance/api/v1/user/balance/?orgUserId=barbara_allen_2 HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/balance/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -59,6 +60,10 @@ Postman-Token: <>
 Host: staging.api.fuze.finance
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
+
+{
+    "orgUserId": "barbara_allen_2",
+}
 ```
 
 Since this is a user that was just created, there are currently no balances against this user.
