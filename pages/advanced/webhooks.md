@@ -11,7 +11,9 @@ Webhooks are mechanisms to notify your application whenever an event occurs whic
 
 ### Choose an HTTP server
 
-You'll need an HTTP server to host your webhook endpoint. The assumption is that you already have some kind of http server running. If not, some popular options include Apache, Nginx, and Node.js built-in HTTP server. The HTTP server, on which you will be creating the webhook endpoint, should be accessible via the internet and accessible at a URL. For the sake of this guide, let’s assume the http server is accessible at https://dunmorehigh.com
+You'll need an HTTP server to host your webhook endpoint. The assumption is that you already have some kind of http server running. If not, some popular options include Apache, Nginx, and Node.js built-in HTTP server. The HTTP server, on which you will be creating the webhook endpoint, should be accessible via the internet and accessible at a URL. For the sake of this guide, let’s assume the http server is accessible at https://dunmorehigh.com.
+
+Note: The URL of the server should be a `subdomain` of the `domain` you registered in your KYC docs to enforce security.
 
 ### Create a new HTTP server endpoint
 
@@ -31,8 +33,9 @@ This means that the webhook endpoint created is https://dunmorehigh.com/webhook.
 
 It ensures that you are registering the intended endpoint as the webhook endpoint. In challenge-handling step, Fuze sends a challenge string in the body. The HTTP request signature could look something like this:
 
-```
+```bash
 POST /webhook HTTP/1.1
+
 Host: dunmorehigh.com
 fuze-signature: 1c528260457716abaf4e1ede0cdc7469bdcc42bc21b48acb21aed1837f7fe53d
 fuze-timestamp: 1678486009825
