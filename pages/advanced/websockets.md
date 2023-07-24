@@ -20,7 +20,7 @@ identifier.
 ```
 
 ### Authentication
-Before you beging requesting quotes from the websockets server, you will have to login with you `API-KEY` and
+Before you begin requesting quotes from the websockets server, you will have to login with your `API-KEY` and
 `API-SECRET`. The following procedure call will authenticate you:
 
 ```json
@@ -63,6 +63,7 @@ const main = async () => {
   const ws = new WebSocket('wss://staging-ws.api.fuze.finance');
   const apiKey = '';
   const apiSecret = '';
+  const id = 1;
 
   let newId = id;
   ws.on('open', async function open() {
