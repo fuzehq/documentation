@@ -98,7 +98,5 @@ const main = async () => {
 main();
 ```
 
-
-# Limitations
-
+## Limitations
 - Websockets feature is only available as part of enterprises offering

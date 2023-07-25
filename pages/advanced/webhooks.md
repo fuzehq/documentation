@@ -1,6 +1,3 @@
----
-sidebar_position: 5
----
 # Webhooks
 
 Webhooks are mechanisms to notify your application whenever an event occurs which relates to your account associated with Fuze. Webhooks are particularly useful for asynchronous events like when your customer places an order or when a customer makes a trade. After configuring the webhooks, you get notified of the supported events in real time.
@@ -175,8 +172,7 @@ As of writing this doc, it is as follows:
 1. Fuze expects a 200 response to the webhook request sent. If not, it retries at maximum 3 times sending the same event.
 2. If it fails to send even after 3 times, it sends an email to the support emails of your organisation.
 
-# Limitations
-
+## Limitations
 - Webhook feature is only available as part of enterprises offering
 - You cannot subscribe to a subset of events.
 - There is a timeout (currently set to 1s) on the webhook response from the customer’s backend. If a 200-status response does not arrive till then, Fuze assumes that the delivery failed.
