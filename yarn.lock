@@ -1946,10 +1946,10 @@ next@^13.4.6:
     "@next/swc-win32-ia32-msvc" "13.4.12"
     "@next/swc-win32-x64-msvc" "13.4.12"
 
-nextra-theme-docs@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-2.9.0.tgz#87ded443430cb621355bd3a00d5a3220a1b39b8e"
-  integrity sha512-Gbjx5atl63JKWOEV2hAefP4X0wmJoLtFX4NekvNu9Y9fAdvtFdW0O2p0f8ISMS1JJgAl1ZmXm411J7rHnRnhmg==
+nextra-theme-docs@2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-2.10.0.tgz#4a8cdf1dd776b2b4df5ba9e8ab539828e4b94f58"
+  integrity sha512-uXoqRoewbu0JoqQ1m67aIztWe9/nEhcSeHMimhLxZghKZxkYN0kTR5y5jmrwOHRPuJUTLL2YFwy1rvWJIZS2lw==
   dependencies:
     "@headlessui/react" "^1.7.10"
     "@popperjs/core" "^2.11.6"
