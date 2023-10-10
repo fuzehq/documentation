@@ -39,9 +39,7 @@ A successful response will look as follows:
         "tnc": true,
         "kyc": true,
         "userType": "CONSUMER",
-        "userStatus": "ACTIVE",
-        "firstName": "",
-        "lastName": ""
+        "userStatus": "ACTIVE"
     },
     "error": null
 }

@@ -1,5 +1,7 @@
-# Brokerage or Trading Application
-Trade APIs by Fuze offer you a simple and straightforward way to create a digital asset trading experience for your users. As you’ll see, you can deploy a fully-functional brokerage app using just 4 API requests.
+# Limit Orders
+Limit Order APIs by Fuze offer you a simple and straightforward way to create a digital asset order book experience for your users. As you’ll see, you can deploy a fully-functional order book app using just 4 API requests.
+
+There is no call to fetch the orderbook depth as the orderbook provided by us is a dark venue to facilitate large transactions.
 
 ### Create a User
 All transactions on Fuze are associated with an `orgUserId`. This can be any string that uniquely identifies your users within your systems. It can be a user name, or even a `UUID`. A ledger for every `orgUserId` is maintained by Fuze, and the balances can be queried at any point.
@@ -77,14 +79,16 @@ Since this is a user that was just created, there are currently no balances agai
 ### Place an order
 You can now place orders against the `orgUserId` we just created.
 
-To place an order,  you will need to pass the `orgUserId`, along with the `symbol`, `quantity` and the `operation`.
+To place an order,  you will need to pass the `orgUserId`, along with the `symbol`, `quantity`, `price`, `type` and the `operation`
 
 - `orgUserId`: The user.
 - `symbol`: The currency pair you want to trade.
-- `quantity`: The amount of tokens to buy or sell.
+- `quantity`: The amount of asset to buy or sell.
+- `price`: The limit price for the asset.
+- `type`: `LIMIT` for limit orders.
 - `operations`: BUY or SELL
 
-So if you want to buy 0.01 BTC for barbara_allen_2, you pass the request below:
+So if you want to buy 0.01 BTC at a price lower than equal to 5000 for barbara_allen_2, you pass the request below:
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/trading/ HTTP/1.1
@@ -103,6 +107,8 @@ Content-Length: 75
     "symbol": "BTC_USD",
     "operation": "BUY",
     "quantity": 0.01
+    "price": 5000,
+    "type": "LIMIT",
 }
 ```
 
@@ -118,6 +124,8 @@ A successful response will contain an `id` which can be used to query the status
         "symbol": "BTC_USD",
         "side": "BUY",
         "quantity": 0.01,
+        "price": 5000,
+        "type": "LIMIT",
         "rejectionReason": null,
         "filled": 0
     },
@@ -125,7 +133,7 @@ A successful response will contain an `id` which can be used to query the status
 }
 ```
 
-Orders are almost always instant. Nonetheless, you can set up a web hook that will notify you whether the transaction was successful. We’ve covered more details about our web hooks [here](/advanced/webhooks).
+Limit Orders will be executed when a corresponding match is found. You can set up a web hook that will notify you about order lifecycle events like `OPEN`, `COMPLETED`, `REJECTED` and partial fills. We’ve covered more details about our web hooks [here](/advanced/webhooks).
 
 To check the status of the order, using REST, use the `id` obtained while creating the order:
 
@@ -149,12 +157,63 @@ Accept-Encoding: gzip, deflate, br
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",
-        "price": 0,
+        "price": 5000,
         "averagePrice": 26749.08,
         "side": "BUY",
         "quantity": 0.01,
-        "filled": 0.01,
-        "status": "COMPLETED",
+        "quoteQuantity": 0,
+        "filled": 0.005,
+        "status": "OPEN",
+        "rejectionReason": null,
+        "createdAt": "2023-06-08T07:53:11.688Z",
+        "updatedAt": "2023-06-08T07:53:12.658Z"
+    },
+    "error": null
+}
+```
+
+### Cancel Order
+Limit Orders are placed with a `GOOD_TILL_CANCEL` flag. You can request the cancellation of an order to ensure it not
+longer is considered for further matching using the below API.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/trading/cancel HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+```
+
+```json
+{
+    "code": 200,
+    "data": {
+        "orgUserId": "barbara_allen_2",
+        "orderId": 107
+    },
+    "error": null
+}
+```
+
+```json
+{
+    "code": 200,
+    "data": {
+        "id": 107,
+        "orgId": 28,
+        "orgUserId": "barbara_allen_2",
+        "symbol": "BTC_USD",
+        "price": 5000,
+        "averagePrice": 26749.08,
+        "side": "BUY",
+        "quantity": 0.01,
+        "quoteQuantity": 0,
+        "filled": 0.005,
+        "status": "CANCELLED",
         "rejectionReason": null,
         "createdAt": "2023-06-08T07:53:11.688Z",
         "updatedAt": "2023-06-08T07:53:12.658Z"
