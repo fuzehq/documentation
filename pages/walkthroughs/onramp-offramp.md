@@ -292,5 +292,89 @@ In the response, you will see the users’ balances. Along with the invested val
 ```
 
 ### Withdrawal to wallet
-The balances queries above can now be withdrawal to an externally hosted wallet. To begin the process, you need to
-whitelist a withdrawal address.
+Once a address has been whitelisted, you can withdraw assets to the whitelisted address using the following API call.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/custody/withdraw/ HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+{
+    "orgUserId": "system_user",
+    "amount": 100000,
+    "asset": "USDC",
+    "chain": "ETHEREUM",
+    "address": "0xaddress"
+}
+```
+
+A successful response will have a transaction id that you can use to query for transactions.
+
+```json
+{
+    "code": 200,
+    "data": [
+        {
+            "id": 12,
+            "amount": 100000,
+            "txnId": "usdc-eth-withdrawal",
+            "asset": "USDC",
+            "chain": "ETHEREUM",
+            "status": "PENDING",
+            "entry": "WITHDRAWAL"
+        }
+    ],
+    "error": null
+}
+```
+
+To query the status of transactions, you can make a POST request with the following parameters:
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/custody/transactions/ HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+{
+    "orgUserId": "system_user",
+    "asset": "USDC",
+    "chain": "ETHEREUM",
+    "status": "COMPLETED",
+}
+```
+
+A successful response will have the following structure with the transaction details:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "txns": [
+            {
+                "amount": 100000,
+                "txnId": "ed2b021a-a11f-498e-b47d-c15efd0cb5a5",
+                "currency": "ETH",
+                "entry": "DEPOSIT",
+                "status": "COMPLETED",
+                "createdAt": "2023-11-09T08:56:47.300Z",
+                "updatedAt": "2023-11-09T08:56:47.300Z"
+            }
+        ]
+    },
+    "error": null
+}
+```
