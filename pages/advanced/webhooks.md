@@ -172,6 +172,57 @@ As of writing this doc, it is as follows:
 1. Fuze expects a 200 response to the webhook request sent. If not, it retries at maximum 3 times sending the same event.
 2. If it fails to send even after 3 times, it sends an email to the support emails of your organisation.
 
+## Sample Events
+
+Order Event:
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "Orders",
+    "numRetries": 0,
+    "updatedAt": 2023-12-14T12:35:02.894Z,
+    "createdAt": 2023-12-14T12:35:02.894Z
+  },
+  "data": {
+    "id": 29718,
+    "orgId": 10,
+    "orgUserId": "barbara_allen",
+    "symbol": "ETH_AED",
+    "price": 0,
+    "averagePrice": 8456.1,
+    "side": "BUY",
+    "type": "MARKET",
+    "quantity": 0.01,
+    "quoteQuantity": 0,
+    "filled": 0.01,
+    "status": "COMPLETED",
+    "rejectionReason": null,
+    "createdAt": 2023-12-14T12:25:00.257Z,
+    "updatedAt": 2023-12-14T12:25:02.529Z
+  }
+}
+```
+
+Balance Event:
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "LedgerTxns",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "orgId": 10,
+    "amount": 0.01,
+    "currency": "ETH",
+    "txnId": "20434"
+  }
+}
+```
+
 ## Limitations
 - Webhook feature is only available as part of enterprises offering
 - You cannot subscribe to a subset of events.
