@@ -83,6 +83,7 @@ To place an order,  you will need to pass the `orgUserId`, along with the `symbo
 - `symbol`: The currency pair you want to trade.
 - `quantity`: The amount of tokens to buy or sell.
 - `operations`: BUY or SELL
+- `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
 So if you want to buy 0.01 BTC for barbara_allen_2, you pass the request below:
 
@@ -102,7 +103,8 @@ Content-Length: 75
     "orgUserId": "barbara_allen_2",
     "symbol": "BTC_USD",
     "operation": "BUY",
-    "quantity": 0.01
+    "quantity": 0.01,
+    "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
 }
 ```
 
@@ -146,6 +148,7 @@ Accept-Encoding: gzip, deflate, br
     "code": 200,
     "data": {
         "id": 107,
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",

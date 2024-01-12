@@ -22,10 +22,10 @@ Connection: keep-alive
 Content-Length: 100
  
 {
-"orgUserId": "barbara_allen_2",
-"userType": "CONSUMER",
-"kyc": true,
-"tnc": true
+    "orgUserId": "barbara_allen_2",
+    "userType": "CONSUMER",
+    "kyc": true,
+    "tnc": true
 }
 ```
 
@@ -85,6 +85,7 @@ To reward tokens,  you will need to pass the `orgUserId`, along with the `symbol
 - `symbol`: The currency pair you want to trade. 
 - `quoteQuantity`: The amount of tokens to buy or sell, expressed in local currency (the quote currency in the currency pair). 
 - `operations`: BUY or SELL
+- `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
 So if you want to reward BTC worth 1 USD for barbara_allen_2, you pass the request below:
 
@@ -102,10 +103,10 @@ Connection: keep-alive
 Content-Length: 75
  
 {
-"orgUserId": "barbara_allen_2",
-"symbol": "BTC_USD",
-"operation": "BUY",
-"quoteQuantity": 1
+    "orgUserId": "barbara_allen_2",
+    "symbol": "BTC_USD",
+    "operation": "BUY",
+    "quoteQuantity": 1
 }
 ```
 
@@ -116,6 +117,7 @@ A successful response will contain the final order status, along with the price 
     "code": 200,
     "data": {
         "id": 107,
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",

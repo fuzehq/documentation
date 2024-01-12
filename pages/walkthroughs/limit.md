@@ -87,6 +87,7 @@ To place an order,  you will need to pass the `orgUserId`, along with the `symbo
 - `price`: The limit price for the asset.
 - `type`: `LIMIT` for limit orders.
 - `operations`: BUY or SELL
+- `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
 So if you want to buy 0.01 BTC at a price lower than equal to 5000 for barbara_allen_2, you pass the request below:
 
@@ -109,6 +110,7 @@ Content-Length: 75
     "quantity": 0.01
     "price": 5000,
     "type": "LIMIT",
+    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
 }
 ```
 
@@ -119,6 +121,7 @@ A successful response will contain an `id` which can be used to query the status
     "code": 200,
     "data": {
         "id": 107,
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",
@@ -154,6 +157,7 @@ Accept-Encoding: gzip, deflate, br
     "code": 200,
     "data": {
         "id": 107,
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",
@@ -204,6 +208,7 @@ Accept-Encoding: gzip, deflate, br
     "code": 200,
     "data": {
         "id": 107,
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "orgId": 28,
         "orgUserId": "barbara_allen_2",
         "symbol": "BTC_USD",
