@@ -187,6 +187,7 @@ Order Event:
   "data": {
     "id": 29718,
     "orgId": 10,
+    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
     "orgUserId": "barbara_allen",
     "symbol": "ETH_AED",
     "price": 0,

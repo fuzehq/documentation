@@ -30,6 +30,8 @@ The payload (X-SIGNATURE) will be a stringified JSON object where the JSON objec
 
 Please note that the order of these four fields (viz. "body", "query", "url" & "ts") should be the same as depicted above.
 
+Also note, that the order of body is important for signature generation and verification.
+
 ### Examples of different kinds of API requests and corresponding payload structure for generating X-SIGNATURE
 
 <hr/>
