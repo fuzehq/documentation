@@ -52,6 +52,18 @@ To start a stream of quotes for `BTC_USD`, you can send the following remote pro
 }
 ```
 
+### Market Data Request
+To start a stream of market data of all the assets available at Fuze, you can send the following remote procedure call.
+
+```json
+{
+  
+  "jsonrpc": "2.0",
+  "method": "market_data_request",
+  "id": "1"
+}
+```
+
 ### Sample Code
 Tying everything together, here is the sample code in typescript for you to connect with websockets server:
 
@@ -88,6 +100,15 @@ const main = async () => {
       id: newId,
     };
     ws.send(JSON.stringify(message2));
+
+    newId += 1;
+    console.log(`Sending market data request with id: ${newId}`);
+    const message3 = {
+      method: 'market_data_request',
+      jsonrpc: '2.0',
+      id: newId,
+    };
+    ws.send(JSON.stringify(message3));
   });
 
   ws.on('message', function incoming(data) {
