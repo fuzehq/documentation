@@ -205,7 +205,7 @@ Order Event:
 }
 ```
 
-Balance Event:
+Crypto Balance Update Event:
 ```json
 {
   "event": {
@@ -220,6 +220,49 @@ Balance Event:
     "amount": 0.01,
     "currency": "ETH",
     "txnId": "20434"
+  }
+}
+```
+
+Bank Transfer Event:
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "BankTransfers",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "orgId": 10,
+    "status": "APPROVED",
+    "type": "DEPOSIT",
+    "fundingCurrency": "AED",
+    "referenceId": "uuid1",
+    "totalTradeAmount": 10000
+  }
+}
+```
+
+Policy Action Update Event:
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "Actions",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "name": "QUOTE_LIMIT",
+    "oldValue": {
+    },
+    "newValues": {
+      "BTC": 1000,
+      "ETH": 100
+    }
   }
 }
 ```
