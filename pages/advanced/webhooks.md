@@ -205,25 +205,6 @@ Order Event:
 }
 ```
 
-Crypto Balance Update Event:
-```json
-{
-  "event": {
-    "orgId": 10,
-    "entity": "LedgerTxns",
-    "numRetries": 0,
-    "updatedAt": "2023-12-14T12:35:02.894Z",
-    "createdAt": "2023-12-14T12:35:02.894Z"
-  },
-  "data": {
-    "orgId": 10,
-    "amount": 0.01,
-    "currency": "ETH",
-    "txnId": "20434"
-  }
-}
-```
-
 Bank Transfer Event:
 ```json
 {
