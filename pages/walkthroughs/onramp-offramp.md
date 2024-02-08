@@ -1,4 +1,4 @@
-# Onramp and offramp
+# Walkthrough: Onramp and Offramp APIs
 Onramp and offramp APIs by Fuze offer a simple and straightforward way to convert fiat to digital assets and vice versa
 for your users. As you’ll see, you can provide a fully-functional onramp/offramp experience using just 6 API requests.
 

@@ -1,4 +1,4 @@
-# Brokerage or Trading Application
+# Walkthrough: Brokerage APIs
 Trade APIs by Fuze offer you a simple and straightforward way to create a digital asset trading experience for your users. As you’ll see, you can deploy a fully-functional brokerage app using just 4 API requests.
 
 ### Create a User

@@ -1,4 +1,4 @@
-# Loyalty
+# Walkthrough: Loyalty APIs
 Loyalty APIs by Fuze give you a clean way to reward digital assets in the place of cash backs or loyalty points. In essence, your app can place orders with Fuze the instant you want to give the reward, and users can get tokens at prevailing prices.
 
 The Loyalty Implementation on Fuze has two basic parts:

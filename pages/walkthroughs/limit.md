@@ -1,4 +1,4 @@
-# Limit Orders
+# Walkthrough: Limit Order APIs
 Limit Order APIs by Fuze offer you a simple and straightforward way to create a digital asset order book experience for your users. As you’ll see, you can deploy a fully-functional order book app using just 4 API requests.
 
 There is no call to fetch the orderbook depth as the orderbook provided by us is a dark venue to facilitate large transactions.
