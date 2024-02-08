@@ -1,11 +1,12 @@
 # Introduction
-
 Welcome to Fuze’s API docs. To get started, your organization should have been onboarded with Fuze. As a part of the process, the following three fields would have been generated and passed on to key stakeholders in your organization:
-- Organization Id (orgId): See <a href="/docs/intro#organization-user-id-orguserid">details</a>.
-- API key (apiKey)
-- API secret (apiSecret)
+
+- Organization Id `orgId`: See <a href="/docs/intro#organization-user-id-orguserid">details</a>.
+- API key `apiKey`
+- API secret `apiSecret`
 
 Fuze’s REST APIs uses standard HTTP response codes, authentication, and verbs. It expects the request body, if any, to be in JSON format. For security reasons, we take multiple security measures into account while authentication (Please check the security section). If the authentication fails, we return a status code of `401` along with the following JSON response body:
+
 ```json
 {
   "message": "You're not authorized",
@@ -14,38 +15,47 @@ Fuze’s REST APIs uses standard HTTP response codes, authentication, and verbs.
 ```
 
 On authentication success, all REST API endpoints return a status code of `200` and a JSON response as response body. The JSON response is of the following format:
+
 ```json
 {
     "code": "<numeric>",
     "data": "<JSON object/array>",
     "error": "<string>"
 }
+
 ```
-`code` contains the status code for the operation. It captures the usual HTTP response semantics.
-`data` contains the response data. It could be a JSON object or array depending on the REST API being called. Please check the <a href="https://ref.fuze.finance">API reference</a> for more details.
-`error` contains the error message if the operation failed.
+
+- `code` contains the status code for the operation. It captures the usual HTTP response semantics.
+- `data` contains the response data. It could be a JSON object or array depending on the REST API being called. Please check the <a href="https://ref.fuze.finance">API reference</a> for more details.
+- `error` contains the error message if the operation failed.
 
 All timestamps (Unix epoch time) are in seconds unless mentioned otherwise.
 
 ## Security
 Please make sure that apiKey and apiSecret are kept securely and are not compromised. Also, it is a good practice to keep them rotating on a regular basis. You can use <a href="https://ref.fuze.finance/#tag/apikms/operation/rotateApiKey">rotate API key pair</a> api for rotating them.
+
 ### HMAC SHA 256
 We require the request payload, query parameters, api slug and X-TIMESTAMP (the timestamp when the request was created and sent) to be signed with HMAC SHA256 operation using apiSecret as key. This is to prevent MITM and related attacks by making sure that the source from where we are receiving the API request is indeed the real source. Detailed instructions could be found in the <a href="/docs/authentication">authentication section</a>.
+
 ### Timing security
 We require that a request header X-TIMESTAMP be included in every REST API request being made. This is the timestamp when the request was created and sent. This is in the Unix time in seconds (i.e. the number of seconds that have elapsed since 00:00:00 UTC on 1 January 1970, the beginning of the Unix epoch, less adjustments made due to leap seconds). This along with HMAC SHA256 signing ensures that we prevent any replay attacks.
 
 ## Interacting with APIs
 The API reference is available <a href="https://ref.fuze.finance"> here</a>. You can directly execute the requests from the reference page once you put in all the `REQUIRED` values. We also have a <a href="/docs/postman">Postman collection</a> featuring all the APIs.
+
 ## Definitions
 
 ### Asset
 Asset is any currency (FIAT or Crypto). It is always denoted in 3 uppercase letters: Eg: BTC, AED.
+
 ### Currency Pair
 Currency pair is a pair of two assets: a base asset and a quote asset. It takes the form of X_Y where X is the base asset & Y is the quote asset. For example, if you want to get a quote for Bitcoin in terms of AED, Bitcoin is the base asset, and AED is the quote asset and the currency pair would be 'BTC_AED'. Please note that by convention, we separate the base and quote assets using an underscore ('\_'). To get the supported currency pairs, please see <a href="https://ref.fuze.finance/#tag/asset/operation/getCurrencyPairs">this</a>.
+
 ### Exchange Rate (exRate)
 exrate(short for exchange rate) is the price of a base asset in terms of the quote asset. Therefore, each currency pair will have an estate. For BTC_AED, if one BTC costs 60000 AED, then the BTC_AED exrate is 60000.
+
 ### Organization Id (orgId)
 An orgId is a numeric id which uniquely identifies your organization.
+
 ### Organization User Id (orgUserId)
 An orgUserID is an id that is defined by your organization and uniquely identifies each of your organization's users.
-
