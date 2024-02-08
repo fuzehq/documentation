@@ -248,6 +248,25 @@ Policy Action Update Event:
 }
 ```
 
+User Status Update:
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "Users",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "orgId": 10,
+    "orgUserId": "barbara_allen",
+    "status": "ACTIVE",
+    "reason": "KYC_COMPLETED"
+  }
+}
+```
+
 ## Limitations
 - Webhook feature is only available as part of enterprises offering
 - You cannot subscribe to a subset of events.
