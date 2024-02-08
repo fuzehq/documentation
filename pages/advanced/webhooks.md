@@ -174,7 +174,9 @@ As of writing this doc, it is as follows:
 
 ## Sample Events
 
-Order Event:
+### Order
+An order event is a snapshot, you get the what the status of the Order is right now.
+
 ```json
 {
   "event": {
@@ -205,28 +207,38 @@ Order Event:
 }
 ```
 
-Bank Transfer Event:
+### User
+
 ```json
 {
   "event": {
     "orgId": 10,
-    "entity": "BankTransfers",
+    "entity": "Users",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
+    "orgUserId": "barbara_allen",
     "orgId": 10,
-    "status": "APPROVED",
-    "type": "DEPOSIT",
-    "fundingCurrency": "AED",
-    "referenceId": "uuid1",
-    "totalTradeAmount": 10000
+    "kyc": true,
+    "tnc": true,
+    "userStatus": "ACTIVE",
+    "userType": "CONSUMER"
   }
 }
 ```
 
-Policy Action Update Event:
+### Actions
+Actions are updates to the policy and configuration of an organisation like enabling assets,
+disabling asset.
+
+There are only three fields in the data:
+
+- `name`: `QUOTE_LIMIT`, `TOTAL_EXPOSURE`, `ASSET_EXPOSURE`. These values can be updated.
+- `oldValue`: This is an object with current values of fields. Can be an empty object if the configuration was not enabled earlier.
+- `newValue`: This is an object with the last value of fields.
+
 ```json
 {
   "event": {
@@ -244,25 +256,6 @@ Policy Action Update Event:
       "BTC": 1000,
       "ETH": 100
     }
-  }
-}
-```
-
-User Status Update:
-```json
-{
-  "event": {
-    "orgId": 10,
-    "entity": "Users",
-    "numRetries": 0,
-    "updatedAt": "2023-12-14T12:35:02.894Z",
-    "createdAt": "2023-12-14T12:35:02.894Z"
-  },
-  "data": {
-    "orgId": 10,
-    "orgUserId": "barbara_allen",
-    "status": "ACTIVE",
-    "reason": "KYC_COMPLETED"
   }
 }
 ```

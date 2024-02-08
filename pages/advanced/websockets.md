@@ -182,7 +182,7 @@ A successful response will look as follows:
             "ATL_DATE": "2023",
             "MARKET_CAP": 98435839338
           }
-        },
+        }
       ]
     },
     "error": null
