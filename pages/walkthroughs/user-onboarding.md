@@ -98,7 +98,7 @@ In case any of the required fields are absent, Fuze will respond indicating exac
 {
     "code": 400,
     "data": null,
-    "error": ""
+    "error": "[{\"instancePath\":\"\",\"schemaPath\":\"#/required\",\"keyword\":\"required\",\"params\":{\"missingProperty\":\"idExpiry\"},\"message\":\"must have required property 'idExpiry'\"},{\"instancePath\":\"\",\"schemaPath\":\"#/required\",\"keyword\":\"required\",\"params\":{\"missingProperty\":\"addressLine1\"},\"message\":\"must have required property 'addressLine1'\"},{\"instancePath\":\"\",\"schemaPath\":\"#/required\",\"keyword\":\"required\",\"params\":{\"missingProperty\":\"postalCode\"},\"message\":\"must have required property 'postalCode'\"},{\"instancePath\":\"\",\"schemaPath\":\"#/required\",\"keyword\":\"required\",\"params\":{\"missingProperty\":\"email\"},\"message\":\"must have required property 'email'\"},{\"instancePath\":\"\",\"schemaPath\":\"#/required\",\"keyword\":\"required\",\"params\":{\"missingProperty\":\"mobile\"},\"message\":\"must have required property 'mobile'\"}]"
 }
 ```
 
