@@ -249,8 +249,6 @@ There are only three fields in the data:
   },
   "data": {
     "name": "QUOTE_LIMIT",
-    "oldValue": {
-    },
     "newValues": {
       "BTC": 1000,
       "ETH": 100
