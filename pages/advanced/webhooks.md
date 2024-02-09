@@ -257,6 +257,34 @@ There are only three fields in the data:
 }
 ```
 
+### System Information
+System Information events convey information about Fuze system like `MAINTENANCE_ALERTS` or `ASSET_ENABLE` alerts.
+
+- `event`: The name of the event, currently can be `MAINTENANCE_ALERTS` or `ASSET_ENABLE` or `ASSET_DISABLE`.
+- `entity`: The component affected by the change.
+- `message`: Human readable message for consumption.
+- `startTime`: When the alert goes into affect. (can be `null`).
+- `endTime`: When the alert stopes to exist. (can be `null`).
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "SystemInformation",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "event": "ASSET_DISABLE",
+    "entity": "SOL_USD",
+    "message": "SOL trading is temporarily halted due to an outage with the network.",
+		"startTime": "2023-12-14T12:35:02.894Z",
+		"endTime": ""
+  }
+}
+```
+
 ## Limitations
 - Webhook feature is only available as part of enterprises offering
 - You cannot subscribe to a subset of events.

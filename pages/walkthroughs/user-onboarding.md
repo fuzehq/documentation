@@ -135,10 +135,12 @@ Once the User is `ACTIVE` on Fuze, you will receive a webhook indicating that th
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
+    "orgUserId": "barbara_allen",
     "orgId": 10,
-    "orgUserId": "barbara_allen_2",
-    "status": "ACTIVE",
-    "reason": "KYC_COMPLETED"
+    "kyc": true,
+    "tnc": true,
+    "userStatus": "ACTIVE",
+    "userType": "CONSUMER"
   }
 }
 ```
@@ -169,8 +171,6 @@ Content-Length: 75
         "id": 314,
         "orgUserId": "barbara_allen_2",
         "orgId":10,
-        "firstName":"",
-        "lastName":"",
         "kyc":true,
         "tnc":true,
         "userStatus":"PENDING",
