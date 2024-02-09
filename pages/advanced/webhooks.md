@@ -235,9 +235,8 @@ disabling asset.
 
 There are only three fields in the data:
 
-- `name`: `QUOTE_LIMIT`, `TOTAL_EXPOSURE`, `ASSET_EXPOSURE`. These values can be updated.
-- `oldValue`: This is an object with current values of fields. Can be an empty object if the configuration was not enabled earlier.
-- `newValue`: This is an object with the last value of fields.
+- `name`: `QUOTE_LIMIT`, `TOTAL_LIMIT`, `TOTAL_EXPOSURE`, `ASSET_EXPOSURE`, `TOTAL_LIMIT`, `ASSET_ENABLE`.
+- `newValue`: The change in the policy value.
 
 ```json
 {
