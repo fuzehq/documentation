@@ -122,8 +122,48 @@ If all the required fields are present, Fuze will respond showing that the User 
 ## KYC Document Transfer
 You can now transfer the documents to Fuze. Usually, this would mean a copy of the National ID or a Passport. Other documents can include liveliness check proofs and more. The exact documents required will be configured based on agreement between compliance teams.
 
+To upload a document, you will need to generate an upload link. This is presigned link to object storage to which you can upload your file.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/kyc/individual/get-upload-link HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Content-Length: 75
+
+{
+    "orgUserId": "barbara_allen_2",
+    "fileName": "barbara_allen_2_passport.pdf",
+    "docCategory": "IDENTITY",
+    "docSubCategory": "PASSPORT"
+}
+```
+
+A valid response will contain a `url` to which you can upload the file:
+
+```json
+{
+    "code": 200,
+    "data": {
+        "url": "https://bucket.s3.me-central-1.amazonaws.com/orgId-10/orgUserId-barbara_allen_2/docCategory-IDENTITY/docSubCategory-PASSPORT/1708196749729-barbara_allen_2_passport.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASE3L3K2E3BZUP2UM%2F20240217%2Fme-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240217T190549Z&X-Amz-Expires=900&X-Amz-Signature=3a2a201a63c513ab74e54387afeda2a85ea51b87ecf02731ef5e6c07a3725182&X-Amz-SignedHeaders=host%3Bx-amz-acl%3Bx-amz-meta-doccategory%3Bx-amz-meta-docdescription%3Bx-amz-meta-docsubcategory%3Bx-amz-meta-filename%3Bx-amz-meta-orgid%3Bx-amz-meta-orguserid&x-amz-acl=private&x-amz-meta-doccategory=IDENTITY&x-amz-meta-docdescription=&x-amz-meta-docsubcategory=PASSPORT&x-amz-meta-filename=barbara_allen_2_passport.pdf&x-amz-meta-orgid=10&x-amz-meta-orguserid=barbara_allen_2"
+    },
+    "error": null
+}
+```
+
+You can upload the file to this `url` using a file uploader of your choice or using `curl` as follows:
+
+```
+$ curl -X PUT -F "file=@mydocument.pdf" $URL
+```
+
 ## User Active Callback
-Once the User is `ACTIVE` on Fuze, you will receive a webhook indicating that the status of the User has changed to `ACTIVE`.
+Once all files are uploaded, you will receive a webhook indicating that the status of the User has changed to `ACTIVE`.
 
 ```json
 {
