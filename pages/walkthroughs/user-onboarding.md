@@ -140,7 +140,8 @@ Content-Length: 75
     "orgUserId": "barbara_allen_2",
     "fileName": "barbara_allen_2_passport.pdf",
     "docCategory": "IDENTITY",
-    "docSubCategory": "PASSPORT"
+    "docSubCategory": "PASSPORT",
+    "docdescription": "Passport for barbara_allen_2"
 }
 ```
 
