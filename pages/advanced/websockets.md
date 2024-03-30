@@ -198,7 +198,11 @@ Tying everything together, here is the sample code in typescript for you to conn
 import WebSocket from 'ws';
 
 const main = async () => {
-  const ws = new WebSocket('wss://staging-ws.api.fuze.finance');
+  const ws = new WebSocket('wss://staging-ws.api.fuze.finance', {
+    headers: {
+        'user-agent': 'Mozilla/5.0',
+    },
+  });
   const apiKey = '';
   const apiSecret = '';
   const id = 1;
