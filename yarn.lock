@@ -182,10 +182,10 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.5.2.tgz#cf8db00763d9219567655b90853b7d484f3fcad6"
   integrity sha512-LfTHt+hTL8w7F9hnB3H4nRasCzLD/fP+h4/GUVBTxrkMJOnh/7OZ0XbYDKO/uuWwryJS9kZjhxcruBiYwc5UDw==
 
-"@popperjs/core@^2.11.6":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
-  integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
+"@popperjs/core@^2.11.8":
+  version "2.11.8"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
 "@swc/helpers@0.5.2":
   version "0.5.2"
@@ -205,6 +205,7 @@
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.2.0.tgz#874d36135e4badce2719e7bdc556ce240cbaff14"
   integrity sha512-P5XgYoAw/vfW65byBbJQCw+cagdXDT/qH6wmABiLt4v4YBT2q2vqCOhihe+D1Nt325F/S/0Tkv6C5z0Lv+VBQQ==
+
 
 "@theguild/remark-mermaid@^0.0.5":
   version "0.0.5"
@@ -487,10 +488,10 @@ commander@^8.3.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
-compute-scroll-into-view@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.0.tgz#95d2f2f4653e7edda74dd1e38edaaa897918e0f0"
-  integrity sha512-Yk1An4qzo5++Cu6peT9PsmRKIU8tALpmdoE09n//AfGQFcPfx21/tMGMsmKYmLJWaBJrGOJ5Jz5hoU+7cZZUWQ==
+compute-scroll-into-view@^3.0.2:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.1.0.tgz#753f11d972596558d8fe7c6bcbc8497690ab4c87"
+  integrity sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==
 
 cose-base@^1.0.0:
   version "1.0.3"
@@ -944,10 +945,10 @@ extend@^3.0.0:
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
-flexsearch@^0.7.21:
-  version "0.7.31"
-  resolved "https://registry.yarnpkg.com/flexsearch/-/flexsearch-0.7.31.tgz#065d4110b95083110b9b6c762a71a77cc52e4702"
-  integrity sha512-XGozTsMPYkm+6b5QL3Z9wQcJjNYxp0CYn3U1gO7dwD6PAqU1SVWZxI9CCg3z+ml3YfqdPnrBehaBrnH2AGKbNA==
+flexsearch@^0.7.31:
+  version "0.7.43"
+  resolved "https://registry.yarnpkg.com/flexsearch/-/flexsearch-0.7.43.tgz#34f89b36278a466ce379c5bf6fb341965ed3f16c"
+  integrity sha512-c5o/+Um8aqCSOXGcZoqZOm+NqtVwNsvVpWv6lfmSclU954O3wvQKxxK8zj74fPaSJbXpSLTs4PRhh+wnoCXnKg==
 
 focus-visible@^5.2.0:
   version "5.2.0"
@@ -2088,23 +2089,24 @@ next@^13.4.6:
     "@next/swc-win32-ia32-msvc" "13.5.2"
     "@next/swc-win32-x64-msvc" "13.5.2"
 
-nextra-theme-docs@2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-2.10.0.tgz#4a8cdf1dd776b2b4df5ba9e8ab539828e4b94f58"
-  integrity sha512-uXoqRoewbu0JoqQ1m67aIztWe9/nEhcSeHMimhLxZghKZxkYN0kTR5y5jmrwOHRPuJUTLL2YFwy1rvWJIZS2lw==
+nextra-theme-docs@2.13.4:
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-2.13.4.tgz#821795e149537413f459ae4b520eba1a195e5e07"
+  integrity sha512-2XOoMfwBCTYBt8ds4ZHftt9Wyf2XsykiNo02eir/XEYB+sGeUoE77kzqfidjEOKCSzOHYbK9BDMcg2+B/2vYRw==
   dependencies:
-    "@headlessui/react" "^1.7.10"
-    "@popperjs/core" "^2.11.6"
-    clsx "^1.2.1"
-    flexsearch "^0.7.21"
+    "@headlessui/react" "^1.7.17"
+    "@popperjs/core" "^2.11.8"
+    clsx "^2.0.0"
+    escape-string-regexp "^5.0.0"
+    flexsearch "^0.7.31"
     focus-visible "^5.2.0"
     git-url-parse "^13.1.0"
     intersection-observer "^0.12.2"
     match-sorter "^6.3.1"
     next-seo "^6.0.0"
     next-themes "^0.2.1"
-    scroll-into-view-if-needed "^3.0.0"
-    zod "^3.20.2"
+    scroll-into-view-if-needed "^3.1.0"
+    zod "^3.22.3"
 
 nextra@2.13.4:
   version "2.13.4"
@@ -2397,12 +2399,12 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
-scroll-into-view-if-needed@^3.0.0:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/scroll-into-view-if-needed/-/scroll-into-view-if-needed-3.0.7.tgz#c41d9709aac3776a25c5c0ead442afe7420a9e3c"
-  integrity sha512-Hr094AIeUq/Du9QWTo+EQA2ygzasu13KltO4TuVqAMf1ioIAIOdf/cDzK4+URe7A81IzdXf5rxMXBpz4k2IdxQ==
+scroll-into-view-if-needed@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/scroll-into-view-if-needed/-/scroll-into-view-if-needed-3.1.0.tgz#fa9524518c799b45a2ef6bbffb92bcad0296d01f"
+  integrity sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==
   dependencies:
-    compute-scroll-into-view "^3.0.0"
+    compute-scroll-into-view "^3.0.2"
 
 section-matter@^1.0.0:
   version "1.0.0"
