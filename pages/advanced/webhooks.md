@@ -169,8 +169,9 @@ app.post('/webhook', (req, res) => {
 
 As of writing this doc, it is as follows:
 
-1. Fuze expects a 200 response to the webhook request sent. If not, it retries at maximum 3 times sending the same event.
-2. If it fails to send even after 3 times, it sends an email to the support emails of your organisation.
+1. Fuze expects a 200 response to the webhook request sent.
+2. If not, it retries at maximum 3 times sending the same event in intervals.
+3. If it fails to send even after 3 times, it sends an email to the support emails of your organisation.
 
 ## Sample Events
 
