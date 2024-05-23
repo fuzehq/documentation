@@ -247,7 +247,7 @@ Connection: keep-alive
 }
 ```
 
-In the response, you will see all the users’ holdings. Along with the invested value, and the value based on current prices. You can use this data to create simple and intuitive portfolio views on your app.
+In the response, you will see all the users’ holdings.
 
 ```json
 {
@@ -257,9 +257,6 @@ In the response, you will see all the users’ holdings. Along with the invested
             "asset": "BTC",
             "quantity": 0.01,
             "currency": "USD",
-            "investedValue": 264.34,
-            "currentValue": 264.29,
-            "returns": -0.04,
             "message": null
         }
     ],

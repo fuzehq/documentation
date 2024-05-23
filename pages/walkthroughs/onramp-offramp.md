@@ -271,7 +271,7 @@ Connection: keep-alive
 }
 ```
 
-In the response, you will see the users’ balances. Along with the invested value, and the value based on current prices. You can use this data to create simple and intuitive portfolio views on your app.
+In the response, you will see the users’ balances.
 
 ```json
 {
@@ -281,9 +281,6 @@ In the response, you will see the users’ balances. Along with the invested val
             "asset": "USDC",
             "quantity": 1000000,
             "currency": "USD",
-            "investedValue": 1000000,
-            "currentValue": 1000000,
-            "returns": 0.00,
             "message": null
         }
     ],
