@@ -163,6 +163,76 @@ You can upload the file to this `url` using a file uploader of your choice or us
 $ curl -X PUT -F "file=@mydocument.pdf" $URL
 ```
 
+### EDD Documents
+In case a particular customer is categorized as high risk, we expect additional documents to be uploaded and EDD conducted. The process is similar to the above, with the only difference being the `docCategory` and `docSubCategory` fields.
+
+For example if there are two documents for EDD - a bank statement and a utility bill, then you would need to call the `get-upload-link` API twice, once for each document.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/kyc/individual/get-upload-link HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Content-Length: 75
+
+{
+    "orgUserId": "barbara_allen_2",
+    "fileName": "barbara_allen_2_bank_statement.pdf",
+    "docCategory": "EDD",
+    "docSubCategory": "Bank_Statement",
+    "docdescription": "Bank Statement for barbara_allen_2"
+}
+```
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/kyc/individual/get-upload-link HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Content-Length: 75
+
+{
+    "orgUserId": "barbara_allen_2",
+    "fileName": "barbara_allen_2_utlity_statement.pdf",
+    "docCategory": "EDD",
+    "docSubCategory": "Utility_Statement",
+    "docdescription": "Utility Statement for barbara_allen_2"
+}
+```
+
+
+Once both documents have been uploaded, you will have to inform Fuze that the EDD process is complete. This can be done by calling the `update-kyc-status` API.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/kyc/edd/update HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Content-Length: 75
+
+{
+    "orgUserId": "barbara_allen_2",
+    "status": "COMPLETED"
+}
+```
+
+And this would finish the EDD process for the User.
+
 ## User Active Callback
 Once all files are uploaded, you will receive a webhook indicating that the status of the User has changed to `ACTIVE`.
 
@@ -224,3 +294,4 @@ Content-Length: 75
 ```
 
 In case the User is in `PENDING` state, the response will also list the documents that are yet to be transferred to Fuze.
+
