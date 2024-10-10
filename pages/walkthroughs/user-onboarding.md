@@ -166,7 +166,9 @@ $ curl -X PUT -F "file=@mydocument.pdf" $URL
 ### EDD Documents
 In case a particular customer is categorized as high risk, we expect additional documents to be uploaded and EDD conducted. The process is similar to the above, with the only difference being the `docCategory` and `docSubCategory` fields.
 
-For example if there are two documents for EDD - a bank statement and a utility bill, then you would need to call the `get-upload-link` API twice, once for each document.
+For example if there are two documents for EDD - a screening result and adverse media search result - then you would need to call the get-upload-link API twice, once for each document.
+
+The actual EDD docs to be transferred will be agreed upon between respective compliance teams. The above docs mentioned are examples.
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/kyc/individual/get-upload-link HTTP/1.1
