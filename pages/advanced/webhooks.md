@@ -2,6 +2,8 @@
 
 Webhooks are mechanisms to notify your application whenever an event occurs which relates to your account associated with Fuze. Webhooks are particularly useful for asynchronous events like when your customer places an order or when a customer makes a trade. After configuring the webhooks, you get notified of the supported events in real time.
 
+We have delivered atleast once semantics with exponential backoff. This means, we might in some cases deliver the same webhook event twice. The exponential backoff ensures that we do not bombard your server with requests; but the timeframe is one day after which we don't delivered failed webhooks.
+
 # Setting up a webhook
 
 ## Creating a webhook endpoint
