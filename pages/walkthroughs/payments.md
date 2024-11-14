@@ -1,8 +1,10 @@
 # Walkthrough: Payment APIs
 Fuze’s Pay API offers you a simple and straightforward to send and receive payments. While the APIs cover multiple workflows, this walkthrough will cover the basics: adding a counterparty, and requesting funds from them.
 
-### Add a Third Party
-You can add a third party via the add third party endpoint. You will need to pass a `kycData`, and unique `clientIdentifier` which we call `orgUserId` of your choice. This id will be used to identify the counterparty in all future transactions.
+### Add a Customer
+You can add a customer via the endpoint. You will need to pass a `kycData`, and unique `clientIdentifier` which we call `orgUserId` of your choice. This id will be used to identify the counterparty in all future transactions.
+
+KYC information is optional, and will be dependent on the gap analysis of our compliance team.
 
 ```bash
 POST https://staging.api.fuze.finance/api/v1/payment/third-party/create/ HTTP/1.1
@@ -42,13 +44,13 @@ A successful response will look as follows:
 }
 ```
 
-### Create an invoice
-Once a counterparty is created, you can create a payment request using the `invoice` endpoint. You will need to pass the
+### Create a payment
+Once a counterparty is created, you can create a payment request using the `payment` endpoint. You will need to pass the
 following parameters:
 
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `symbol`: The currency to request payment in.
-- `quantity`: The amount of the invoice.
+- `quantity`: The amount of the payment.
 - `chain`: The blockchain to use for the transaction.
 - `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
@@ -56,7 +58,7 @@ following parameters:
 The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/payment/gateway/invoice HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payment HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -101,11 +103,11 @@ A successful response will contain an `id` which can be used to query the status
 
 You can set up a web hook that will notify you whether the transaction was successful. We’ve covered more details about our web hooks [here](/advanced/webhooks).
 
-### Status of Invoice
-To check the status of the invoice, using REST, use the `id` obtained while creating the order:
+### Status of Payment
+To check the status of the payment, using REST, use the `id` obtained while creating the order:
 
 ```bash
-GET https://staging.api.fuze.finance/api/v1/payment/invoice/107 HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/payment/status/107 HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
