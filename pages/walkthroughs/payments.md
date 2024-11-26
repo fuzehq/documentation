@@ -92,7 +92,7 @@ A successful response will contain an `id` which can be used to query the status
         "symbol": "USDC_USD",
         "quantity": 1000,
         "walletAddress": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-        "chain": "ETHERUEM",
+        "chain": "ETHEREUM",
         "network": "MAINNET",
         "expiryTime": "2023-06-09T07:53:12.658Z",
         "status": "OPEN"
