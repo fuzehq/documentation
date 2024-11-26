@@ -72,7 +72,7 @@ Content-Length: 75
 {
     "clientIdentifier": "barbara_allen_2",
     "symbol": "USDC_USD",
-    "chain": "ETHERUEM",
+    "chain": "ETHEREUM",
     "network": "MAINNET",
     "quantity": 1000,
     "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
