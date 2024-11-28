@@ -1,7 +1,7 @@
 # Walkthrough: Payment APIs
 Fuze’s Pay API offers you a simple and straightforward to send and receive payments. While the APIs cover multiple workflows, this walkthrough will cover the basics: adding a counterparty, and requesting funds from them.
 
-### Add a Customer
+## Add a Customer
 You can add a customer via the endpoint. You will need to pass a `kycData`, and unique `clientIdentifier` which we call `orgUserId` of your choice. This id will be used to identify the counterparty in all future transactions.
 
 KYC information is optional, and will be dependent on the gap analysis of our compliance team.
@@ -44,7 +44,7 @@ A successful response will look as follows:
 }
 ```
 
-### Create a Payin
+## Create a Payin
 Once a counterparty is created, you can create a payment request using the `payment` endpoint. You will need to pass the
 following parameters:
 
@@ -91,7 +91,7 @@ A successful response will contain an `id` which can be used to query the status
         "orgId": 28,
         "symbol": "USDC_USD",
         "quantity": 1000,
-        "walletAddress": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
         "chain": "ETHEREUM",
         "network": "MAINNET",
         "expiryTime": "2023-06-09T07:53:12.658Z",
@@ -103,7 +103,7 @@ A successful response will contain an `id` which can be used to query the status
 
 You can set up a web hook that will notify you whether the transaction was successful. We’ve covered more details about our web hooks [here](/advanced/webhooks).
 
-### Status of Payin
+## Status of Payin
 To check the status of the payment, using REST, use the `id` obtained while creating the order:
 
 ```bash
@@ -130,7 +130,7 @@ Accept-Encoding: gzip, deflate, br
         "quantity": 1000,
         "filled": 0,
         "status": "OPEN",
-        "walletAddress": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
         "chain": "ETHEREUM",
         "network": "MAINNET",
         "expiryTime": "2023-06-09T07:53:12.658Z",
@@ -141,10 +141,11 @@ Accept-Encoding: gzip, deflate, br
 }
 ```
 
-### Create a Payout
+## Create a Payout
 Unlike a payin, a payout is a two step process. The first step is generating a quote for the payout, and the second step
 is executing the payout.
 
+### Step 1: Generate a Quote
 For generating a quote, you can use the `payment` endpoint. You will need to pass the following parameters:
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `symbol`: The currency to request payment in.
@@ -166,6 +167,7 @@ Content-Length: 75
 {
     "clientIdentifier": "barbara_allen_2",
     "symbol": "USDC_USD",
+    "side": "BUY",
     "quantity": 1000,
     "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
 }
@@ -190,11 +192,13 @@ The response of the transaction will contain a `id` which is required for the ne
 }
 ```
 
+### Step 2: Create a Payout
 If you are okay with the quote, you can execute the payout using the `payout` endpoint. You will need to pass the
 following parameters:
 
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `quoteId`: The id of the quote you received in the previous step.
+- `address`: The address to send the payout to.
 - `chain`: The blockchain to use for the transaction.
 - `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
@@ -215,7 +219,7 @@ Content-Length: 75
 
 {
     "clientIdentifier": "barbara_allen_2",
-    "symbol": "USDC_USD",
+    "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
     "chain": "ETHEREUM",
     "network": "MAINNET",
     "quantity": 1000,
@@ -235,7 +239,7 @@ A successful response will contain an `id` which can be used to query the status
         "orgId": 28,
         "symbol": "USDC_USD",
         "quantity": 1000,
-        "walletAddress": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
         "chain": "ETHEREUM",
         "network": "MAINNET",
         "expiryTime": "2023-06-09T07:53:12.658Z",
@@ -247,7 +251,7 @@ A successful response will contain an `id` which can be used to query the status
 
 You can set up a web hook that will notify you whether the transaction was successful. We’ve covered more details about our web hooks [here](/advanced/webhooks).
 
-### Status of Payout
+## Status of Payout
 To check the status of the payment, using REST, use the `id` obtained while creating the order:
 
 ```bash
@@ -274,7 +278,7 @@ Accept-Encoding: gzip, deflate, br
         "quantity": 1000,
         "filled": 0,
         "status": "OPEN",
-        "walletAddress": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
         "chain": "ETHEREUM",
         "network": "MAINNET",
         "expiryTime": "2023-06-09T07:53:12.658Z",
