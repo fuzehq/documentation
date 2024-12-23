@@ -358,7 +358,7 @@ To accept Payins, share the deposit wallet address received in the previous API 
 
 When a customer transfers funds, you'll receive webhooks at different stages of the transaction. Here are the possible webhook events:
 
-#### Transaction Initiated
+** Transaction Initiated **
 
 When a customer initiates a transfer, we start the AML check and notify you.
 
@@ -387,7 +387,7 @@ When a customer initiates a transfer, we start the AML check and notify you.
 }
 ```
 
-#### Transaction Confirmed
+** Transaction Confirmed **
 
 After all checks pass successfully, you'll receive a confirmation webhook.
 
@@ -416,7 +416,7 @@ After all checks pass successfully, you'll receive a confirmation webhook.
 }
 ```
 
-#### Compliance Review Required
+** Compliance Review Required **
 
 If a transaction is flagged by our automated AML checks, it undergoes manual compliance review.
 
@@ -445,7 +445,7 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
 }
 ```
 
-#### Additional Information Required
+** Additional Information Required **
 
 The customer is contacted for further clarifying information - on the basis of which a final decision will be made (whether to return, freeze or allow it to be processed).
 
@@ -474,7 +474,7 @@ The customer is contacted for further clarifying information - on the basis of w
 }
 ```
 
-#### Transaction Rejected
+** Transaction Rejected **
 
 Customers would be told that funds cannot be processed from the specific wallet used and need to be returned. In such cases, the customer would need to be contacted to get a wallet address to which funds can be sent. Examples of cases where this measure is taken: For indirect exposures like scam, gambling (depending on jurisdiction) etc. which are above minimum thresholds for Fuze.
 
@@ -503,7 +503,7 @@ Customers would be told that funds cannot be processed from the specific wallet 
 }
 ```
 
-#### Funds Frozen
+** Funds Frozen **
 
 If a customer / wallet is on a sanctioned list, then the funds will be frozen and no further action can be taken on the account. All customer details would be reported to relevant local authorities. Examples of cases where this measure is taken: For direct exposures to sanctioned entities, known terrorist wallets, etc.
 
@@ -530,28 +530,6 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
     "createdAt": "<timestamp>"
   }
 }
-```
-
-### 
-
-```json
-{
-    "code": 200,
-    "data": {
-        "id": "<transaction_id>",
-        "clientIdentifier": "<client_identifier>",
-        "symbol": "<crypto_currency>_<fiat_currency>",
-        "quantity": 1000, // Amount in crypto
-        "address": "<wallet_address>",
-        "chain": "<blockchain_chain>",
-        "network": "<blockchain_network>",
-        "status": "REJECTED",
-        "reason": "<rejection_reason>",
-        "timestamp": "<timestamp>"
-    },
-    "error": null
-}
-
 ```
 
 **Webhook Summary**
