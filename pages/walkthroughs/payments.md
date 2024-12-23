@@ -24,7 +24,7 @@ The following headers are required across all API endpoints unless otherwise spe
 
 This section applies globally to all APIs. Specific header usage will still be mentioned in individual API details if required.
 
-# **Manage Customers**
+## **Manage Customers**
 
 You can add a customer via the endpoint. You will need to pass a `kycData`, and unique `clientIdentifier` This clientIdentifier will be used to identify the counterparty in all future transactions.
 
@@ -54,22 +54,22 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 
 **Sample Request**
 
-```jsx
+```json
 {    
-		"clientIdentifier": "barbara_allen_2",    
-		"type": "THIRD_PARTY",
-	  "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
-    "kycData": {
-        "fullName": "sherlock holmes 19",
-        "entityType": "individual",
-        "email": "sherlockholmes19@baker.st",
-        "addressLine1": "221B",
-        "addressLine2": "Baker St",
-        "city": "London",
-        "state": "London",
-        "country": "GB",
-        "postalCode": "NW16XE"
-    },
+  "clientIdentifier": "barbara_allen_2",    
+  "type": "THIRD_PARTY",
+  "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
+  "kycData": {
+	"fullName": "sherlock holmes 19",
+	"entityType": "individual",
+	"email": "sherlockholmes19@baker.st",
+	"addressLine1": "221B",
+	"addressLine2": "Baker St",
+	"city": "London",
+	"state": "London",
+	"country": "GB",
+	"postalCode": "NW16XE"
+  },
 }
 ```
 
@@ -80,7 +80,7 @@ A successful response will look as follows:
      "code": 200,
      "data": {
         "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",     
-	      "clientIdentifier": "barbara_allen_2",
+	"clientIdentifier": "barbara_allen_2",
         "status": "STARTED",
         "createdAt": "2024-11-21T06:42:48.209Z"        
      }
@@ -129,7 +129,7 @@ In case the Fuze compliance team needs further information/clarifications you’
     "clientIdentifier": "<client_identifier>",
     "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
     "status": "PENDING",
-	  "reason": "Further due diligence required" 
+    "reason": "Further due diligence required" 
   }
 }
 ```
@@ -151,7 +151,7 @@ In case we can’t accept the customer due to our compliance guidelines, you’l
     "clientIdentifier": "<client_identifier>",
     "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
     "status": "FAILED",
-	  "reason": "<reason>"
+    "reason": "<reason>"
   }
 }
 ```
@@ -173,7 +173,7 @@ No further action can be taken on the account. And all customer details would be
     "clientIdentifier": "<client_identifier>",
     "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
     "status": "INACTIVE",
-	  "reason": "<reason>"
+    "reason": "<reason>"
   }
 }
 ```
@@ -219,11 +219,11 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/{clientI
 }
 ```
 
-# **Deposit Wallets**
+## **Deposit Wallets**
 
 A client can have multiple wallets for depositing different currencies. The following APIs help you create and manage deposit wallets.
 
-## Create a Wallet
+### Create a Wallet
 
 Using this API you can create a customer wallet which can be later used to receive client funds. If the wallet already exists for a symbol, then the same will be returned to you.
 
@@ -301,7 +301,7 @@ When a wallet is found to be associated with suspicious activities or blackliste
 }
 ```
 
-## List Wallets
+### List Wallets
 
 This API allows you to fetch all wallets associated with a specific customer.
 
@@ -348,19 +348,17 @@ clientIdentifier: The unique identifier of the customer (e.g., barbara_allen_2).
 
 •	The status field indicates whether the wallet is currently active or inactive.
 
-# **Payins**
+## **Payins**
 
 To accept Payins, share the deposit wallet address received in the previous API call with the customer. Once the customers transfer funds to their respective wallet address, webhooks are triggered at each stage of the transaction lifecycle.
 
 ---
 
-## **Payin Lifecycle Webhooks**
-
-### Payin Lifecycle
+### **Payin Lifecycle Webhooks**
 
 When a customer transfers funds, you'll receive webhooks at different stages of the transaction. Here are the possible webhook events:
 
-### Transaction Initiated
+#### Transaction Initiated
 
 When a customer initiates a transfer, we start the AML check and notify you.
 
@@ -389,7 +387,7 @@ When a customer initiates a transfer, we start the AML check and notify you.
 }
 ```
 
-### Transaction Confirmed
+#### Transaction Confirmed
 
 After all checks pass successfully, you'll receive a confirmation webhook.
 
@@ -418,7 +416,7 @@ After all checks pass successfully, you'll receive a confirmation webhook.
 }
 ```
 
-### Compliance Review Required
+#### Compliance Review Required
 
 If a transaction is flagged by our automated AML checks, it undergoes manual compliance review.
 
@@ -447,7 +445,7 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
 }
 ```
 
-### Additional Information Required
+#### Additional Information Required
 
 The customer is contacted for further clarifying information - on the basis of which a final decision will be made (whether to return, freeze or allow it to be processed).
 
@@ -476,7 +474,7 @@ The customer is contacted for further clarifying information - on the basis of w
 }
 ```
 
-### Transaction Rejected
+#### Transaction Rejected
 
 Customers would be told that funds cannot be processed from the specific wallet used and need to be returned. In such cases, the customer would need to be contacted to get a wallet address to which funds can be sent. Examples of cases where this measure is taken: For indirect exposures like scam, gambling (depending on jurisdiction) etc. which are above minimum thresholds for Fuze.
 
@@ -505,7 +503,7 @@ Customers would be told that funds cannot be processed from the specific wallet 
 }
 ```
 
-### Funds Frozen
+#### Funds Frozen
 
 If a customer / wallet is on a sanctioned list, then the funds will be frozen and no further action can be taken on the account. All customer details would be reported to relevant local authorities. Examples of cases where this measure is taken: For direct exposures to sanctioned entities, known terrorist wallets, etc.
 
@@ -556,7 +554,7 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 
 ```
 
-### **Webhook Summary**
+**Webhook Summary**
 
 | **Status** | **Description** |
 | --- | --- |
@@ -567,17 +565,17 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 | `FROZEN` | Funds have been frozen. |
 | `PAID` | Transaction successfully completed. |
 
-## **List Payins**
+### **List Payins**
 
 This API allows you to fetch a list of all Payins for a specific customer.
 
-### **Endpoint**
+**Endpoint**
 
 ```
 GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 ```
 
-### **Query Parameters**
+**Query Parameters**
 
 - `clientIdentifier`: The unique identifier of the customer (e.g., `barbara_allen_2`). Optional
 - `startDate`and`endDate`: Filter transactions by date range (format: UTC). Optional.
@@ -585,7 +583,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 - `pageToken`: Token for the next page of results. Optional.
 - `pageSize`: Number of records per page (default: 10, max: 100). Optional.
 
-### **Response Example**
+**Response Example**
 
 ```json
 {
@@ -619,27 +617,27 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 
 ```
 
-## **Fetch Payin Status**
+### **Fetch Payin Status**
 
 This API allows you to fetch the status of a specific Payin using the `id` obtained during the transaction creation.
 
-### **Endpoint**
+**Endpoint**
 
 ```
 GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
 ```
 
-### **Path Parameter**
+**Path Parameter**
 
 - `id`: The unique ID of the Payin
 
-### **Response Example**
+**Response Example**
 
 ```json
 {
     "code": 200,
     "data": {
-		    "uuid": "2f9a7b4d-e1c3-5m8n-9p2q-r4s6t8u0v3w5",
+        "uuid": "2f9a7b4d-e1c3-5m8n-9p2q-r4s6t8u0v3w5",
         "clientIdentifier": "sherlockholmes02",
         "clientOrderId": "6c8a9ac0-f688-4cf2-903a-d3946d6e06a7",
         "status": "CREATED",
@@ -655,11 +653,11 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
 }
 ```
 
-# **Payouts**
+## **Payouts**
 
 Unlike a payin, a payout is a two step process. The first step is generating a quote for the payout, and the second step is executing the payout.
 
-## **Create a Payout**
+### **Create a Payout**
 
 If you are okay with the quote, you can execute the payout using the `payout` endpoint. You will need to pass the following parameters:
 
@@ -697,9 +695,9 @@ A successful response will contain an `id` which can be used to query the stat
 {
     "code": 200,
     "data": {
-		    "uuid": "",
+        "uuid": "",
         "clientIdentifier": "sherlockholmes02",
-	      "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
         "status": "PENDING",
         "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
         "chain": "ETHEREUM",
@@ -847,9 +845,9 @@ This event confirms the funds have been received in the destination wallet. You�
     "network": "<blockchain_network>",
     "status": "SETTLED",
     "transactionFees": 5, // in fiat
-	  "networkFees": 0.01, // in crypto crypto 
+    "networkFees": 0.01, // in crypto crypto 
     "txHash": "<transaction hash>",
-	  "createdAt": "<timestamp>"
+    "createdAt": "<timestamp>"
   }
 }
 ```
@@ -881,7 +879,7 @@ This event indicates the payout could not be completed.
 }
 ```
 
-### **Status of a Payout**
+### **Fetch a Payout**
 
 To check the status of the payment, using REST, use the `id` obtained while creating the order:
 
@@ -910,7 +908,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/{clientOrderI
 }
 ```
 
-## **Processing Refunds**
+### **Processing Refunds**
 
 You can process refunds using the payout API. The request structure is same along with an additional parameter for the original payin under the key `parentUuid`. It allows you to process refunds for payins in “COMPLETED” or “REJECTED” status. 
 
@@ -957,7 +955,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 
 The refund process follows the same webhook lifecycle as regular payouts, with status updates being sent to your webhook endpoint as the refund progresses through various stages.
 
-## List Payouts
+### List Payouts
 
 To get a list of payouts you can use the following API along with query parameters
 
@@ -1006,11 +1004,11 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
 }
 ```
 
-# **Settlements API**
+## **Settlements API**
 
 The Settlements API provides details about daily settlements processed on a **T+2 schedule**. Settlements are calculated based on the **crypto payins (converted to fiat)** and **fiat payouts (converted to crypto)** associated with a merchant. The net settlement amount reflects the balance after accounting for these transactions and is settled in fiat with the merchant.
 
-## **List Settlements**
+### **List Settlements**
 
 The List Settlements API allows you to fetch a list of settlements for a merchant over a specified time period. Settlements can be filtered based on date range, status, type, and pagination parameters.
 
@@ -1081,7 +1079,7 @@ curl -X GET "https://staging.api.fuze.finance/api/v1/settlements?startDate=2023-
 }
 ```
 
-## **Fetch Settlement**
+### **Fetch Settlement**
 
 This API allows you to fetch settlement details, including the list of payins and payouts contributing to the settlement.
 
@@ -1197,7 +1195,7 @@ Merchants can manage and monitor their fiat accounts through these endpoints. Th
 - **Check Balances** of different fiat currencies in which your funds are received.
 - **List Transactions** (fiat deposits to and withdrawals from your bank account), separate from the Payin/Payout flows described earlier.
 
-## **Check Balances**
+### **Check Balances**
 
 Use this endpoint to retrieve the balances for all fiat currencies associated with your account.
 
