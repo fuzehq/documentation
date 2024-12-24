@@ -1,8 +1,8 @@
 The B2B2C Remittance APIs from Fuze is purpose-built for apps and websites that offer remittance products for its customers. End to end, there are 4 main actions that that comprise a remittance transaction. 
 
-1. **Adding an originator**. Here, an originator data is passed to Fuze and an originator is created on Fuze.
+1. **Adding an originator**. Here, originator data is passed to Fuze and an originator is created on Fuze.
 2. **Adding beneficiaries against the originator.** Beneficiary data include those related to the beneficiary identity and relationship with originator, and payout data like bank account data. Data to be passed, and validation will therefore differ based on the country + payout type.
-3. **Buying local currency.** Before you can make a transfer, you need to balances in the local currency. This can be done by generating a quote and buying local currency (AED to INR, for example). This action can be done via Fuze’s dashboard as well. 
+3. **Buying local currency.** Before you can make a transfer, you need balances in the local currency. This can be done by generating a quote and buying local currency (AED to INR, for example). This action can be done via Fuze’s dashboard as well. 
 4. **Making a transfer.** You can now make a transfer by passing the amount in local currency, along with the beneficiary id(which in turn in mapped to an originator). Funds will be deducted from the local currency purchased in step 3. 
 
 ### 1. Adding an originator
@@ -77,8 +77,7 @@ In case the originator in Active, the response will be as follows.
   },
 ```
 
-Error and rejection scenarios
-
+**Error and rejection scenarios**
 - Mandatory data missing
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and create the originator
 - Rejection reason: AML checks failed
@@ -174,8 +173,7 @@ The request would be as follows
 }
 ```
 
- **Error and rejection scenarios**
-
+**Error and rejection scenarios**
 - Mandatory data missing
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and add a beneficiary with data missing
 - Unable to verify account (wherever possible)
@@ -191,11 +189,9 @@ POST /api/v1/payment/remittance/quote
 
 **Body Parameters**
 
-`fromCurrency`: The currency you are converting from
-
-`toCurrency`: The local currency you want to buy
-
-`quantity`: The amount of currency you want to convert (`fromCurrency`)
+- `fromCurrency`: The currency you are converting from
+- `toCurrency`: The local currency you want to buy
+- `quantity`: The amount of currency you want to convert (`fromCurrency`)
 
 The request would be as follows
 
@@ -224,11 +220,13 @@ In the response, you will get a quote id and an expiry time, as shown below
 }
 ```
 
-The quote id can then be used to place the order
+The quote id can then be used to place the order, *using the endpoint below.*
 
+```jsx
 POST /api/v1/payment/remittance/payment
+```
 
-Body Parameters:
+**Body Parameters**
 
 - `quoteId`: The quote id that was created in last api
 - `quantity`: The quantity of from currency that was used in last api
@@ -326,15 +324,11 @@ POST /api/v1/payment/remittance/payout/create
 
 **Body Parameters**
 
-`currency`: The local currency that needs to be sent
-
-`amount`: The amount of local currency that needs to be sent
-
-`clientOrderId`: An idempotency key to avoid duplicate requests 
-
-`uuid`: The identifier of the beneficiary created earlier.
-
-`purpose`: Purpose of transactions between beneficiary and originator
+- `currency`: The local currency that needs to be sent
+- `amount`: The amount of local currency that needs to be sent
+- `clientOrderId` : An idempotency key to avoid duplicate requests
+- `uuid` : The identifier of the beneficiary created earlier.
+- `purpose` : Purpose of transactions between beneficiary and originator
 
 Other data - like purpose codes or source of funds - can also be passed here. Since they vary by country and payment type, Fuze will share the exact text fields separately, as applicable. 
 
@@ -382,7 +376,6 @@ If a transfer is successful, the response will look as follows.
 - Fee structure will vary based country and transfer channel. Data of fee charged, if any, will be a part of the transfer success response.
 
 **Error and rejection scenarios** 
-
 - Insufficient funds
     - In case you have insufficient funds in the local currenct
 - Issue with local partner
