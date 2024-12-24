@@ -1,6 +1,6 @@
 {
   "name": "docs.fuze.finance",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Documentation for Fuze APIs",
   "scripts": {
     "dev": "next dev",
