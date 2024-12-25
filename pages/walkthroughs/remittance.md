@@ -93,7 +93,7 @@ In case the originator in Active, the response will be as follows.
 Now that an originator is created, you can create beneficiaries against the originator. The data fields required for a beneficiary vary based on country + payment mode, and will be shared separately. In the example below, the beneficiary added is an Indian bank account. 
 
 ```jsx
-POST /api/v1/payment/remittance/third-party/create-account
+POST /api/v1/payment/remittance/third-party/account/create
 ```
 
 **Body Parameters:**
@@ -167,7 +167,7 @@ In some corridors, it is possible to get data that can help customers verify the
 You can delete the beneficiary using the endpoint below 
 
 ```jsx
-POST /api/v1/payment/remittance/third-party/delete-account/${uuid}
+POST /api/v1/payment/remittance/third-party/account/delete/${uuid}
 ```
 
 the response will be as follows. 
