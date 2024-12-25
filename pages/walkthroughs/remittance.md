@@ -67,6 +67,8 @@ GET /api/v1/payment/remittance/third-party/${clientIdentifier}
 In case the originator in Active, the response will be as follows. 
 
 ```jsx
+{
+  code: 200,
   data: {
     name: 'Nick',
     email: 'nickfury@gmail.com',
@@ -75,9 +77,12 @@ In case the originator in Active, the response will be as follows.
     status: 'ACTIVE',
     clientIdentifier: 'NICK123456'
   },
+    error: null
+}
 ```
 
 **Error and rejection scenarios**
+
 - Mandatory data missing
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and create the originator
 - Rejection reason: AML checks failed
@@ -109,7 +114,7 @@ The request would be as follows
 {
   clientIdentifier: 'NICK123456',
   currency: 'INR',
-  type: 'BANK',
+  accountType: 'BANK',
   country: 'IN',
   accountData: {
     accountNumber: '123456789',
@@ -143,8 +148,12 @@ In case the beneficiary is verified, the response will be as follows.
 
 ```jsx
 {
-  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
-	status: 'ACTIVE'
+  code: 200,
+  data: {
+	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+	  status: 'ACTIVE'
+  }
+  error: null
 }
 ```
 
@@ -158,22 +167,21 @@ In some corridors, it is possible to get data that can help customers verify the
 You can delete the beneficiary using the endpoint below 
 
 ```jsx
-POST /api/v1/payment/remittance/third-party/delete-account/
+POST /api/v1/payment/remittance/third-party/delete-account/${uuid}
 ```
 
-**Body Parameters** 
-
-- `uuid`: The uuid passed by Fuze once a beneficiary is created.
-
-The request would be as follows
+the response will be as follows. 
 
 ```jsx
 {
-  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+  code: 200,
+  data: 'SUCCESS',
+  error: null
 }
 ```
 
-**Error and rejection scenarios**
+ **Error and rejection scenarios**
+
 - Mandatory data missing
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and add a beneficiary with data missing
 - Unable to verify account (wherever possible)
@@ -226,7 +234,7 @@ The quote id can then be used to place the order, *using the endpoint below.*
 POST /api/v1/payment/remittance/payment
 ```
 
-**Body Parameters**
+**Body Parameters:**
 
 - `quoteId`: The quote id that was created in last api
 - `quantity`: The quantity of from currency that was used in last api
@@ -246,7 +254,7 @@ A successful response will look as follows.
 {
 	code: 200,
 	data: {
-	  id: 10,
+	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
 	  fromCurrency: 'AED',
 	  toCurrency: 'INR',
 	  quantity: 100,
@@ -259,7 +267,7 @@ A successful response will look as follows.
 You can then fetch the status of the order using the endpoint below
 
 ```jsx
-GET /api/v1/payment/remittance/payment/${paymentId}
+GET /api/v1/payment/remittance/payment/${uuid}
 ```
 
 If an order is successful, the response will look as follows 
@@ -268,7 +276,7 @@ If an order is successful, the response will look as follows
 {
 	code: 200,
 	data: {
-	  id: 10,
+	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
 	  fromCurrency: 'AED',
 	  toCurrency: 'INR',
 	  quantity: 100,
@@ -354,6 +362,8 @@ A successful response will be as follows.
     amount: 1000,
     currency: 'INR',
     status: 'PENDING'
+    paymentReferenceNumber: '',
+	  paymentDate: '',
   },
   error: null
 }
@@ -376,6 +386,7 @@ If a transfer is successful, the response will look as follows.
 - Fee structure will vary based country and transfer channel. Data of fee charged, if any, will be a part of the transfer success response.
 
 **Error and rejection scenarios** 
+
 - Insufficient funds
     - In case you have insufficient funds in the local currenct
 - Issue with local partner
