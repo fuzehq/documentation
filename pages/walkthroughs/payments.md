@@ -692,12 +692,11 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
 ```
 
 ## **Payouts**
-
-Unlike a payin, a payout is a two step process. The first step is generating a quote for the payout, and the second step is executing the payout.
+Using the payous API you can deposit funds in the customer's wallet from your own account.
 
 ### **Create a Payout**
 
-If you are okay with the quote, you can execute the payout using the `payout` endpoint. You will need to pass the following parameters:
+You can initiate a payout using the `payout` endpoint. You will need to pass the following parameters:
 
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `quoteId`: The id of the quote you received in the previous step.
@@ -705,7 +704,7 @@ If you are okay with the quote, you can execute the payout using the `payout` 
 - `chain`: The blockchain to use for the transaction.
 - `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
-
+- `symbol`: 
 The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
 
 **Endpoint**
