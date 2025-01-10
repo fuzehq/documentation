@@ -41,6 +41,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 **Body Parameters**
 
 - `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes19`.
+- `sumsubToken` (string, optional): In case we're using SumSub to share KYC information, you can pass this field. 
 - `kycData` (object, required): KYC details for the customer, including:
     - `fullName` (string, required): Customer's full name. Example: `sherlock holmes 19`.
     - `email` (string, required): Customer's email. Example: `sherlockholmes19@baker.st`.
@@ -227,6 +228,9 @@ A client can have multiple wallets for depositing different currencies. The foll
 
 Using this API you can create a customer wallet which can be later used to receive client funds. If the wallet already exists for a symbol, then the same will be returned to you.
 
+**Conversion currency**
+While creating a wallet you can optionally specify a fiat/crypto conversion currency tied to that wallet. So any funds deposited in that wallet will be converted to the specified currency and settled with you. For example if you mention the symbol as "USDT_USD", then the customer can deposit USDT in the returned wallet which will be automatically converted to USD.
+
 **Endpoint**
 
 ```
@@ -272,7 +276,6 @@ Here is a list of supported crypto currencies along with their networks and chai
 | Ethereum | ETH | Ethereum |
 | Bitcoin | BTC | Bitcoin |
 | Solana | SOL | Solana |
-| Ripple | XRP | RippleNet |
 
 **Wallet Disabled**
 
@@ -358,7 +361,7 @@ To accept Payins, share the deposit wallet address received in the previous API 
 
 When a customer transfers funds, you'll receive webhooks at different stages of the transaction. Here are the possible webhook events:
 
-** Transaction Initiated **
+**Transaction Initiated**
 
 When a customer initiates a transfer, we start the AML check and notify you.
 
@@ -387,7 +390,7 @@ When a customer initiates a transfer, we start the AML check and notify you.
 }
 ```
 
-** Transaction Confirmed **
+**Transaction Confirmed**
 
 After all checks pass successfully, you'll receive a confirmation webhook.
 
@@ -416,7 +419,7 @@ After all checks pass successfully, you'll receive a confirmation webhook.
 }
 ```
 
-** Compliance Review Required **
+**Compliance Review Required**
 
 If a transaction is flagged by our automated AML checks, it undergoes manual compliance review.
 
@@ -445,7 +448,7 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
 }
 ```
 
-** Additional Information Required **
+**Additional Information Required**
 
 The customer is contacted for further clarifying information - on the basis of which a final decision will be made (whether to return, freeze or allow it to be processed).
 
@@ -474,7 +477,7 @@ The customer is contacted for further clarifying information - on the basis of w
 }
 ```
 
-** Transaction Rejected **
+**Transaction Rejected**
 
 Customers would be told that funds cannot be processed from the specific wallet used and need to be returned. In such cases, the customer would need to be contacted to get a wallet address to which funds can be sent. Examples of cases where this measure is taken: For indirect exposures like scam, gambling (depending on jurisdiction) etc. which are above minimum thresholds for Fuze.
 
@@ -503,7 +506,7 @@ Customers would be told that funds cannot be processed from the specific wallet 
 }
 ```
 
-** Funds Frozen **
+**Funds Frozen**
 
 If a customer / wallet is on a sanctioned list, then the funds will be frozen and no further action can be taken on the account. All customer details would be reported to relevant local authorities. Examples of cases where this measure is taken: For direct exposures to sanctioned entities, known terrorist wallets, etc.
 
@@ -542,6 +545,63 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 | `REJECTED` | Transaction rejected, funds to be returned. |
 | `FROZEN` | Funds have been frozen. |
 | `PAID` | Transaction successfully completed. |
+
+
+### **Create a Payin Quote(Optional)**
+In scenarios where you want to request a quote for an exact amount you can use this API. For example you want to receive 100USD from the customer and the customer will be paying in USDt then we'll return the exact amount in USDt customer needs to deposit so that you receive 100USD. The quote will have an expiry time after which the quote will be updated to reflect the latest rates, if the customer pays after the quote has expired then the transaction will go through but the final amount received by you might be different in case the conversion rate has changed.
+
+The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a wallet address
+
+**Endpoint**
+
+```
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1.1
+```
+
+**Request Parameters**
+
+- `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
+- `symbol`: The currency to request payment in.
+- `quantity`: The amount of the payment.
+- `chain`: The blockchain to use for the transaction.
+- `network`: The network to use for the transaction.
+- `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
+
+**Sample Request**
+```json
+{
+    "clientIdentifier": "barbara_allen_2",
+    "symbol": "USDC_USD",
+    "chain": "ETHEREUM",
+    "network": "MAINNET",
+    "quantity": 1000,
+    "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
+}
+```
+
+A successful response will contain an `id` which can be used to query the status of the order later.
+
+```json
+{
+    "code": 200,
+    "data": {
+        "id": 107,
+        "clientIdentifier": "barbara_allen_2",
+        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
+        "orgId": 28,
+        "symbol": "USDC_USD",
+        "quantity": 1000,
+        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+        "chain": "ETHEREUM",
+        "network": "MAINNET",
+        "expiryTime": "2023-06-09T07:53:12.658Z",
+        "status": "OPEN"
+    },
+    "error": null
+}
+```
+
+
 
 ### **List Payins**
 
@@ -632,12 +692,11 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
 ```
 
 ## **Payouts**
-
-Unlike a payin, a payout is a two step process. The first step is generating a quote for the payout, and the second step is executing the payout.
+Using the payous API you can deposit funds in the customer's wallet from your own account.
 
 ### **Create a Payout**
 
-If you are okay with the quote, you can execute the payout using the `payout` endpoint. You will need to pass the following parameters:
+You can initiate a payout using the `payout` endpoint. You will need to pass the following parameters:
 
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `quoteId`: The id of the quote you received in the previous step.
@@ -645,7 +704,7 @@ If you are okay with the quote, you can execute the payout using the `payout` 
 - `chain`: The blockchain to use for the transaction.
 - `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
-
+- `symbol`: 
 The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
 
 **Endpoint**
