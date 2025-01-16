@@ -324,7 +324,7 @@ The quote id can then be used to place the order, *using the endpoint below.*
 POST /api/v1/payment/remittance/payment
 ```
 
-Body Parameters:
+**Body Parameters:**
 
 - `quoteId`: The quote id that was created in last api
 - `quantity`: The quantity of from currency that was used in last api
