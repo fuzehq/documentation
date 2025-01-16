@@ -98,11 +98,12 @@ POST /api/v1/payment/remittance/third-party/account/create
 
 **Body Parameters:**
 
-- `clientIdentifier`: The unique identifier used to create the originator, so that the beneficiary can be mapped to them.
+- `thirdPartyClientIdentifier`: The unique identifier used to create the originator, so that the beneficiary can be mapped to them.
+- `clientIdentifier`: The unique identifier for the beneficiary
 - `currency`: The local currency of the beneficiary
 - `type`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
 - `country`: Country of the beneficiary
-- `accountData` : Account data of the customer. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
+- `accountData` : Account data of the beneficiary. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
     - `accountNumber`: Bank account number of the beneficiary
     - `ifscCode` : IFSC code of the bank account
     - `name`: Full name of the beneficiary
@@ -112,7 +113,8 @@ The request would be as follows
 
 ```jsx
 {
-  clientIdentifier: 'NICK123456',
+	thirdPartyClientIdentifier: 'NICK123456',
+  clientIdentifier: 'ACCT123456',
   currency: 'INR',
   accountType: 'BANK',
   country: 'IN',
@@ -132,6 +134,7 @@ A successful response will look like this (this will be added in a PENDING state
   code: 200,
   data: {
 	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+	  clientIdentifier: 'ACCT123456',
 	  status: 'PENDING'
   }
   error: null
@@ -141,7 +144,7 @@ A successful response will look like this (this will be added in a PENDING state
 The final status of the beneficiary - whether Verified (Active) or Rejected - will be passed via webhook. Alternatively, you can also check the status using the endpoint below. 
 
 ```jsx
-GET /api/v1/payment/remittance/third-party/account/${uuid}
+GET /api/v1/payment/remittance/third-party/account/${clientIdentifier}
 ```
 
 In case the beneficiary is verified, the response will be as follows. 
@@ -151,6 +154,7 @@ In case the beneficiary is verified, the response will be as follows.
   code: 200,
   data: {
 	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+	  clientIdentifier: 'ACCT123456',
 	  status: 'ACTIVE'
   }
   error: null
@@ -167,10 +171,10 @@ In some corridors, it is possible to get data that can help customers verify the
 You can delete the beneficiary using the endpoint below 
 
 ```jsx
-POST /api/v1/payment/remittance/third-party/account/delete/${uuid}
+POST /api/v1/payment/remittance/third-party/account/delete/${clientIdentifier}
 ```
 
-the response will be as follows. 
+The response will be as follows. 
 
 ```jsx
 {
@@ -187,7 +191,93 @@ the response will be as follows.
 - Unable to verify account (wherever possible)
     - If IBAN checks or other such account verification steps carried out indicates that the account is inactive.
 
-### 3. Buying local currency
+### 3. Adding both originator and beneficiary together
+
+You can also do the above two steps through one single API call. The verification for originator and beneficiary will still happen separately, and the statuses for each can be checked via separate endpoints. 
+
+You can add both using the endpoint below 
+
+```jsx
+POST /api/v1/payment/remittance/third-party/create-with-account
+```
+
+**Body Parameters**
+
+- `name`: Full name of the originator
+- `email` : Email address of the originator
+- `address`: Address of the originator
+- `nationality`: Nationality of the originator
+- `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard)
+- `idType`: Name of ID, for example “EID”
+- `idNumber`: ID number collected
+- `type`: For the purposes of this product, the type will always be “ORIGINATOR”
+- `clientIdentifier`:  A unique identifier for the customer passed by you
+- `account`: (This will be an object for details of the beneficiary)
+    - `currency`: The local currency of the beneficiary
+    - `type`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
+    - `country`: Country of the beneficiary
+    - `clientIdentifier`: The unique identifier for the beneficiary
+    - `accountData` : Account data of the customer. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
+        - `accountNumber`: Bank account number of the beneficiary
+        - `ifscCode` : IFSC code of the bank account
+        - `name`: Full name of the beneficiary
+        - `relationship`: Relationship between beneficiary and originator. This list can be different for different countries, and will be shared separately.
+
+The request will look as follows
+
+```jsx
+{
+	name: 'Nick',
+	email: 'nickfury@gmail.com',
+	address: '1-A, Baker Street',
+	nationality: 'United Kingdom',
+	country: 'AE',
+	idType: 'EID',
+	idNumber: '123456789',
+	type: 'ORIGINATOR',
+	clientIdentifier: 'NICK123456'
+	account: {
+	  currency: 'INR',
+	  accountType: 'BANK',
+	  country: 'IN',
+	  clientIdentifier: 'ACCT123456',
+	  accountData: {
+	    accountNumber: '123456789',
+	    ifscCode: 'ICIC0000001',
+	    name: 'Nick Fury'
+	    relationship: 'FAMILY',
+	  }
+  }
+}
+```
+
+A successful response will be as follows 
+
+```jsx
+{
+  code: 200,
+  data: {
+    name: 'Nick',
+    email: 'nickfury@gmail.com',
+    uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+    type: 'ORIGINATOR',
+    status: 'PENDING',
+    clientIdentifier: 'NICK123456'
+	  account: {
+		  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+		  status: 'PENDING'
+		  clientIdentifier: 'ACCT123456'
+	  }
+  },
+  error: null
+}
+```
+
+- The statuses of the originator and beneficiary can be fetched separately.
+- If a beneficiary is pending, you can assume that an originator is verified.
+- In case the `clientIdentifier` of the originator already exists in the system, the rest of the data in the thirdParty object, if any, will be ignored. If it doesn’t exist, a new Originator will be created, provided all the mandatory data is passed.
+
+### 4. Buying local currency
 
 To place an order for local currency, you will first need to generate a quote. 
 
@@ -322,7 +412,7 @@ The response will look as follows
 }
 ```
 
-### 4. Transfer funds
+### 5. Transfer funds
 
 To transfer funds, you’ll need to pass the beneficiary uuid, along with the amount in local currency. 
 
@@ -335,7 +425,7 @@ POST /api/v1/payment/remittance/payout/create
 - `currency`: The local currency that needs to be sent
 - `amount`: The amount of local currency that needs to be sent
 - `clientOrderId` : An idempotency key to avoid duplicate requests
-- `uuid` : The identifier of the beneficiary created earlier.
+- `clientIdentifier` : The identifier of the beneficiary verified.
 - `purpose` : Purpose of transactions between beneficiary and originator
 
 Other data - like purpose codes or source of funds - can also be passed here. Since they vary by country and payment type, Fuze will share the exact text fields separately, as applicable. 
