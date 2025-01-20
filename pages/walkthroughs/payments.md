@@ -6,21 +6,21 @@ The Fuze Pay API allows merchants to seamlessly accept and disburse cryptocurren
 
 Fuze provides two primary environments for developers: **Staging** and **Production**. Each environment has its own base URL and purpose, ensuring you can safely test your integration before handling live transactions.
 
-| **Environment** | **Base URL** | **Purpose** |
-| --- | --- | --- |
-| **Staging** | https://staging.api.fuze.finance | Used for **testing and development**. This environment often points to **test networks**(e.g., test blockchains) and allows you to validate integrations without real financial risk. |
-| **Production** | https://api.fuze.finance | Used for **live transactions**. This environment handles **real customer funds** and production data. All compliance rules apply here. |
+| **Environment** | **Base URL**               | **Purpose**                                                                                                                                                                                |
+| --------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Staging**     | https://staging.api.fuze.finance | Used for**testing and development**. This environment often points to **test networks**(e.g., test blockchains) and allows you to validate integrations without real financial risk. |
+| **Production**  | https://api.fuze.finance         | Used for**live transactions**. This environment handles **real customer funds** and production data. All compliance rules apply here.                                                |
 
 ## **Common API Headers**
 
 The following headers are required across all API endpoints unless otherwise specified:
 
-| **Header Name** | **Description** | Value |
-| --- | --- | --- |
-| X-SIGNATURE | Digital signature used for request authentication. | d0f8e2c8... |
-| X-TIMESTAMP | Unix timestamp of the request to ensure the request is current. | 1687944000 |
-| X-API-KEY | Unique API key for authorization. | api_key_example12345 |
-| Content-Type | Specifies the type of the content in the request body. | application/json |
+| **Header Name** | **Description**                                           | Value                |
+| --------------------- | --------------------------------------------------------------- | -------------------- |
+| X-SIGNATURE           | Digital signature used for request authentication.              | d0f8e2c8...          |
+| X-TIMESTAMP           | Unix timestamp of the request to ensure the request is current. | 1687944000           |
+| X-API-KEY             | Unique API key for authorization.                               | api_key_example12345 |
+| Content-Type          | Specifies the type of the content in the request body.          | application/json     |
 
 This section applies globally to all APIs. Specific header usage will still be mentioned in individual API details if required.
 
@@ -41,23 +41,23 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 **Body Parameters**
 
 - `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes19`.
-- `sumsubToken` (string, optional): In case we're using SumSub to share KYC information, you can pass this field. 
+- `sumsubToken` (string, optional): In case we're using SumSub to share KYC information, you can pass this field.
 - `kycData` (object, required): KYC details for the customer, including:
-    - `fullName` (string, required): Customer's full name. Example: `sherlock holmes 19`.
-    - `email` (string, required): Customer's email. Example: `sherlockholmes19@baker.st`.
-    - `entityType` (string, required): Type of entity. Example: `individual`.
-    - `addressLine1` (string, required): Address line 1. Example: `221B`.
-    - `addressLine2` (string, optional): Address line 2. Example: `Baker St`.
-    - `city` (string, required): City. Example: `London`.
-    - `state` (string, required): State. Example: `London`.
-    - `country` (string, required): Country. Example: `GB`.
-    - `postalCode` (string, required): Postal Code. Example: `NW16XE`.
+  - `fullName` (string, required): Customer's full name. Example: `sherlock holmes 19`.
+  - `email` (string, required): Customer's email. Example: `sherlockholmes19@baker.st`.
+  - `entityType` (string, required): Type of entity. Example: `individual`.
+  - `addressLine1` (string, required): Address line 1. Example: `221B`.
+  - `addressLine2` (string, optional): Address line 2. Example: `Baker St`.
+  - `city` (string, required): City. Example: `London`.
+  - `state` (string, required): State. Example: `London`.
+  - `country` (string, required): Country. Example: `GB`.
+  - `postalCode` (string, required): Postal Code. Example: `NW16XE`.
 
 **Sample Request**
 
 ```json
-{    
-  "clientIdentifier": "barbara_allen_2",    
+{  
+  "clientIdentifier": "barbara_allen_2",  
   "type": "THIRD_PARTY",
   "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
   "kycData": {
@@ -80,10 +80,10 @@ A successful response will look as follows:
 {
      "code": 200,
      "data": {
-        "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",     
+        "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",   
 	"clientIdentifier": "barbara_allen_2",
         "status": "STARTED",
-        "createdAt": "2024-11-21T06:42:48.209Z"        
+        "createdAt": "2024-11-21T06:42:48.209Z"    
      }
      "error": null
 }
@@ -201,7 +201,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/{clientI
     "data": {
         "clientIdentifier": "barbara_allen_2",
         "name": "sherlock holmes",
-        "email": "sherlockholmes@baker.st",				
+        "email": "sherlockholmes@baker.st",		
         "status": "COMPLETED",
         "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
         "createdAt": "2024-11-21T06:42:48.209Z"
@@ -260,22 +260,24 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
     "uuid": "",
     "clientIdentifier": "barbara_allen_2",
     "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-    "symbol": "USDC",	
+    "symbol": "USDC",
     "chain": "ETHEREUM",
     "network": "MAINNET",
     "status": "ACTIVE"
 }
 ```
 
-Here is a list of supported crypto currencies along with their networks and chains
+Here is a list of supported crypto currencies along with their chains
 
 | Crypto Currencies | Symbol | Supported Blockchains |
-| --- | --- | --- |
-| Tether | USDT | Ethereum, Tron |
-| USD Coin | USDC | Ethereum, Tron |
-| Ethereum | ETH | Ethereum |
-| Bitcoin | BTC | Bitcoin |
-| Solana | SOL | Solana |
+| ----------------- | ------ | --------------------- |
+| Tether            | USDT   | Ethereum, Tron*       |
+| USD Coin          | USDC   | Ethereum, Tron        |
+| Ethereum          | ETH    | Ethereum              |
+| Bitcoin           | BTC    | Bitcoin               |
+| Solana            | SOL    | Solana                |
+
+** USDT is only available on mainnets.*
 
 **Wallet Disabled**
 
@@ -295,7 +297,7 @@ When a wallet is found to be associated with suspicious activities or blackliste
   "data": {
     "clientIdentifier": "<client_identifier>",
     "address": "<wallet_address>",
-    "symbol": "USDT_USD",        
+    "symbol": "USDT_USD",    
     "chain": "<blockchain_chain>",
     "network": "<blockchain_network>",
     "status": "INACTIVE",
@@ -340,7 +342,7 @@ clientIdentifier: The unique identifier of the customer (e.g., barbara_allen_2).
             "network": "MAINNET",
             "symbol": "USDT_USD",
             "status": "INACTIVE",
-            "createdAt": "<timestamp>"            
+            "createdAt": "<timestamp>"        
         }
     ],
     "error": null
@@ -537,17 +539,17 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 
 **Webhook Summary**
 
-| **Status** | **Description** |
-| --- | --- |
-| `INITIATED` | Transaction initiated and AML check started. |
-| `COMPLIANCE_REVIEW` | Transaction flagged for manual compliance review. |
-| `RFI` | Additional information requested by compliance team. |
-| `REJECTED` | Transaction rejected, funds to be returned. |
-| `FROZEN` | Funds have been frozen. |
-| `PAID` | Transaction successfully completed. |
-
+| **Status**      | **Description**                                |
+| --------------------- | ---------------------------------------------------- |
+| `INITIATED`         | Transaction initiated and AML check started.         |
+| `COMPLIANCE_REVIEW` | Transaction flagged for manual compliance review.    |
+| `RFI`               | Additional information requested by compliance team. |
+| `REJECTED`          | Transaction rejected, funds to be returned.          |
+| `FROZEN`            | Funds have been frozen.                              |
+| `PAID`              | Transaction successfully completed.                  |
 
 ### **Create a Payin Quote(Optional)**
+
 In scenarios where you want to request a quote for an exact amount you can use this API. For example you want to receive 100USD from the customer and the customer will be paying in USDt then we'll return the exact amount in USDt customer needs to deposit so that you receive 100USD. The quote will have an expiry time after which the quote will be updated to reflect the latest rates, if the customer pays after the quote has expired then the transaction will go through but the final amount received by you might be different in case the conversion rate has changed.
 
 The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a wallet address
@@ -564,16 +566,15 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
 - `symbol`: The currency to request payment in.
 - `quantity`: The amount of the payment.
 - `chain`: The blockchain to use for the transaction.
-- `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
 **Sample Request**
+
 ```json
 {
     "clientIdentifier": "barbara_allen_2",
     "symbol": "USDC_USD",
     "chain": "ETHEREUM",
-    "network": "MAINNET",
     "quantity": 1000,
     "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
 }
@@ -601,8 +602,6 @@ A successful response will contain an `id` which can be used to query the status
 }
 ```
 
-
-
 ### **List Payins**
 
 This API allows you to fetch a list of all Payins for a specific customer.
@@ -616,7 +615,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 **Query Parameters**
 
 - `clientIdentifier`: The unique identifier of the customer (e.g., `barbara_allen_2`). Optional
-- `startDate`and`endDate`: Filter transactions by date range (format: UTC). Optional.
+- `startDate`and `endDate`: Filter transactions by date range (format: UTC). Optional.
 - `status`: Filter transactions by status (e.g., PAID, INITIATED, REJECTED). Optional.
 - `pageToken`: Token for the next page of results. Optional.
 - `pageSize`: Number of records per page (default: 10, max: 100). Optional.
@@ -681,7 +680,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
         "status": "CREATED",
         "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
         "chain": "ETHEREUM",
-        "network": "TESTNET",
+        "network": "SEPOLIA",
         "symbol": "USDT_USD",
         "quantity": 1000.0, // The crypto amount received
         "convertedAmount": 1000.0, // The amount after converting to fiat
@@ -692,6 +691,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
 ```
 
 ## **Payouts**
+
 Using the payous API you can deposit funds in the customer's wallet from your own account.
 
 ### **Create a Payout**
@@ -702,10 +702,9 @@ You can initiate a payout using the `payout` endpoint. You will need to pass t
 - `quoteId`: The id of the quote you received in the previous step.
 - `address`: The address to send the payout to.
 - `chain`: The blockchain to use for the transaction.
-- `network`: The network to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
-- `symbol`: 
-The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
+- `symbol`:
+  The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
 
 **Endpoint**
 
@@ -738,7 +737,7 @@ A successful response will contain an `id` which can be used to query the stat
         "status": "PENDING",
         "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
         "chain": "ETHEREUM",
-        "network": "TESTNET",
+        "network": "SEPOLIA",
         "symbol": "USDT_USD",
         "quantity": 1000.0, // in crypto
     },
@@ -861,7 +860,7 @@ This event indicates the payout transaction has been submitted to the blockchain
 
 **5. Payout Settled**
 
-This event confirms the funds have been received in the destination wallet. You’ll receive the transaction hash, transaction fees and network fees. 
+This event confirms the funds have been received in the destination wallet. You’ll receive the transaction hash, transaction fees and network fees.
 
 ```json
 {
@@ -947,7 +946,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/{clientOrderI
 
 ### **Processing Refunds**
 
-You can process refunds using the payout API. The request structure is same along with an additional parameter for the original payin under the key `parentUuid`. It allows you to process refunds for payins in “COMPLETED” or “REJECTED” status. 
+You can process refunds using the payout API. The request structure is same along with an additional parameter for the original payin under the key `parentUuid`. It allows you to process refunds for payins in “COMPLETED” or “REJECTED” status.
 
 **Endpoint**
 
@@ -982,7 +981,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
         "status": "PENDING",
         "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
         "chain": "ETHEREUM",
-        "network": "TESTNET",
+        "network": "SEPOLIA",
         "symbol": "USDC_USD",
         "quantity": 500.0
     },
@@ -1005,7 +1004,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
 **Query Parameters**
 
 - `clientIdentifier`: The unique identifier of the customer (e.g., `barbara_allen_2`). Optional
-- `startDate`and`endDate`: Filter transactions by date range (format: UTC). Optional.
+- `startDate`and `endDate`: Filter transactions by date range (format: UTC). Optional.
 - `status`: Filter transactions by status (e.g., PAID, INITIATED, REJECTED). Optional.
 - `pageNumber`: Page number to be retrieved for pagination. Optional
 - `pageSize`: Number of records to fetch in each page. Optional
@@ -1068,9 +1067,9 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/settlements/list
 
 ```bash
 curl -X GET "https://staging.api.fuze.finance/api/v1/settlements?startDate=2023-12-01&endDate=2023-12-10&status=COMPLETED&type=POSITIVE&limit=10&offset=0" \
-    -H "X-SIGNATURE: &lt;signature&gt;" \
-    -H "X-TIMESTAMP: &lt;timestamp&gt;" \
-    -H "X-API-KEY: &lt;api_key&gt;" \
+    -H "X-SIGNATURE: <signature>" \
+    -H "X-TIMESTAMP: <timestamp>" \
+    -H "X-API-KEY: <api_key>" \
     -H "User-Agent: PostmanRuntime/7.32.2" \
     -H "Accept: */*"
 ```
