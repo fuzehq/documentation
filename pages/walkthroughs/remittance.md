@@ -214,14 +214,13 @@ POST /api/v1/payment/remittance/third-party/create-with-account
 - `clientIdentifier`:  A unique identifier for the customer passed by you
 - `account`: (This will be an object for details of the beneficiary)
     - `currency`: The local currency of the beneficiary
-    - `type`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
+    - `accountType`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
     - `country`: Country of the beneficiary
     - `clientIdentifier`: The unique identifier for the beneficiary
     - `accountData` : Account data of the customer. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
         - `accountNumber`: Bank account number of the beneficiary
         - `ifscCode` : IFSC code of the bank account
         - `name`: Full name of the beneficiary
-        - `relationship`: Relationship between beneficiary and originator. This list can be different for different countries, and will be shared separately.
 
 The request will look as follows
 
@@ -245,7 +244,6 @@ The request will look as follows
 	    accountNumber: '123456789',
 	    ifscCode: 'ICIC0000001',
 	    name: 'Nick Fury'
-	    relationship: 'FAMILY',
 	  }
   }
 }
@@ -324,7 +322,7 @@ The quote id can then be used to place the order, *using the endpoint below.*
 POST /api/v1/payment/remittance/payment
 ```
 
-**Body Parameters:**
+**Body Parameters**
 
 - `quoteId`: The quote id that was created in last api
 - `quantity`: The quantity of from currency that was used in last api
@@ -438,7 +436,7 @@ In the example below, a payout for INR 1000 is being initiated
   amount: 1000,
   clientOrderId: 1,
   purpose: 'SALARY'
-  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
 }
 ```
 
@@ -484,4 +482,57 @@ If a transfer is successful, the response will look as follows.
 - Issue with account details
     - In case the local partner is unable to process the transfer due to an issue with the payment details given.
 
-In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately.
+In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
+
+You can then fetch the status of the payment using the endpoint below
+
+```jsx
+GET /api/v1/payment/remittance/payout/list/
+```
+
+A successful response will look as follows 
+
+```jsx
+{
+    "code": 200,
+    "data": [
+        {
+            "status": "PENDING",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-01-22T03:23:27.048Z",
+            "referenceId": "Bank-49341737516206",
+            "paymentReferenceNumber": "",
+            "paymentDate": null
+        }
+    ],
+    "error": null
+}
+```
+
+**Error scenarios** 
+
+- Issue with Bank provider
+    - In case the bank is unable to process the transfer
+
+If the transfer is successful, the response will look as follows 
+
+```jsx
+{
+    "code": 200,
+    "data": [
+        {
+            "status": "COMPLETED",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-01-21T12:11:19.190Z",
+            "referenceId": "Bank-49341737461478",
+            "paymentReferenceNumber": "Bank-49341737461478",
+            "paymentDate": "2025-01-21T00:00:00.000Z"
+        }
+    ],
+    "error": null
+}
+```
