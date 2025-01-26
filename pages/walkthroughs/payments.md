@@ -6,27 +6,27 @@ The Fuze Pay API allows merchants to seamlessly accept and disburse cryptocurren
 
 Fuze provides two primary environments for developers: **Staging** and **Production**. Each environment has its own base URL and purpose, ensuring you can safely test your integration before handling live transactions.
 
-| **Environment** | **Base URL**               | **Purpose**                                                                                                                                                                                |
-| --------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Staging**     | https://staging.api.fuze.finance | Used for**testing and development**. This environment often points to **test networks**(e.g., test blockchains) and allows you to validate integrations without real financial risk. |
-| **Production**  | https://api.fuze.finance         | Used for**live transactions**. This environment handles **real customer funds** and production data. All compliance rules apply here.                                                |
+| **Environment** | **Base URL**               | **Purpose**                                                                                                                                                                           |
+| --------------------- | -------------------------------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Staging**     | https://staging.api.fuze.finance | Used for **testing and development**. This environment often points to **test networks**(e.g., test blockchains) and allows you to validate integrations without real financial risk. |
+| **Production**  | https://api.fuze.finance         | Used for **live transactions**. This environment handles **real customer funds** and production data. All compliance rules apply here.                                                |
 
 ## **Common API Headers**
 
 The following headers are required across all API endpoints unless otherwise specified:
 
-| **Header Name** | **Description**                                           | Value                |
-| --------------------- | --------------------------------------------------------------- | -------------------- |
-| X-SIGNATURE           | Digital signature used for request authentication.              | d0f8e2c8...          |
-| X-TIMESTAMP           | Unix timestamp of the request to ensure the request is current. | 1687944000           |
-| X-API-KEY             | Unique API key for authorization.                               | api_key_example12345 |
-| Content-Type          | Specifies the type of the content in the request body.          | application/json     |
+| **Header Name** | **Description**                                                   | Example              |
+| --------------------- |-------------------------------------------------------------------|----------------------|
+| X-SIGNATURE           | Digital signature used for request authentication.                | d0f8e2c8...          |
+| X-TIMESTAMP           | Unix timestamp of the request to ensure the request is not stale. | 1687944000           |
+| X-API-KEY             | Unique API key for authorization.                                 | api_key_example12345 |
+| Content-Type          | Specifies the type of the content in the request body.            | application/json     |
 
 This section applies globally to all APIs. Specific header usage will still be mentioned in individual API details if required.
 
 ## **Manage Customers**
 
-You can add a customer via the endpoint. You will need to pass a `kycData`, and unique `clientIdentifier` This clientIdentifier will be used to identify the counterparty in all future transactions.
+You can add a customer via the endpoint. You will need to pass `kycData`, and a unique `clientIdentifier` This `clientIdentifier` will be used to identify the counterparty in all future transactions.
 
 ### Create Customer
 
@@ -40,11 +40,11 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 
 **Body Parameters**
 
-- `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes19`.
+- `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes`.
 - `sumsubToken` (string, optional): In case we're using SumSub to share KYC information, you can pass this field.
 - `kycData` (object, required): KYC details for the customer, including:
-  - `fullName` (string, required): Customer's full name. Example: `sherlock holmes 19`.
-  - `email` (string, required): Customer's email. Example: `sherlockholmes19@baker.st`.
+  - `fullName` (string, required): Customer's full name. Example: `sherlock holmes`.
+  - `email` (string, required): Customer's email. Example: `sherlockholmes@baker.st`.
   - `entityType` (string, required): Type of entity. Example: `individual`.
   - `addressLine1` (string, required): Address line 1. Example: `221B`.
   - `addressLine2` (string, optional): Address line 2. Example: `Baker St`.
@@ -57,43 +57,46 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 
 ```json
 {  
-  "clientIdentifier": "barbara_allen_2",  
+  "clientIdentifier": "sherlockholmes",  
   "type": "THIRD_PARTY",
   "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
   "kycData": {
-	"fullName": "sherlock holmes 19",
+	"fullName": "sherlock holmes",
 	"entityType": "individual",
-	"email": "sherlockholmes19@baker.st",
+	"email": "sherlockholmes@baker.st",
 	"addressLine1": "221B",
 	"addressLine2": "Baker St",
 	"city": "London",
 	"state": "London",
 	"country": "GB",
 	"postalCode": "NW16XE"
-  },
+  }
 }
 ```
 
-A successful response will look as follows:
+**Sample response**
 
 ```json
 {
-     "code": 200,
-     "data": {
-        "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",   
-	"clientIdentifier": "barbara_allen_2",
-        "status": "STARTED",
-        "createdAt": "2024-11-21T06:42:48.209Z"    
-     }
-     "error": null
+  "code": 200,
+  "data": {
+    "name": "sherlock holmes",
+    "email": "sherlockholmes@baker.st",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
+    "type": "THIRD_PARTY",
+    "status": "PENDING",
+    "clientIdentifier": "sherlockholmes",
+    "createdAt": "2025-01-14T09:44:13.246Z"
+  },
+  "error": null
 }
 ```
 
-Based on the customer lifecycle events you’ll receive the following webhooks
+Based on the customer lifecycle events you’ll receive the following webhooks.
 
 **Account Approved**
 
-After the account is approved you can start creating payins and payouts.
+After the account is approved, you can start creating payins and payouts.
 
 ```json
 {
@@ -105,8 +108,8 @@ After the account is approved you can start creating payins and payouts.
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "clientIdentifier": "<client_identifier>",
-    "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
+    "clientIdentifier": "sherlockholmes",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
     "status": "ACTIVE",
     "reason": null
   }
@@ -115,7 +118,7 @@ After the account is approved you can start creating payins and payouts.
 
 **Compliance Follow Up**
 
-In case the Fuze compliance team needs further information/clarifications you’ll receive this web-hook. You’ll receive reasons for rejection along with the documents which had problems. To solve this you need to resolve it with our compliance team offline.
+In case the Fuze compliance team needs further information/clarifications, you’ll receive this webhook. You’ll receive reasons for rejection along with the documents which had problems. To solve this, you need to resolve it with our compliance team offline.
 
 ```json
 {
@@ -127,8 +130,8 @@ In case the Fuze compliance team needs further information/clarifications you’
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "clientIdentifier": "<client_identifier>",
-    "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
+    "clientIdentifier": "sherlockholmes",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
     "status": "PENDING",
     "reason": "Further due diligence required" 
   }
@@ -149,17 +152,17 @@ In case we can’t accept the customer due to our compliance guidelines, you’l
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "clientIdentifier": "<client_identifier>",
-    "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
+    "clientIdentifier": "sherlockholmes",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
     "status": "FAILED",
-    "reason": "<reason>"
+    "reason": "Rejected due to compliance reasons."
   }
 }
 ```
 
 **Account Suspended**
 
-No further action can be taken on the account. And all customer details would be reported to relevant local authorities. Examples of this action include cases where the funds end up in a sanctioned entity, or if the wallet added for whitelisting was tied to terrorist financing or sanctioned entities.
+No further action can be taken on the account. All customer details would be reported to relevant local authorities. Examples of this action include cases where the funds end up in a sanctioned entity, or if the wallet added for whitelisting was tied to terrorist financing or sanctioned entities.
 
 ```json
 {
@@ -171,10 +174,10 @@ No further action can be taken on the account. And all customer details would be
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "clientIdentifier": "<client_identifier>",
-    "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
+    "clientIdentifier": "sherlockholmes",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
     "status": "INACTIVE",
-    "reason": "<reason>"
+    "reason": "Rejected due to AML checks."
   }
 }
 ```
@@ -189,24 +192,25 @@ You can retrieve customer details using the following API. This allows you to ch
 GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/{clientIdentifier}
 ```
 
-**Path Parameter**
+**Path Parameters**
 
-- `clientIdentifier` (string, required) - The unique identifier of the customer you want to fetch. Example: `barbara_allen_2`
+- `clientIdentifier` (string, required) - The unique identifier of the customer you want to fetch. Example: `sherlockholmes`
 
 **Successful Response**
 
 ```json
 {
-    "code": 200,
-    "data": {
-        "clientIdentifier": "barbara_allen_2",
-        "name": "sherlock holmes",
-        "email": "sherlockholmes@baker.st",		
-        "status": "COMPLETED",
-        "uuid": "057d6edf-70d4-4bdb-985f-723ada5adae1",
-        "createdAt": "2024-11-21T06:42:48.209Z"
-    },
-    "error": null
+  "code": 200,
+  "data": {
+    "name": "sherlock holmes",
+    "email": "sherlockholmes@baker.st",
+    "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
+    "type": "THIRD_PARTY",
+    "status": "ACTIVE",
+    "clientIdentifier": "sherlockholmes",
+    "createdAt": "2025-01-22T04:32:46.242Z"
+  },
+  "error": null
 }
 ```
 
@@ -220,6 +224,46 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/{clientI
 }
 ```
 
+
+### **Fetch all Customers**
+
+You can retrieve customers list using the following API.
+
+**Endpoint**
+
+```
+GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
+```
+
+**Successful Response**
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "name": "sherlock holmes",
+      "email": "sherlockholmes@baker.st",
+      "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
+      "type": "THIRD_PARTY",
+      "status": "ACTIVE",
+      "clientIdentifier": "sherlockholmes",
+      "createdAt": "2025-01-14T09:52:06.203Z"
+    },
+    {
+      "name": "dr watson",
+      "email": "watson@baker.st",
+      "uuid": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae4",
+      "type": "THIRD_PARTY",
+      "status": "ACTIVE",
+      "clientIdentifier": "watson",
+      "createdAt": "2025-01-14T09:52:06.203Z"
+    }
+  ],
+  "error": null
+}
+```
+
 ## **Deposit Wallets**
 
 A client can have multiple wallets for depositing different currencies. The following APIs help you create and manage deposit wallets.
@@ -229,7 +273,12 @@ A client can have multiple wallets for depositing different currencies. The foll
 Using this API you can create a customer wallet which can be later used to receive client funds. If the wallet already exists for a symbol, then the same will be returned to you.
 
 **Conversion currency**
-While creating a wallet you can optionally specify a fiat/crypto conversion currency tied to that wallet. So any funds deposited in that wallet will be converted to the specified currency and settled with you. For example if you mention the symbol as "USDT_USD", then the customer can deposit USDT in the returned wallet which will be automatically converted to USD.
+
+While creating a wallet you can optionally specify a fiat conversion currency tied to that wallet. So any funds deposited in that wallet will be converted to the specified currency and settled with you. 
+For example, if you mention the symbol as "USDC_USD", then the customer can deposit USDC in the returned wallet, which will be automatically converted to USD. 
+
+You can specify a crypto without a fiat conversion currency if you like to receive crypto directly. 
+For example, specifying symbol as "USDC" will allow the customers to deposit crypto and the same will be settled with you without any conversions.
 
 **Endpoint**
 
@@ -239,7 +288,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 
 **Body Parameters**
 
-- `clientIdentifier` (string, required): The unique identifier for the customer. Example: `barbara_allen_2`.
+- `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes`.
 - `symbol` (string, required): The cryptocurrency and fiat currency pair. Example: `USDC_USD`.
 - `chain` (string, required): The blockchain on which the wallet will be created. Example: `ETHEREUM`.
 
@@ -247,9 +296,9 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 
 ```json
 {
-    "clientIdentifier": "barbara_allen_2",
+    "clientIdentifier": "sherlockholmes",
     "symbol": "USDC_USD",
-    "chain": "ETHEREUM",
+    "chain": "ETHEREUM"
 }
 ```
 
@@ -257,13 +306,18 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 
 ```json
 {
-    "uuid": "",
-    "clientIdentifier": "barbara_allen_2",
-    "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-    "symbol": "USDC",
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "ETHEREUM",
-    "network": "MAINNET",
-    "status": "ACTIVE"
+    "network": "SEPOLIA",
+    "asset": "USDC",
+    "status": "APPROVED",
+    "createdAt": "2025-01-14T09:50:22.539Z",
+    "symbol": "USDC_USD"
+  },
+  "error": null
 }
 ```
 
@@ -277,7 +331,7 @@ Here is a list of supported crypto currencies along with their chains
 | Bitcoin           | BTC    | Bitcoin               |
 | Solana            | SOL    | Solana                |
 
-** USDT is only available on mainnets.*
+&ast; USDT is only available on mainnets.
 
 **Wallet Disabled**
 
@@ -295,13 +349,13 @@ When a wallet is found to be associated with suspicious activities or blackliste
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "clientIdentifier": "<client_identifier>",
-    "address": "<wallet_address>",
-    "symbol": "USDT_USD",    
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "symbol": "USDC_USD",    
+    "chain": "ETHEREUM",
+    "network": "SEPLOIA",
     "status": "INACTIVE",
-    "createdAt": "<timestamp>"
+    "createdAt": "2025-01-14T09:50:22.539Z"
   }
 }
 ```
@@ -313,12 +367,12 @@ This API allows you to fetch all wallets associated with a specific customer.
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-wallet/list?clientIdentifier=<clientIdentifier> HTTP/1.1
+GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-wallet/list?clientIdentifier={clientIdentifier}
 ```
 
-**Query Parameter**
+**Query Parameters**
 
-clientIdentifier: The unique identifier of the customer (e.g., barbara_allen_2).
+`clientIdentifier`: The unique identifier of the customer. Example: `sherlockholmes`.
 
 **Example Response**
 
@@ -327,22 +381,22 @@ clientIdentifier: The unique identifier of the customer (e.g., barbara_allen_2).
     "code": 200,
     "data": [
         {
-            "clientIdentifier": "barbara_allen_2",
-            "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+            "clientIdentifier": "sherlockholmes",
+            "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
             "chain": "ETHEREUM",
-            "network": "MAINNET",
-            "symbol": "USDT_USD",
+            "network": "SEPOLIA",
+            "symbol": "USDC_USD",
             "status": "ACTIVE",
-            "createdAt": "<timestamp>"
+            "createdAt": "2025-01-14T09:50:22.539Z"
         },
         {
-            "clientIdentifier": "barbara_allen_2",
+            "clientIdentifier": "sherlockholmes",
             "address": "0x7d3e8b7d8d1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
             "chain": "ETHEREUM",
-            "network": "MAINNET",
-            "symbol": "USDT_USD",
+            "network": "SEPOLIA",
+            "symbol": "USDC_USD",
             "status": "INACTIVE",
-            "createdAt": "<timestamp>"        
+            "createdAt": "2025-01-14T09:50:22.539Z"        
         }
     ],
     "error": null
@@ -351,17 +405,81 @@ clientIdentifier: The unique identifier of the customer (e.g., barbara_allen_2).
 
 **Notes**
 
-•	The status field indicates whether the wallet is currently active or inactive.
+*	The status field indicates whether the wallet is currently active or inactive.
 
 ## **Payins**
 
-To accept Payins, share the deposit wallet address received in the previous API call with the customer. Once the customers transfer funds to their respective wallet address, webhooks are triggered at each stage of the transaction lifecycle.
+To accept Payins, share the deposit wallet address received in the deposit wallet creation API call with the customer. Once the customers transfer funds to their respective wallet address, webhooks are triggered at each stage of the transaction lifecycle.
 
 ---
 
 ### **Payin Lifecycle Webhooks**
 
 When a customer transfers funds, you'll receive webhooks at different stages of the transaction. Here are the possible webhook events:
+
+**Payin creation**
+
+When a payin is created with Fuze, we will send a webhook.
+
+**Webhook Event:** `Payins.CREATED`
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayins",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "CREATED",
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0, 
+    "quoteQuantity":  1011.0
+  }
+}
+```
+
+**Notes** 
+* `quantity` represents the amount in crypto.
+* `quoteQuantity` represents the amount in fiat, if currency conversion is applicable for the deposit wallet. Otherwise, it will be equal to `quantity`.
+* `symbol` will be of the type `<crypto>_<fiat>`, e.g. `USDC_USD`, if currency conversion is applicable for the deposit wallet. Otherwise, it will be of the type `<crypto>`, e.g. `USDC`.
+
+
+**Transaction recorded on Blockchain**
+
+When the transaction is detected on the blockchain, we will notify you.
+
+**Webhook Event:** `Payins.TXN_CREATED`
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayins",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "TXN_CREATED",
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
+  }
+}
+```
 
 **Transaction Initiated**
 
@@ -373,21 +491,21 @@ When a customer initiates a transfer, we start the AML check and notify you.
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000.0, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "INITIATED",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
@@ -402,21 +520,21 @@ After all checks pass successfully, you'll receive a confirmation webhook.
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto,
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
-    "status": "PAID",
-    "createdAt": "<timestamp>"
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "CREATED",
+    "symbol":  "PAID",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
@@ -431,21 +549,21 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto,
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "COMPLIANCE_REVIEW",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
@@ -460,21 +578,21 @@ The customer is contacted for further clarifying information - on the basis of w
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "RFI",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
@@ -489,21 +607,21 @@ Customers would be told that funds cannot be processed from the specific wallet 
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto,
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "REJECTED",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
@@ -518,29 +636,31 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 {
   "event": {
     "orgId": 10,
-    "entity": "Payins",
+    "entity": "GatewayPayins",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FROZEN",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
 
 **Webhook Summary**
 
-| **Status**      | **Description**                                |
-| --------------------- | ---------------------------------------------------- |
+| **Status**          | **Description**                                      |
+|---------------------|------------------------------------------------------|
+| `CREATED`           | Payin created by Fuze.                               |
+| `TXN_CREATED`       | Transaction is recorded on the blockchain.           |
 | `INITIATED`         | Transaction initiated and AML check started.         |
 | `COMPLIANCE_REVIEW` | Transaction flagged for manual compliance review.    |
 | `RFI`               | Additional information requested by compliance team. |
@@ -550,7 +670,7 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 
 ### **Create a Payin Quote(Optional)**
 
-In scenarios where you want to request a quote for an exact amount you can use this API. For example you want to receive 100USD from the customer and the customer will be paying in USDt then we'll return the exact amount in USDt customer needs to deposit so that you receive 100USD. The quote will have an expiry time after which the quote will be updated to reflect the latest rates, if the customer pays after the quote has expired then the transaction will go through but the final amount received by you might be different in case the conversion rate has changed.
+You can use this API in scenarios where you want to request a quote for an exact amount. For example, you want to receive 100 USD from the customer and the customer will be paying in USDC, then we'll return the exact amount in USDC customer needs to deposit so that you receive 100 USD. The quote will have an expiry time after which the quote will be updated to reflect the latest rates. If the customer pays after the quote has expired then the transaction will go through but the final amount received by you might be different, in case the conversion rate has changed.
 
 The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a wallet address
 
@@ -576,7 +696,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
     "symbol": "USDC_USD",
     "chain": "ETHEREUM",
     "quantity": 1000,
-    "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
+    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a"
 }
 ```
 
@@ -614,97 +734,142 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 
 **Query Parameters**
 
-- `clientIdentifier`: The unique identifier of the customer (e.g., `barbara_allen_2`). Optional
-- `startDate`and `endDate`: Filter transactions by date range (format: UTC). Optional.
-- `status`: Filter transactions by status (e.g., PAID, INITIATED, REJECTED). Optional.
-- `pageToken`: Token for the next page of results. Optional.
-- `pageSize`: Number of records per page (default: 10, max: 100). Optional.
+- `clientIdentifier` (optional): The unique identifier of the customer. Example: `sherlockholmes`
+- `startDate`and `endDate` (optional, format: UTC): Filter by date range. Example: `2023-06-08`
+- `status` (optional): Filter by status Example: PAID, INITIATED, REJECTED
+- `pageSize` (optional, default: 50, max: 100): Number of records per page. Example: 50
+- `pageNumber`(optional): Page number. Example: 1
 
 **Response Example**
 
 ```json
 {
-    "code": 200,
-    "data": [
-        {
-            "uuid": "",
-            "clientIdentifier": "barbara_allen_2",
-            "symbol": "USDC",
-            "quantity": 1000,
-            "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-            "chain": "ETHEREUM",
-            "network": "MAINNET",
-            "status": "PAID",
-            "createdAt": "2023-06-08T07:53:11.688Z"
-        },
-        {
-            "uuid": "",
-            "clientIdentifier": "barbara_allen_2",
-            "symbol": "BTC",
-            "quantity": 0.5,
-            "address": "1BTCwallet123456789",
-            "chain": "BITCOIN",
-            "network": "MAINNET",
-            "status": "REJECTED",
-            "createdAt": "2023-06-08T07:54:12.123Z"
-        }
-    ],
-    "error": null
+  "code": 200,
+  "data": [
+    {
+      "clientOrderId": "58cde2c6-12a4-4981-94e3-e77a5145d050",
+      "status": "PAID",
+      "createdAt": "2025-01-14T10:19:45.680Z",
+      "symbol": "USDC_USD",
+      "quantity": 0.1,
+      "quoteQuantity": 0.1,
+      "fee": 0.001,
+      "vat": 0.00005,
+      "targetName": "sherlock holmes"
+    },
+    {
+      "clientOrderId": "56c48192-5fee-47eb-96d6-fb9ce6fa79d3",
+      "status": "QUOTE_EXPIRED",
+      "createdAt": "2025-01-14T10:17:27.539Z",
+      "symbol": "USDC_USD",
+      "quantity": 1,
+      "quoteQuantity": 1.1,
+      "fee": 0.1,
+      "vat": 0.005,
+      "targetName": "sherlock holmes"
+    }
+  ],
+  "error": null
 }
 
 ```
 
-### **Fetch Payin Status**
+### **Fetch a Payin**
 
-This API allows you to fetch the status of a specific Payin using the `id` obtained during the transaction creation.
+This API allows you to fetch the status of a specific Payin using its `clientOrderId`.
 
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{id}
+GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{clientOrderId}
 ```
 
-**Path Parameter**
+**Path Parameters**
 
-- `id`: The unique ID of the Payin
+- `clientOrderId`: The unique ID of the Payin
 
 **Response Example**
 
 ```json
 {
-    "code": 200,
-    "data": {
-        "uuid": "2f9a7b4d-e1c3-5m8n-9p2q-r4s6t8u0v3w5",
-        "clientIdentifier": "sherlockholmes02",
-        "clientOrderId": "6c8a9ac0-f688-4cf2-903a-d3946d6e06a7",
-        "status": "CREATED",
-        "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
-        "chain": "ETHEREUM",
-        "network": "SEPOLIA",
-        "symbol": "USDT_USD",
-        "quantity": 1000.0, // The crypto amount received
-        "convertedAmount": 1000.0, // The amount after converting to fiat
-        "transactionFees": 5 // Fees in fiat
-    },
-    "error": null
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x54556F0ed90Fb6CEBb2201E31287b3478716B933",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId": "9c99dd8e-6b76-45ce-9468-d141dabbf0e9",
+    "status": "PAID",
+    "symbol": "USDC_USD",
+    "quantity": 0.1,
+    "quoteQuantity": 0.11,
+    "fee": 0.0011,
+    "vat": 0.000055,
+    "expiryTime": 1736849148122
+  },
+  "error": null
 }
 ```
 
 ## **Payouts**
 
-Using the payous API you can deposit funds in the customer's wallet from your own account.
+You can deposit funds in the customer's wallet from your own account using the Payout API.
 
-### **Create a Payout**
+### **Create a Payout Quote (optional)**
 
-You can initiate a payout using the `payout` endpoint. You will need to pass the following parameters:
+You should generate a Payout quote if you wish to transfer fiat to the customer.
 
-- `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
-- `quoteId`: The id of the quote you received in the previous step.
-- `address`: The address to send the payout to.
-- `chain`: The blockchain to use for the transaction.
-- `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
-- `symbol`:
-  The response of the transaction will be `OPEN` - indicating the the request have been received successfully. You will also receive a `id` and a payment link.
+
+**Endpoint**
+
+```
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
+```
+
+**Body Parameters**
+
+ - `clientIdentifier` (string): The customer identifier. Example: `sherlockholmes`
+- `symbol` (string): Crypto currency to transfer. Example: `USDC`
+- `chain` (string): The blockchain to use for the transaction. Example: `ETHEREUM`
+- `quantity` (number, optional): Amount of crypto to transfer to the customer.
+- `quoteQuantity` (number, optional): Amount of fiat to transfer to the customer.
+
+
+**Sample Request**
+
+```json
+{
+  "clientIdentifier": "sherlockholmes",
+  "symbol": "USDC_USD",
+  "chain": "ETHEREUM",
+  "quantity": 1
+}
+```
+
+**Sample Response**
+
+```json
+{
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "quoteId": 556851,
+    "symbol": "USDC_AED",
+    "quantity": 1,
+    "quoteQuantity": 1.1,
+    "price": 1.1,
+    "expiryTime": 1736852639292
+  },
+  "error": null
+}
+```
+**Notes**
+* Either `quantity` or `quoteQuantity` must be specified for quote generation.
+* When using this API, note down the `quoteId` field returned, as it will be used in the Payout creation API.
+
+### **Create a Payout** 
+
+You can initiate a Payout using the following API.  
 
 **Endpoint**
 
@@ -712,44 +877,59 @@ You can initiate a payout using the `payout` endpoint. You will need to pass t
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 ```
 
-**Request Body:**
+**Body Parameters**
 
-```jsx
-{
-    "clientIdentifier": "barbara_allen_2",
-    "quantity": 500, // Amount in crypto to transfer
-    "symbol": "USDC_USD",
-    "walletAddress": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
-    "chain": "ETHEREUM",
-    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a" // optional
-}
-```
+- `clientIdentifier` (string): The counterparty identifier you passed while creating the counterparty. Example: `sherlockholmes`
+- `address` (string): The address to send the payout to. 
+- `chain` (string): The blockchain to use for the transaction. Example: `ETHEREUM`
+- `symbol` (string): Crypto currency to transfer. Example: `USDC`
+- `clientOrderId` (string, optional): Idempotency key of the type uuid v4, which ensures the same order is not placed twice. Fuze will generate a random uuid if not supplied.
+- `quantity` (number, optional): Amount of crypto to transfer to the customer.
+- `quoteId` (number, optional): Quote ID received from Payout Quote creation API.
 
-A successful response will contain an `id` which can be used to query the status of the order later.
+
+**Sample Request**
 
 ```json
 {
-    "code": 200,
-    "data": {
-        "uuid": "",
-        "clientIdentifier": "sherlockholmes02",
-        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
-        "status": "PENDING",
-        "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
-        "chain": "ETHEREUM",
-        "network": "SEPOLIA",
-        "symbol": "USDT_USD",
-        "quantity": 1000.0, // in crypto
-    },
-    "error": null
+  "clientIdentifier": "sherlockholmes",
+  "address": "0x98BCBd9Bd0896A73d5aa0cC880512a3cBCE78401",
+  "chain": "ETHEREUM",
+  "symbol": "USDC",
+  "quantity": 1
 }
 ```
+
+**Sample Response**
+
+```json
+{
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x98BCBd9Bd0896A73d5aa0cC880512a3cBCE78401",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId": "c43b2dad-03a0-4d84-9f4b-b5a0cf9cc55b",
+    "status": "CREATED",
+    "symbol": "USDC",
+    "quantity": 1,
+    "quoteQuantity": 1,
+    "fee": 0.01,
+    "vat": 0.0005
+  },
+  "error": null
+}
+```
+
+**Notes**
+* One of `quoteId` or `quantity` must be specified in the request body. Specify `quoteId` if you wish to transfer fiat to the customer. If the customer is to be paid in crypto, pass `quantity`.
 
 ### **Webhook Events for Payout Lifecycle**
 
 Here are the webhook events you'll receive during a payout lifecycle. Each webhook will contain relevant transaction details and a status update. We’ve covered more details about our web-hooks [here](https://docs.fuze.finance/advanced/webhooks).
 
-**1. Payout Created**
+**1. Payout Initiated**
 
 When a payout request is initiated, you'll receive this event confirming the request has been received and validated.
 
@@ -758,80 +938,27 @@ When a payout request is initiated, you'll receive this event confirming the req
 {
   "event": {
     "orgId": 10,
-    "entity": "Payouts",
+    "entity": "GatewayPayouts",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "1a2b3c4d-5e6f-7g8h-9i0j-k1l2m3n4o5p6",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
-    "status": "CREATED",
-    "createdAt": "<timestamp>"
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "INITIATED",
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
 
-**2. Wallet Flagged**
 
-This event indicates the destination wallet requires a manual compliance review. The funds will be blocked and the transaction will either be completed or rejected post compliance review.
-
-```json
-{
-  "event": {
-    "orgId": 10,
-    "entity": "Payouts",
-    "numRetries": 0,
-    "updatedAt": "2023-12-14T12:35:02.894Z",
-    "createdAt": "2023-12-14T12:35:02.894Z"
-  },
-  "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
-    "status": "WALLET_FLAGGED",
-    "createdAt": "<timestamp>"
-  }
-}
-```
-
-**3. Wallet Rejected**
-
-This event indicates the destination wallet was rejected by compliance and the payout will be cancelled. You’ll have to initiate a payout with another wallet address.
-
-```json
-{
-  "event": {
-    "orgId": 10,
-    "entity": "Payouts",
-    "numRetries": 0,
-    "updatedAt": "2023-12-14T12:35:02.894Z",
-    "createdAt": "2023-12-14T12:35:02.894Z"
-  },
-  "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
-    "status": "WALLET_REJECTED",
-    "createdAt": "<timestamp>"
-  }
-}
-```
-
-**4. Payout Paid**
+**2. Payout Paid**
 
 This event indicates the payout transaction has been submitted to the blockchain and is being processed.
 
@@ -839,26 +966,26 @@ This event indicates the payout transaction has been submitted to the blockchain
 {
   "event": {
     "orgId": 10,
-    "entity": "Payouts",
+    "entity": "GatewayPayouts",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "PAID",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
 
-**5. Payout Settled**
+**3. Payout Settled**
 
 This event confirms the funds have been received in the destination wallet. You’ll receive the transaction hash, transaction fees and network fees.
 
@@ -866,29 +993,27 @@ This event confirms the funds have been received in the destination wallet. You�
 {
   "event": {
     "orgId": 10,
-    "entity": "Payouts",
+    "entity": "GatewayPayouts",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "SETTLED",
-    "transactionFees": 5, // in fiat
-    "networkFees": 0.01, // in crypto crypto 
-    "txHash": "<transaction hash>",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
 
-**6. Payout Failed**
+
+**4. Payout Failed**
 
 This event indicates the payout could not be completed.
 
@@ -896,104 +1021,116 @@ This event indicates the payout could not be completed.
 {
   "event": {
     "orgId": 10,
-    "entity": "Payouts",
+    "entity": "GatewayPayouts",
     "numRetries": 0,
     "updatedAt": "2023-12-14T12:35:02.894Z",
     "createdAt": "2023-12-14T12:35:02.894Z"
   },
   "data": {
-    "uuid": "",
-    "clientIdentifier": "<client_identifier>",
-    "symbol": "<crypto_currency>_<fiat_currency>",
-    "quantity": 1000, // Amount in crypto,
-    "address": "<wallet_address>",
-    "chain": "<blockchain_chain>",
-    "network": "<blockchain_network>",
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FAILED",
-    "createdAt": "<timestamp>"
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
   }
 }
 ```
 
+**5. Compliance Review Required**
+
+This event indicates the destination wallet requires a manual compliance review. The funds will be blocked and the transaction will either be completed or rejected post compliance review.
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayouts",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "COMPLIANCE_REVIEW",
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
+  }
+}
+```
+
+**6. Wallet Rejected**
+
+This event indicates the destination wallet was rejected by compliance and the payout will be cancelled. You’ll have to initiate a payout with another wallet address.
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayouts",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "ETHEREUM",
+    "network": "SEPOLIA",
+    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "REJECTED",
+    "symbol":  "USDC_USD",
+    "quantity": 1000.0,
+    "quoteQuantity":  1011.0
+  }
+}
+```
+
+
 ### **Fetch a Payout**
 
-To check the status of the payment, using REST, use the `id` obtained while creating the order:
+This API allows you to fetch the status of a specific Payin using its `clientOrderId`.
 
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/{clientOrderId} 
+GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/{clientOrderId} 
 ```
 
 **Sample Response**
 
 ```json
 {
-    "code": 200,
-    "data": {
-        "clientIdentifier": "sherlockholmes11",
-        "clientOrderId": "9b941897-c004-4802-945c-5c3d339883da",
-        "status": "INITIATED",
-        "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-        "chain": "ETHEREUM",
-        "network": "SEPOLIA",
-        "symbol": "USDC_USD",
-        "quantity": 0.0100000017
-    },
-    "error": null
-}
-```
-
-### **Processing Refunds**
-
-You can process refunds using the payout API. The request structure is same along with an additional parameter for the original payin under the key `parentUuid`. It allows you to process refunds for payins in “COMPLETED” or “REJECTED” status.
-
-**Endpoint**
-
-```
-POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
-```
-
-**Request Body:**
-
-```jsx
-{
-    "clientIdentifier": "barbara_allen_2",
-    "quantity": 500,
-    "symbol": "USDC_USD",
-    "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
     "chain": "ETHEREUM",
-    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
-    "parentUuid": "pay_123456789" // ID of the original payin to be refunded
+    "network": "SEPOLIA",
+    "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
+    "status": "PAID",
+    "symbol": "USDC_USD",
+    "quantity": 1,
+    "quoteQuantity": 1.1,
+    "fee": 0.005,
+    "vat": 0.00025,
+    "expiryTime": 1736861661251
+  },
+  "error": null
 }
 ```
-
-**Sample Response:**
-
-```json
-{
-    "code": 200,
-    "data": {
-        "uuid": "",
-        "clientIdentifier": "barbara_allen_2",
-        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
-        "payinId": "pay_123456789",
-        "status": "PENDING",
-        "address": "tb1qhqjcuxmzapapy78h3xykrh0jzcez3q7d54gtwr",
-        "chain": "ETHEREUM",
-        "network": "SEPOLIA",
-        "symbol": "USDC_USD",
-        "quantity": 500.0
-    },
-    "error": null
-}
-```
-
-The refund process follows the same webhook lifecycle as regular payouts, with status updates being sent to your webhook endpoint as the refund progresses through various stages.
 
 ### List Payouts
 
-To get a list of payouts you can use the following API along with query parameters
+To get a list of payouts you can use the following API along with query parameters.
 
 **Endpoint**
 
@@ -1003,42 +1140,95 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
 
 **Query Parameters**
 
-- `clientIdentifier`: The unique identifier of the customer (e.g., `barbara_allen_2`). Optional
-- `startDate`and `endDate`: Filter transactions by date range (format: UTC). Optional.
-- `status`: Filter transactions by status (e.g., PAID, INITIATED, REJECTED). Optional.
-- `pageNumber`: Page number to be retrieved for pagination. Optional
-- `pageSize`: Number of records to fetch in each page. Optional
+- `clientIdentifier` (optional): The unique identifier of the customer. Example: `sherlockholmes`
+- `startDate`and `endDate` (optional, format: UTC): Filter by date range. Example: `2023-06-08`
+- `status` (optional): Filter by status Example: PAID, INITIATED, REJECTED
+- `pageSize` (optional, default: 50, max: 100): Number of records per page. Example: 50
+- `pageNumber`(optional): Page number. Example: 1
 
 **Sample Response**
 
 ```json
 {
+  "code": 200,
+  "data": [
+    {
+      "clientOrderId": "c43b2dad-03a0-4d84-9f4b-b5a0cf9cc55b",
+      "status": "PAID",
+      "createdAt": "2025-01-14T12:07:22.950Z",
+      "symbol": "USDC_USD",
+      "quantity": 0.01,
+      "quoteQuantity": 0.11,
+      "fee": 0.0001,
+      "vat": 0.000005,
+      "targetName": "sherlock holmes"
+    },
+    {
+      "clientOrderId": "6403745e-d55a-4709-b9f7-8f770db095a6",
+      "status": "SETTLED",
+      "createdAt": "2025-01-14T11:59:03.751Z",
+      "symbol": "USDC",
+      "quantity": 0.01,
+      "quoteQuantity": 0.01,
+      "fee": 0.0001,
+      "vat": 0.000005,
+      "targetName": "sherlock holmes"
+    }
+    ],
+  "error": null
+}
+```
+
+
+### **Processing Refunds**
+
+You can process refunds using the Payout creation API. The request structure is same along with an additional parameter - `parentClientOrderId`. This field is the `clientOrderId` of the Payin for which a refund is to be initiated. You can process refunds for Payins in `COMPLETED` or `REJECTED` status.
+
+**Endpoint**
+
+```
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
+```
+
+**Request Body:**
+
+```json
+{
+  "clientIdentifier": "sherlockholmes",
+  "symbol": "USDC_USD",
+  "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
+  "chain": "ETHEREUM",
+  "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
+  "quoteId": 567890,
+  "parentUuid": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3"
+}
+```
+
+**Sample Response:**
+
+```json
+{
     "code": 200,
-    "data": [
-	    {
-	        "clientIdentifier": "sherlockholmes11",
-	        "clientOrderId": "9b941897-c004-4802-945c-5c3d339883da",
-	        "status": "INITIATED",
-	        "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-	        "chain": "ETHEREUM",
-	        "network": "SEPOLIA",
-	        "symbol": "USDC_USD",
-	        "quantity": 0.0100000017
-	    },
-	    {
-	        "clientIdentifier": "sherlockholmes11",
-	        "clientOrderId": "9b941897-c004-4802-945c-5c3d339883da",
-	        "status": "INITIATED",
-	        "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-	        "chain": "ETHEREUM",
-	        "network": "SEPOLIA",
-	        "symbol": "USDC_USD",
-	        "quantity": 0.0100000017
-	    }
-	  ],
+    "data": {
+      "clientIdentifier": "sherlockholmes",
+      "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
+      "chain": "ETHEREUM",
+      "network": "SEPOLIA",
+      "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
+      "status": "PAID",
+      "symbol": "USDC_USD",
+      "quantity": 1,
+      "quoteQuantity": 1.1,
+      "fee": 0.005,
+      "vat": 0.00025,
+      "expiryTime": 1736861661251
+    },
     "error": null
 }
 ```
+
+The refund process follows the same webhook lifecycle as regular payouts, with status updates being sent to your webhook endpoint as the refund progresses through various stages.
+
 
 ## **Settlements API**
 
@@ -1125,7 +1315,7 @@ This API allows you to fetch settlement details, including the list of payins an
 GET https://staging.api.fuze.finance/api/v1/settlements/{settlementId}
 ```
 
-**Path Parameter**
+**Path Parameters**
 
 - settlementId (string, required): The unique identifier for the settlement. Example: settlement_20231219_001.
 
@@ -1280,6 +1470,6 @@ curl -X GET "https://staging.api.fuze.finance/api/v1/payment/gateway/account/bal
 {
   "code": 403,
   "data": null,
-  "error": "Unathorized",
+  "error": "Unathorized"
 }
 ```
