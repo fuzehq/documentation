@@ -441,7 +441,10 @@ When a payin is created with Fuze, we will send a webhook.
     "status": "CREATED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0, 
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -476,7 +479,10 @@ When the transaction is detected on the blockchain, we will notify you.
     "status": "TXN_CREATED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -505,7 +511,10 @@ When a customer initiates a transfer, we start the AML check and notify you.
     "status": "INITIATED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -534,7 +543,10 @@ After all checks pass successfully, you'll receive a confirmation webhook.
     "status": "CREATED",
     "symbol":  "PAID",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -563,7 +575,10 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
     "status": "COMPLIANCE_REVIEW",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -592,7 +607,10 @@ The customer is contacted for further clarifying information - on the basis of w
     "status": "RFI",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -621,7 +639,10 @@ Customers would be told that funds cannot be processed from the specific wallet 
     "status": "REJECTED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -650,7 +671,10 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
     "status": "FROZEN",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -755,13 +779,14 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
       "quoteQuantity": 0.1,
       "fee": 0.001,
       "vat": 0.00005,
+      "expiryTime": 1736861661251,
       "targetName": "sherlock holmes"
     },
     {
       "clientOrderId": "56c48192-5fee-47eb-96d6-fb9ce6fa79d3",
       "status": "QUOTE_EXPIRED",
       "createdAt": "2025-01-14T10:17:27.539Z",
-      "symbol": "USDC_USD",
+      "symbol": "USDC",
       "quantity": 1,
       "quoteQuantity": 1.1,
       "fee": 0.1,
@@ -952,7 +977,10 @@ When a payout request is initiated, you'll receive this event confirming the req
     "status": "INITIATED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -980,7 +1008,10 @@ This event indicates the payout transaction has been submitted to the blockchain
     "status": "PAID",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -1007,7 +1038,10 @@ This event confirms the funds have been received in the destination wallet. Youâ
     "status": "SETTLED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -1035,7 +1069,10 @@ This event indicates the payout could not be completed.
     "status": "FAILED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -1062,7 +1099,10 @@ This event indicates the destination wallet requires a manual compliance review.
     "status": "COMPLIANCE_REVIEW",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -1089,7 +1129,10 @@ This event indicates the destination wallet was rejected by compliance and the p
     "status": "REJECTED",
     "symbol":  "USDC_USD",
     "quantity": 1000.0,
-    "quoteQuantity":  1011.0
+    "quoteQuantity":  1011.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "expiryTime": 1736849148122
   }
 }
 ```
@@ -1161,6 +1204,7 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
       "quoteQuantity": 0.11,
       "fee": 0.0001,
       "vat": 0.000005,
+      "expiryTime": 1736861661251,
       "targetName": "sherlock holmes"
     },
     {
