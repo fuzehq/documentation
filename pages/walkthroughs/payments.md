@@ -57,7 +57,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
 
 ```json
 {  
-  "clientIdentifier": "sherlockholmes",  
+  "clientIdentifier": "sherlockholmes",
+  "email": "sherlockholmes@baker.st",
   "type": "THIRD_PARTY",
   "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
   "kycData": {
