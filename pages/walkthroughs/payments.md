@@ -291,7 +291,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 
 - `clientIdentifier` (string, required): The unique identifier for the customer. Example: `sherlockholmes`.
 - `symbol` (string, required): The cryptocurrency and fiat currency pair. Example: `USDC_USD`.
-- `chain` (string, required): The blockchain on which the wallet will be created. Example: `ETHEREUM`.
+- `chain` (string, required): The blockchain on which the wallet will be created. Example: `POLYGON`.
 
 **Sample Request**
 
@@ -299,7 +299,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 {
     "clientIdentifier": "sherlockholmes",
     "symbol": "USDC_USD",
-    "chain": "ETHEREUM"
+    "chain": "POLYGON"
 }
 ```
 
@@ -311,8 +311,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "asset": "USDC",
     "status": "APPROVED",
     "createdAt": "2025-01-14T09:50:22.539Z",
@@ -324,13 +324,13 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 
 Here is a list of supported crypto currencies along with their chains
 
-| Crypto Currencies | Symbol | Supported Blockchains |
-| ----------------- | ------ | --------------------- |
-| Tether            | USDT   | Ethereum, Tron*       |
-| USD Coin          | USDC   | Ethereum, Tron        |
-| Ethereum          | ETH    | Ethereum              |
-| Bitcoin           | BTC    | Bitcoin               |
-| Solana            | SOL    | Solana                |
+| Crypto Currencies | Symbol | Supported Blockchains   |
+| ----------------- | ------ |-------------------------|
+| Tether            | USDT   | Ethereum, Tron*         |
+| USD Coin          | USDC   | Polygon, Ethereum, Tron |
+| Ethereum          | ETH    | Ethereum                |
+| Bitcoin           | BTC    | Bitcoin                 |
+| Solana            | SOL    | Solana                  |
 
 &ast; USDT is only available on mainnets.
 
@@ -353,8 +353,8 @@ When a wallet is found to be associated with suspicious activities or blackliste
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "symbol": "USDC_USD",    
-    "chain": "ETHEREUM",
-    "network": "SEPLOIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "status": "INACTIVE",
     "createdAt": "2025-01-14T09:50:22.539Z"
   }
@@ -384,8 +384,8 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-w
         {
             "clientIdentifier": "sherlockholmes",
             "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-            "chain": "ETHEREUM",
-            "network": "SEPOLIA",
+            "chain": "POLYGON",
+            "network": "AMOY",
             "symbol": "USDC_USD",
             "status": "ACTIVE",
             "createdAt": "2025-01-14T09:50:22.539Z"
@@ -436,8 +436,8 @@ When a payin is created with Fuze, we will send a webhook.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "CREATED",
     "symbol":  "USDC_USD",
@@ -474,8 +474,8 @@ When the transaction is detected on the blockchain, we will notify you.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "TXN_CREATED",
     "symbol":  "USDC_USD",
@@ -506,8 +506,8 @@ When a customer initiates a transfer, we start the AML check and notify you.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "INITIATED",
     "symbol":  "USDC_USD",
@@ -538,11 +538,11 @@ After all checks pass successfully, you'll receive a confirmation webhook.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
-    "status": "CREATED",
-    "symbol":  "PAID",
+    "status": "PAID",
+    "symbol":  "USDC_USD",
     "quantity": 1000.0,
     "quoteQuantity":  1011.0,
     "fee": 0.01,
@@ -570,8 +570,8 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "COMPLIANCE_REVIEW",
     "symbol":  "USDC_USD",
@@ -602,8 +602,8 @@ The customer is contacted for further clarifying information - on the basis of w
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "RFI",
     "symbol":  "USDC_USD",
@@ -634,8 +634,8 @@ Customers would be told that funds cannot be processed from the specific wallet 
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "REJECTED",
     "symbol":  "USDC_USD",
@@ -666,8 +666,8 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FROZEN",
     "symbol":  "USDC_USD",
@@ -719,7 +719,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
 {
     "clientIdentifier": "barbara_allen_2",
     "symbol": "USDC_USD",
-    "chain": "ETHEREUM",
+    "chain": "POLYGON",
     "quantity": 1000,
     "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a"
 }
@@ -738,8 +738,8 @@ A successful response will contain an `id` which can be used to query the status
         "symbol": "USDC_USD",
         "quantity": 1000,
         "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-        "chain": "ETHEREUM",
-        "network": "MAINNET",
+        "chain": "POLYGON",
+        "network": "AMOY",
         "expiryTime": "2023-06-09T07:53:12.658Z",
         "status": "OPEN"
     },
@@ -822,8 +822,8 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{client
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x54556F0ed90Fb6CEBb2201E31287b3478716B933",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId": "9c99dd8e-6b76-45ce-9468-d141dabbf0e9",
     "status": "PAID",
     "symbol": "USDC_USD",
@@ -856,7 +856,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
 
  - `clientIdentifier` (string): The customer identifier. Example: `sherlockholmes`
 - `symbol` (string): Crypto currency to transfer. Example: `USDC`
-- `chain` (string): The blockchain to use for the transaction. Example: `ETHEREUM`
+- `chain` (string): The blockchain to use for the transaction. Example: `POLYGON`
 - `quantity` (number, optional): Amount of crypto to transfer to the customer.
 - `quoteQuantity` (number, optional): Amount of fiat to transfer to the customer.
 
@@ -867,7 +867,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
 {
   "clientIdentifier": "sherlockholmes",
   "symbol": "USDC_USD",
-  "chain": "ETHEREUM",
+  "chain": "POLYGON",
   "quantity": 1
 }
 ```
@@ -907,7 +907,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 
 - `clientIdentifier` (string): The counterparty identifier you passed while creating the counterparty. Example: `sherlockholmes`
 - `address` (string): The address to send the payout to. 
-- `chain` (string): The blockchain to use for the transaction. Example: `ETHEREUM`
+- `chain` (string): The blockchain to use for the transaction. Example: `POLYGON`
 - `symbol` (string): Crypto currency to transfer. Example: `USDC`
 - `clientOrderId` (string, optional): Idempotency key of the type uuid v4, which ensures the same order is not placed twice. Fuze will generate a random uuid if not supplied.
 - `quantity` (number, optional): Amount of crypto to transfer to the customer.
@@ -920,7 +920,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 {
   "clientIdentifier": "sherlockholmes",
   "address": "0x98BCBd9Bd0896A73d5aa0cC880512a3cBCE78401",
-  "chain": "ETHEREUM",
+  "chain": "POLYGON",
   "symbol": "USDC",
   "quantity": 1
 }
@@ -934,8 +934,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x98BCBd9Bd0896A73d5aa0cC880512a3cBCE78401",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId": "c43b2dad-03a0-4d84-9f4b-b5a0cf9cc55b",
     "status": "CREATED",
     "symbol": "USDC",
@@ -972,8 +972,8 @@ When a payout request is initiated, you'll receive this event confirming the req
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "INITIATED",
     "symbol":  "USDC_USD",
@@ -1003,8 +1003,8 @@ This event indicates the payout transaction has been submitted to the blockchain
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "PAID",
     "symbol":  "USDC_USD",
@@ -1033,8 +1033,8 @@ This event confirms the funds have been received in the destination wallet. Youâ
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "SETTLED",
     "symbol":  "USDC_USD",
@@ -1064,8 +1064,8 @@ This event indicates the payout could not be completed.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FAILED",
     "symbol":  "USDC_USD",
@@ -1094,8 +1094,8 @@ This event indicates the destination wallet requires a manual compliance review.
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "COMPLIANCE_REVIEW",
     "symbol":  "USDC_USD",
@@ -1124,8 +1124,8 @@ This event indicates the destination wallet was rejected by compliance and the p
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "REJECTED",
     "symbol":  "USDC_USD",
@@ -1157,8 +1157,8 @@ GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/{clien
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-    "chain": "ETHEREUM",
-    "network": "SEPOLIA",
+    "chain": "POLYGON",
+    "network": "AMOY",
     "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
     "status": "PAID",
     "symbol": "USDC_USD",
@@ -1242,7 +1242,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
   "clientIdentifier": "sherlockholmes",
   "symbol": "USDC_USD",
   "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-  "chain": "ETHEREUM",
+  "chain": "POLYGON",
   "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
   "quoteId": 567890,
   "parentUuid": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3"
@@ -1257,8 +1257,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
     "data": {
       "clientIdentifier": "sherlockholmes",
       "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-      "chain": "ETHEREUM",
-      "network": "SEPOLIA",
+      "chain": "POLYGON",
+      "network": "AMOY",
       "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
       "status": "PAID",
       "symbol": "USDC_USD",
