@@ -555,6 +555,14 @@ In the example below, an originator was created with the clientIdentifier `21a01
 }
 ```
 
+```jsx
+{
+  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  status: 'INACTIVE'
+  reason: 'Invalid details'       
+}
+```
+
 
 ### Thirdparty Status ##
 To push the latest status of the originator.
@@ -569,6 +577,14 @@ In the example below, an originator was created with the clientIdentifier `21a01
 {
   clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
   status: 'ACTIVE'
+}
+```
+
+```jsx
+{
+  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  status: 'INACTIVE'
+  reason: 'Issue with account details'       
 }
 ```
 
@@ -587,6 +603,13 @@ In the example below, an order was created with the clientOrderId `12345` and th
   status: 'COMPLETED'
 }
 ```
+```jsx
+{
+  clientOrderId: '12345'
+  status: 'CANCELED'
+  reason: 'Insufficient funds'
+}
+```
 
 ### Swap Status ##
 To push the latest status of the originator.
@@ -603,5 +626,11 @@ In the example below, a swap was created with the quoteId `1` and the status is 
   status: 'COMPLETED'
 }
 ```
-
+```jsx
+{
+  quoteId: 1
+  status: 'CANCELED'
+  reason: 'Lp rejected'
+}
+```
 
