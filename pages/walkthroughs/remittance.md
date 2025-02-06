@@ -444,15 +444,16 @@ A successful response will be as follows.
 
 ```jsx
 {
-  code: 200,
+  code: 200
   data: {
-    id: 2,
-    amount: 1000,
-    currency: 'INR',
+    id: 2
+    amount: 1000
+    currency: 'INR'
     status: 'PENDING'
-    paymentReferenceNumber: '',
-	  paymentDate: '',
-  },
+    paymentReferenceNumber: ''
+    paymentDate: ''
+    clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  }
   error: null
 }
 ```
@@ -460,13 +461,13 @@ A successful response will be as follows.
 If a transfer is successful, the response will look as follows.
 
 ```jsx
-{
-	id: 2,
-	amount: 1000,
-  currency: 'INR',
+{ id: 2
+  amount: 1000
+  currency: 'INR'
   status: 'SUCCESS'
   paymentReferenceNumber: 'HFC12121111'
   paymentDate: '24-11-2024'
+  clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
 }
 ```
 
@@ -504,7 +505,8 @@ A successful response will look as follows
             "createdAt": "2025-01-22T03:23:27.048Z",
             "referenceId": "Bank-49341737516206",
             "paymentReferenceNumber": "",
-            "paymentDate": null
+            "paymentDate": null,
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
     "error": null
@@ -530,7 +532,8 @@ If the transfer is successful, the response will look as follows
             "createdAt": "2025-01-21T12:11:19.190Z",
             "referenceId": "Bank-49341737461478",
             "paymentReferenceNumber": "Bank-49341737461478",
-            "paymentDate": "2025-01-21T00:00:00.000Z"
+            "paymentDate": "2025-01-21T00:00:00.000Z",
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
     "error": null
