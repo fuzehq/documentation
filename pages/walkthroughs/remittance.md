@@ -553,15 +553,25 @@ In the example below, an originator was created with the clientIdentifier `21a01
 
 ```jsx
 {
-  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-  status: 'ACTIVE'
+  name: "test"
+  email: "test@test.com"
+  phoneNumber: ""
+  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
+  type: "ORIGINATOR"
+  status: "ACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
 }
 ```
 
 ```jsx
 {
-  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-  status: 'INACTIVE'
+  name: "test"
+  email: "test@test.com"
+  phoneNumber: ""
+  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
+  type: "ORIGINATOR"
+  status: "INACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
   reason: 'Invalid details'       
 }
 ```
@@ -578,15 +588,31 @@ In the example below, an originator was created with the clientIdentifier `21a01
 
 ```jsx
 {
-  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-  status: 'ACTIVE'
+  currency: "INR"
+  status: "ACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  createdAt: 1738846398537
+  country: "IN"
+  accountNumber: "1111111111111111"
+  name: "Account name"
+  bankCode: "HDFC0002453"
+  orgId: "4934"
+  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
 }
 ```
 
 ```jsx
 {
-  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-  status: 'INACTIVE'
+  currency: "INR"
+  status: "INACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  createdAt: 1738846398537
+  country: "IN"
+  accountNumber: "1111111111111111"
+  name: "Account name"
+  bankCode: "HDFC0002453"
+  orgId: "4934"
+  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
   reason: 'Issue with account details'       
 }
 ```
@@ -602,14 +628,24 @@ In the example below, an order was created with the clientOrderId `12345` and th
 
 ```jsx
 {
+  id: 2
+  amount: 1000
+  currency: 'INR'
+  status: 'SUCCESS'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
   clientOrderId: '12345'
-  status: 'COMPLETED'
 }
 ```
 ```jsx
 {
-  clientOrderId: '12345'
+  id: 2
+  amount: 1000
+  currency: 'INR'
   status: 'CANCELED'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
+  clientOrderId: '12345'
   reason: 'Insufficient funds'
 }
 ```
@@ -625,15 +661,20 @@ In the example below, a swap was created with the quoteId `1` and the status is 
 
 ```jsx
 {
-  quoteId: 1
-  status: 'COMPLETED'
+    uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+    fromCurrency: 'AED'
+    toCurrency: 'INR'
+    quantity: 100
+    status: 'SUCCESS'
 }
 ```
 ```jsx
 {
-  quoteId: 1
-  status: 'CANCELED'
-  reason: 'Lp rejected'
+  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  fromCurrency: 'AED'
+  toCurrency: 'INR'
+  quantity: 100
+  status: 'CANCELLED'
 }
 ```
 
