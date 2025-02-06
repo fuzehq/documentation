@@ -536,3 +536,72 @@ If the transfer is successful, the response will look as follows
     "error": null
 }
 ```
+
+### 6. Webhooks
+
+### Originator Status ##
+To push the latest status of the originator.
+**Body Parameters**
+
+- `clientIdentifier`: The identifier of the beneficiary verified.
+- `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
+
+In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+
+```jsx
+{
+  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  status: 'ACTIVE'
+}
+```
+
+
+### Thirdparty Status ##
+To push the latest status of the originator.
+**Body Parameters**
+
+- `clientIdentifier`: The identifier of the beneficiary verified.
+- `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
+
+In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+
+```jsx
+{
+  clientIdentifier: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  status: 'ACTIVE'
+}
+```
+
+### Payout Status ##
+To push the latest status of the originator.
+**Body Parameters**
+
+- `clientOrderId`: The identifier of the order.
+- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED` or `REVERSED` or `EXPIRED`
+
+In the example below, an order was created with the clientOrderId `12345` and the status is `COMPLETED`
+
+```jsx
+{
+  clientOrderId: '12345'
+  status: 'COMPLETED'
+}
+```
+
+### Swap Status ##
+To push the latest status of the originator.
+**Body Parameters**
+
+- `quoteId`: The identifier of the swap.
+- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED`
+
+In the example below, a swap was created with the quoteId `1` and the status is `COMPLETED`
+
+```jsx
+{
+  quoteId: 1
+  status: 'COMPLETED'
+}
+```
+
+
