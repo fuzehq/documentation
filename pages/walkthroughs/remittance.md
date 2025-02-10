@@ -577,7 +577,7 @@ In the example below, an originator was created with the clientIdentifier `21a01
 ```
 
 
-#### Thirdparty Status / / Beneficiary status ####
+#### Thirdparty Status / Beneficiary status ####
 To push the latest status of the third party.
 ###### Body Parameters ######
 
