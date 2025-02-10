@@ -578,7 +578,7 @@ In the example below, an originator was created with the clientIdentifier `21a01
 
 
 ### Thirdparty Status ##
-To push the latest status of the originator.
+To push the latest status of the third party.
 **Body Parameters**
 
 - `clientIdentifier`: The identifier of the beneficiary verified.
@@ -618,7 +618,7 @@ In the example below, an originator was created with the clientIdentifier `21a01
 ```
 
 ### Payout Status ##
-To push the latest status of the originator.
+To push the latest status of the payout.
 **Body Parameters**
 
 - `clientOrderId`: The identifier of the order.
@@ -651,7 +651,7 @@ In the example below, an order was created with the clientOrderId `12345` and th
 ```
 
 ### Swap Status ##
-To push the latest status of the originator.
+To push the latest status of the swap.
 **Body Parameters**
 
 - `quoteId`: The identifier of the swap.
