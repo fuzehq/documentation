@@ -650,6 +650,19 @@ In the example below, an order was created with the clientOrderId `12345` and th
 }
 ```
 
+```jsx
+{
+  id: 2
+  amount: 1000
+  currency: 'INR'
+  status: 'REVERSED'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
+  clientOrderId: '12345'
+  reason: 'Insufficient funds'
+}
+```
+
 ### Swap Status ##
 To push the latest status of the swap.
 **Body Parameters**
