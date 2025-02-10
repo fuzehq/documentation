@@ -542,9 +542,10 @@ If the transfer is successful, the response will look as follows
 
 ### 6. Webhooks
 
-### Originator Status ##
+**Originator Status**
+#####
 To push the latest status of the originator.
-**Body Parameters**
+###### Body Parameters ######
 
 - `clientIdentifier`: The identifier of the beneficiary verified.
 - `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
@@ -577,14 +578,15 @@ In the example below, an originator was created with the clientIdentifier `21a01
 ```
 
 
-### Thirdparty Status ##
+**Thirdparty Status / Beneficiary status**
+#####
 To push the latest status of the third party.
-**Body Parameters**
+###### Body Parameters ######
 
 - `clientIdentifier`: The identifier of the beneficiary verified.
-- `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
+- `status`: The status of the beneficiary. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
 
-In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+In the example below, an beneficiary was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
 
 ```jsx
 {
@@ -617,12 +619,13 @@ In the example below, an originator was created with the clientIdentifier `21a01
 }
 ```
 
-### Payout Status ##
+**Payout Status**
+#####
 To push the latest status of the payout.
-**Body Parameters**
+###### Body Parameters ######
 
 - `clientOrderId`: The identifier of the order.
-- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED` or `REVERSED` or `EXPIRED`
+- `status`: The status of the payout. This can be either `COMPLETED` or `PENDING` or `CANCELED` or `REVERSED` or `EXPIRED`
 
 In the example below, an order was created with the clientOrderId `12345` and the status is `COMPLETED`
 
@@ -663,12 +666,13 @@ In the example below, an order was created with the clientOrderId `12345` and th
 }
 ```
 
-### Swap Status ##
+**Swap Status**
+#####
 To push the latest status of the swap.
-**Body Parameters**
+###### Body Parameters ######
 
 - `quoteId`: The identifier of the swap.
-- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED`
+- `status`: The status of the swap. This can be either `COMPLETED` or `PENDING` or `CANCELED`
 
 In the example below, a swap was created with the quoteId `1` and the status is `COMPLETED`
 
