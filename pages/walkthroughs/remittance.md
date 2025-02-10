@@ -542,8 +542,7 @@ If the transfer is successful, the response will look as follows
 
 ### 6. Webhooks
 
-**Originator Status**
-#####
+##### Originator Status #####
 To push the latest status of the originator.
 ###### Body Parameters ######
 
@@ -578,8 +577,8 @@ In the example below, an originator was created with the clientIdentifier `21a01
 ```
 
 
-**Thirdparty Status / Beneficiary status**
-#####
+##### Thirdparty Status / Beneficiary status #####
+
 To push the latest status of the third party.
 ###### Body Parameters ######
 
@@ -619,8 +618,7 @@ In the example below, an beneficiary was created with the clientIdentifier `21a0
 }
 ```
 
-**Payout Status**
-#####
+##### Payout Status #####
 To push the latest status of the payout.
 ###### Body Parameters ######
 
@@ -666,8 +664,7 @@ In the example below, an order was created with the clientOrderId `12345` and th
 }
 ```
 
-**Swap Status**
-#####
+##### Swap Status #####
 To push the latest status of the swap.
 ###### Body Parameters ######
 
