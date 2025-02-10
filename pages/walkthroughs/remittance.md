@@ -444,15 +444,16 @@ A successful response will be as follows.
 
 ```jsx
 {
-  code: 200,
+  code: 200
   data: {
-    id: 2,
-    amount: 1000,
-    currency: 'INR',
+    id: 2
+    amount: 1000
+    currency: 'INR'
     status: 'PENDING'
-    paymentReferenceNumber: '',
-	  paymentDate: '',
-  },
+    paymentReferenceNumber: ''
+    paymentDate: ''
+    clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  }
   error: null
 }
 ```
@@ -460,13 +461,13 @@ A successful response will be as follows.
 If a transfer is successful, the response will look as follows.
 
 ```jsx
-{
-	id: 2,
-	amount: 1000,
-  currency: 'INR',
+{ id: 2
+  amount: 1000
+  currency: 'INR'
   status: 'SUCCESS'
   paymentReferenceNumber: 'HFC12121111'
   paymentDate: '24-11-2024'
+  clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
 }
 ```
 
@@ -504,7 +505,8 @@ A successful response will look as follows
             "createdAt": "2025-01-22T03:23:27.048Z",
             "referenceId": "Bank-49341737516206",
             "paymentReferenceNumber": "",
-            "paymentDate": null
+            "paymentDate": null,
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
     "error": null
@@ -530,9 +532,162 @@ If the transfer is successful, the response will look as follows
             "createdAt": "2025-01-21T12:11:19.190Z",
             "referenceId": "Bank-49341737461478",
             "paymentReferenceNumber": "Bank-49341737461478",
-            "paymentDate": "2025-01-21T00:00:00.000Z"
+            "paymentDate": "2025-01-21T00:00:00.000Z",
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
     "error": null
 }
 ```
+
+### 6. Webhooks
+
+### Originator Status ##
+To push the latest status of the originator.
+**Body Parameters**
+
+- `clientIdentifier`: The identifier of the beneficiary verified.
+- `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
+
+In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+
+```jsx
+{
+  name: "test"
+  email: "test@test.com"
+  phoneNumber: ""
+  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
+  type: "ORIGINATOR"
+  status: "ACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+}
+```
+
+```jsx
+{
+  name: "test"
+  email: "test@test.com"
+  phoneNumber: ""
+  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
+  type: "ORIGINATOR"
+  status: "INACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  reason: 'Invalid details'       
+}
+```
+
+
+### Thirdparty Status ##
+To push the latest status of the third party.
+**Body Parameters**
+
+- `clientIdentifier`: The identifier of the beneficiary verified.
+- `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
+
+In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+
+```jsx
+{
+  currency: "INR"
+  status: "ACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  createdAt: 1738846398537
+  country: "IN"
+  accountNumber: "1111111111111111"
+  name: "Account name"
+  bankCode: "HDFC0002453"
+  orgId: "4934"
+  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
+}
+```
+
+```jsx
+{
+  currency: "INR"
+  status: "INACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  createdAt: 1738846398537
+  country: "IN"
+  accountNumber: "1111111111111111"
+  name: "Account name"
+  bankCode: "HDFC0002453"
+  orgId: "4934"
+  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
+  reason: 'Issue with account details'       
+}
+```
+
+### Payout Status ##
+To push the latest status of the payout.
+**Body Parameters**
+
+- `clientOrderId`: The identifier of the order.
+- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED` or `REVERSED` or `EXPIRED`
+
+In the example below, an order was created with the clientOrderId `12345` and the status is `COMPLETED`
+
+```jsx
+{
+  id: 2
+  amount: 1000
+  currency: 'INR'
+  status: 'SUCCESS'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
+  clientOrderId: '12345'
+}
+```
+```jsx
+{
+  id: 2
+  amount: 1000
+  currency: 'INR'
+  status: 'CANCELED'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
+  clientOrderId: '12345'
+  reason: 'Insufficient funds'
+}
+```
+
+```jsx
+{
+  id: 2
+  amount: 1000
+  currency: 'INR'
+  status: 'REVERSED'
+  paymentReferenceNumber: 'HFC12121111'
+  paymentDate: '24-11-2024'
+  clientOrderId: '12345'
+  reason: 'Insufficient funds'
+}
+```
+
+### Swap Status ##
+To push the latest status of the swap.
+**Body Parameters**
+
+- `quoteId`: The identifier of the swap.
+- `status`: The status of the originator. This can be either `COMPLETED` or `PENDING` or `CANCELED`
+
+In the example below, a swap was created with the quoteId `1` and the status is `COMPLETED`
+
+```jsx
+{
+    uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+    fromCurrency: 'AED'
+    toCurrency: 'INR'
+    quantity: 100
+    status: 'SUCCESS'
+}
+```
+```jsx
+{
+  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  fromCurrency: 'AED'
+  toCurrency: 'INR'
+  quantity: 100
+  status: 'CANCELLED'
+}
+```
+
