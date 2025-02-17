@@ -95,7 +95,7 @@ recorded. A ledger for every `orgUserId` is maintained by Fuze, and the balances
 In the example request below, we’ve passed the `orgUserId` `system_user`
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/user/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/create HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>

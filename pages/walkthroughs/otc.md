@@ -7,7 +7,7 @@ All transactions on Fuze are associated with an `orgUserId`. This can be any str
 In the example request below, we’ve passed the `orgUserId` `barbara_allen_2`
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/user/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/create HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
