@@ -15,15 +15,15 @@ POST /api/v1/payment/remittance/third-party/create
 
 **Body Parameters**
 
-- `name`: Full name of the originator
-- `email` : Email address of the originator
-- `address`: Address of the originator
-- `nationality`: Nationality of the originator
-- `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard)
-- `idType`: Name of ID, for example “EID”
-- `idNumber`: ID number collected
-- `type`: For the purposes of this product, the type will always be “ORIGINATOR”
-- `clientIdentifier`:  A unique identifier for the customer passed by you
+- `name`: Full name of the originator (required)
+- `email` : Email address of the originator (required)
+- `address`: Address of the originator (required)
+- `nationality`: Nationality of the originator (required)
+- `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard) (required)
+- `idType`: Name of ID, for example “EID” (required)
+- `idNumber`: ID number collected (required)
+- `type`: For the purposes of this product, the type will always be “ORIGINATOR” (required)
+- `clientIdentifier`:  A unique identifier for the customer passed by you (required)
 
 The request will look as follows
 
@@ -98,16 +98,16 @@ POST /api/v1/payment/remittance/third-party/account/create
 
 **Body Parameters:**
 
-- `thirdPartyClientIdentifier`: The unique identifier used to create the originator, so that the beneficiary can be mapped to them.
-- `clientIdentifier`: The unique identifier for the beneficiary
-- `currency`: The local currency of the beneficiary
-- `type`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
-- `country`: Country of the beneficiary
+- `thirdPartyClientIdentifier`: The unique identifier used to create the originator, so that the beneficiary can be mapped to them. (required)
+- `clientIdentifier`: The unique identifier for the beneficiary (required)
+- `currency`: The local currency of the beneficiary (required)
+- `accountType`: Type of payout method. A list of payout methods, and respective account data, will shared separately. (required)
+- `country`: Country of the beneficiary (required)
 - `accountData` : Account data of the beneficiary. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
-    - `accountNumber`: Bank account number of the beneficiary
-    - `ifscCode` : IFSC code of the bank account
-    - `name`: Full name of the beneficiary
-    - `relationship`: Relationship between beneficiary and originator. This list can be different for different countries, and will be shared separately.
+    - `accountNumber`: Bank account number of the beneficiary (required)
+    - `ifscCode` : IFSC code of the bank account (required)
+    - `name`: Full name of the beneficiary (required)
+    - `relationship`: Relationship between beneficiary and originator. This list can be different for different countries, and will be shared separately. (optional)
 
 The request would be as follows
 
@@ -203,24 +203,24 @@ POST /api/v1/payment/remittance/third-party/create-with-account
 
 **Body Parameters**
 
-- `name`: Full name of the originator
-- `email` : Email address of the originator
-- `address`: Address of the originator
-- `nationality`: Nationality of the originator
-- `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard)
-- `idType`: Name of ID, for example “EID”
-- `idNumber`: ID number collected
-- `type`: For the purposes of this product, the type will always be “ORIGINATOR”
-- `clientIdentifier`:  A unique identifier for the customer passed by you
-- `account`: (This will be an object for details of the beneficiary)
-    - `currency`: The local currency of the beneficiary
-    - `accountType`: Type of payout method. A list of payout methods, and respective account data, will shared separately.
-    - `country`: Country of the beneficiary
-    - `clientIdentifier`: The unique identifier for the beneficiary
+- `name`: Full name of the originator (required)
+- `email` : Email address of the originator (required)
+- `address`: Address of the originator (required)
+- `nationality`: Nationality of the originator (required)
+- `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard) (required)
+- `idType`: Name of ID, for example “EID” (required)
+- `idNumber`: ID number collected (required)
+- `type`: For the purposes of this product, the type will always be “ORIGINATOR” (required)
+- `clientIdentifier`:  A unique identifier for the customer passed by you (required)
+- `account`: (This will be an object for details of the beneficiary) (required)
+    - `currency`: The local currency of the beneficiary (required)
+    - `accountType`: Type of payout method. A list of payout methods, and respective account data, will shared separately. (required)
+    - `country`: Country of the beneficiary (required)
+    - `clientIdentifier`: The unique identifier for the beneficiary (required)
     - `accountData` : Account data of the customer. This data is validated by Fuze based on the type passed above. In the example below, the bank details for an Indian account are listed:
-        - `accountNumber`: Bank account number of the beneficiary
-        - `ifscCode` : IFSC code of the bank account
-        - `name`: Full name of the beneficiary
+        - `accountNumber`: Bank account number of the beneficiary (required)
+        - `ifscCode` : IFSC code of the bank account (required)
+        - `name`: Full name of the beneficiary (required)
 
 The request will look as follows
 
@@ -285,9 +285,9 @@ POST /api/v1/payment/remittance/quote
 
 **Body Parameters**
 
-- `fromCurrency`: The currency you are converting from
-- `toCurrency`: The local currency you want to buy
-- `quantity`: The amount of currency you want to convert (`fromCurrency`)
+- `fromCurrency`: The currency you are converting from (required)
+- `toCurrency`: The local currency you want to buy (required)
+- `quantity`: The amount of currency you want to convert (`fromCurrency`) (required)
 
 The request would be as follows
 
@@ -324,8 +324,8 @@ POST /api/v1/payment/remittance/payment
 
 **Body Parameters**
 
-- `quoteId`: The quote id that was created in last api
-- `quantity`: The quantity of from currency that was used in last api
+- `quoteId`: The quote id that was created in last api (required)
+- `quantity`: The quantity of from currency that was used in last api (required)
 
 The request would be as follows
 
@@ -420,11 +420,11 @@ POST /api/v1/payment/remittance/payout/create
 
 **Body Parameters**
 
-- `currency`: The local currency that needs to be sent
-- `amount`: The amount of local currency that needs to be sent
-- `clientOrderId` : An idempotency key to avoid duplicate requests
-- `clientIdentifier` : The identifier of the beneficiary verified.
-- `purpose` : Purpose of transactions between beneficiary and originator
+- `currency`: The local currency that needs to be sent (required)
+- `amount`: The amount of local currency that needs to be sent (required)
+- `clientOrderId` : An idempotency key to avoid duplicate requests (required)
+- `clientIdentifier` : The identifier of the beneficiary verified. (required)
+- `purpose` : Purpose of transactions between beneficiary and originator (required)
 
 Other data - like purpose codes or source of funds - can also be passed here. Since they vary by country and payment type, Fuze will share the exact text fields separately, as applicable. 
 
