@@ -9,7 +9,6 @@ Fuze provides two primary environments for developers: **Staging** and **Product
 | **Environment** | **Base URL**               | **Purpose**                                                                                                                                                                           |
 | --------------------- | -------------------------------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Staging**     | https://staging.api.fuze.finance | Used for **testing and development**. This environment often points to **test networks**(e.g., test blockchains) and allows you to validate integrations without real financial risk. |
-| **Production**  | https://api.fuze.finance         | Used for **live transactions**. This environment handles **real customer funds** and production data. All compliance rules apply here.                                                |
 
 ## **Common API Headers**
 

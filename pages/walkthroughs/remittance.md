@@ -1,4 +1,10 @@
-The B2B2C Remittance APIs from Fuze is purpose-built for apps and websites that offer remittance products for its customers. End to end, there are 4 main actions that that comprise a remittance transaction. 
+# Walkthrough: Remittance APIs
+
+The B2B2C Remittance APIs from Fuze is purpose-built for apps and websites that offer remittance products for its customers.
+
+
+## API Structure
+End to end, there are 4 main actions that that comprise a remittance transaction. 
 
 1. **Adding an originator**. Here, originator data is passed to Fuze and an originator is created on Fuze.
 2. **Adding beneficiaries against the originator.** Beneficiary data include those related to the beneficiary identity and relationship with originator, and payout data like bank account data. Data to be passed, and validation will therefore differ based on the country + payout type.
