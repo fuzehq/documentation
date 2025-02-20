@@ -190,7 +190,7 @@ You can retrieve customer details using the following API. This allows you to ch
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/{clientIdentifier}
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
 ```
 
 **Path Parameters**
@@ -233,7 +233,7 @@ You can retrieve customers list using the following API.
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/list
 ```
 
 **Successful Response**
@@ -368,7 +368,7 @@ This API allows you to fetch all wallets associated with a specific customer.
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-wallet/list?clientIdentifier={clientIdentifier}
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-wallet/list
 ```
 
 **Query Parameters**
@@ -754,7 +754,7 @@ This API allows you to fetch a list of all Payins for a specific customer.
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 ```
 
 **Query Parameters**
@@ -807,7 +807,7 @@ This API allows you to fetch the status of a specific Payin using its `clientOrd
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/{clientOrderId}
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/
 ```
 
 **Path Parameters**
@@ -1146,7 +1146,7 @@ This API allows you to fetch the status of a specific Payin using its `clientOrd
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/{clientOrderId} 
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/
 ```
 
 **Sample Response**
@@ -1179,7 +1179,7 @@ To get a list of payouts you can use the following API along with query paramete
 **Endpoint**
 
 ```
-GET https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list 
+POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list 
 ```
 
 **Query Parameters**
