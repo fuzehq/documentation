@@ -61,8 +61,12 @@ A successful response will look like this
 The final status of the originator - whether Approved (Active) or Rejected - will be passed via webhook. Alternatively, you can also check the status using the endpoint below. 
 
 ```jsx
-GET /api/v1/payment/remittance/third-party/${clientIdentifier}
+POST /api/v1/payment/remittance/third-party/fetch
 ```
+
+** Body Parameters **
+
+- `clientIdentifier`:  A unique identifier for the customer passed by you (required)
 
 In case the originator in Active, the response will be as follows. 
 
@@ -144,8 +148,12 @@ A successful response will look like this (this will be added in a PENDING state
 The final status of the beneficiary - whether Verified (Active) or Rejected - will be passed via webhook. Alternatively, you can also check the status using the endpoint below. 
 
 ```jsx
-GET /api/v1/payment/remittance/third-party/account/${clientIdentifier}
+POST /api/v1/payment/remittance/third-party/account/fetch
 ```
+
+**Body Parameters**
+
+- `clientIdentifier`:  A unique identifier for the customer passed by you (required)
 
 In case the beneficiary is verified, the response will be as follows. 
 
@@ -171,8 +179,12 @@ In some corridors, it is possible to get data that can help customers verify the
 You can delete the beneficiary using the endpoint below 
 
 ```jsx
-POST /api/v1/payment/remittance/third-party/account/delete/${clientIdentifier}
+POST /api/v1/payment/remittance/third-party/account/delete/
 ```
+
+** Body Parameters **
+
+- `clientIdentifier`:  A unique identifier for the customer passed by you (required)
 
 The response will be as follows. 
 
@@ -355,8 +367,12 @@ A successful response will look as follows.
 You can then fetch the status of the order using the endpoint below
 
 ```jsx
-GET /api/v1/payment/remittance/payment/${uuid}
+POST /api/v1/payment/remittance/payment/fetch
 ```
+
+** Body Parameters **
+
+- `uuid`: Unique uuid of the payment (required)
 
 If an order is successful, the response will look as follows 
 
@@ -488,8 +504,12 @@ In some countries, there can be a variation of a pending state where more data i
 You can then fetch the status of the payment using the endpoint below
 
 ```jsx
-GET /api/v1/payment/remittance/payout/list/
+POST /api/v1/payment/remittance/payout/list/
 ```
+
+** Body Parameters **
+
+- `clientIdentifier`: The unique identifier for the beneficiary (required)
 
 A successful response will look as follows 
 

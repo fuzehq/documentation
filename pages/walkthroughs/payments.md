@@ -193,7 +193,7 @@ You can retrieve customer details using the following API. This allows you to ch
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
 ```
 
-**Path Parameters**
+**Body Parameters**
 
 - `clientIdentifier` (string, required) - The unique identifier of the customer you want to fetch. Example: `sherlockholmes`
 
@@ -371,7 +371,7 @@ This API allows you to fetch all wallets associated with a specific customer.
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-wallet/list
 ```
 
-**Query Parameters**
+**Body Parameters**
 
 `clientIdentifier`: The unique identifier of the customer. Example: `sherlockholmes`.
 
@@ -705,7 +705,7 @@ The response of the transaction will be `OPEN` - indicating the the request have
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1.1
 ```
 
-**Request Parameters**
+**Body Parameters**
 
 - `clientIdentifier`: The counterparty identifier you passed while creating the counterparty.
 - `symbol`: The currency to request payment in.
@@ -757,7 +757,7 @@ This API allows you to fetch a list of all Payins for a specific customer.
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 ```
 
-**Query Parameters**
+**Body Parameters**
 
 - `clientIdentifier` (optional): The unique identifier of the customer. Example: `sherlockholmes`
 - `startDate`and `endDate` (optional, format: UTC): Filter by date range. Example: `2023-06-08`
@@ -810,7 +810,7 @@ This API allows you to fetch the status of a specific Payin using its `clientOrd
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/
 ```
 
-**Path Parameters**
+**Body Parameters**
 
 - `clientOrderId`: The unique ID of the Payin
 
