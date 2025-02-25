@@ -52,29 +52,29 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
   - `country` (string, required): Country. Example: `GB`.
   - `postalCode` (string, required): Postal Code. Example: `NW16XE`.
 
-**Sample Request**
+**Request Body**
 
 ```json
-{  
+{
   "clientIdentifier": "sherlockholmes",
   "email": "sherlockholmes@baker.st",
   "type": "THIRD_PARTY",
   "sumsubToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfaWQiLCJleHAiOjE2ODAwMDAwMDAsImlhdCI6MTY4MDAwMDAwMCwiaXNzIjoic3Vtc3ViIn0.W6lTRbXMDmsoVqPyVduVn2Tr3EEdkgJEsnR69G1d9CQ",
   "kycData": {
-	"fullName": "sherlock holmes",
-	"entityType": "individual",
-	"email": "sherlockholmes@baker.st",
-	"addressLine1": "221B",
-	"addressLine2": "Baker St",
-	"city": "London",
-	"state": "London",
-	"country": "GB",
-	"postalCode": "NW16XE"
+    "fullName": "sherlock holmes",
+    "entityType": "individual",
+    "email": "sherlockholmes@baker.st",
+    "addressLine1": "221B",
+    "addressLine2": "Baker St",
+    "city": "London",
+    "state": "London",
+    "country": "GB",
+    "postalCode": "NW16XE"
   }
 }
 ```
 
-**Sample response**
+**Success response**
 
 ```json
 {
@@ -91,6 +91,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/create/
   "error": null
 }
 ```
+
+### Customer lifecycle webhooks
 
 Based on the customer lifecycle events youâ€™ll receive the following webhooks.
 
@@ -133,7 +135,7 @@ In case the Fuze compliance team needs further information/clarifications, youâ€
     "clientIdentifier": "sherlockholmes",
     "uuid": "0120792e-323a-4e02-b951-1abbb44bf550",
     "status": "PENDING",
-    "reason": "Further due diligence required" 
+    "reason": "Further due diligence required"
   }
 }
 ```
@@ -196,7 +198,14 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
 
 - `clientIdentifier` (string, required) - The unique identifier of the customer you want to fetch. Example: `sherlockholmes`
 
-**Successful Response**
+**Request Body**
+```json
+{
+  "clientIdentifier": "sherlockholmes"
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -214,28 +223,41 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/
 }
 ```
 
-**Error Example**
+**Error Response**
 
 ```json
 {
-    "code": 404,
-    "data": null,
-    "error": "Not Found"
+  "code": 404,
+  "data": null,
+  "error": "Not Found"
 }
 ```
 
 
 ### **Fetch all Customers**
 
-You can retrieve customers list using the following API.
+You can retrieve customers list using the following API. This endpoint supports limit-offset pagination.
 
 **Endpoint**
 
 ```
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/list
 ```
+**Body Parameters**
 
-**Successful Response**
+- `pageSize` (number, optional, default: 50, max: 100): Number of records per page. Example: 50
+- `pageNumber` (number, optional): Page number with starting index as 0. Example: 0
+
+
+**Request Body**
+```json
+{
+  "pageNumber": 0,
+  "pageSize": 10
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -292,13 +314,13 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 - `symbol` (string, required): The cryptocurrency and fiat currency pair. Example: `USDC_USD`.
 - `chain` (string, required): The blockchain on which the wallet will be created. Example: `POLYGON`.
 
-**Sample Request**
+**Request Body**
 
 ```json
 {
-    "clientIdentifier": "sherlockholmes",
-    "symbol": "USDC_USD",
-    "chain": "POLYGON"
+  "clientIdentifier": "sherlockholmes",
+  "symbol": "USDC_USD",
+  "chain": "POLYGON"
 }
 ```
 
@@ -333,6 +355,8 @@ Here is a list of supported crypto currencies along with their chains
 
 &ast; USDT is only available on mainnets.
 
+### Wallet lifecycle webhooks
+
 **Wallet Disabled**
 
 When a wallet is found to be associated with suspicious activities or blacklisted addresses, it will be disabled and a new wallet address will be generated automatically.
@@ -351,7 +375,7 @@ When a wallet is found to be associated with suspicious activities or blackliste
   "data": {
     "clientIdentifier": "sherlockholmes",
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-    "symbol": "USDC_USD",    
+    "symbol": "USDC_USD",
     "chain": "POLYGON",
     "network": "AMOY",
     "status": "INACTIVE",
@@ -374,32 +398,40 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/depoit-
 
 `clientIdentifier`: The unique identifier of the customer. Example: `sherlockholmes`.
 
-**Example Response**
+**Request Body**
 
 ```json
 {
-    "code": 200,
-    "data": [
-        {
-            "clientIdentifier": "sherlockholmes",
-            "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
-            "chain": "POLYGON",
-            "network": "AMOY",
-            "symbol": "USDC_USD",
-            "status": "ACTIVE",
-            "createdAt": "2025-01-14T09:50:22.539Z"
-        },
-        {
-            "clientIdentifier": "sherlockholmes",
-            "address": "0x7d3e8b7d8d1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-            "chain": "ETHEREUM",
-            "network": "SEPOLIA",
-            "symbol": "USDC_USD",
-            "status": "INACTIVE",
-            "createdAt": "2025-01-14T09:50:22.539Z"        
-        }
-    ],
-    "error": null
+    "clientIdentifier": "sherlockholmes"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "clientIdentifier": "sherlockholmes",
+      "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+      "chain": "POLYGON",
+      "network": "AMOY",
+      "symbol": "USDC_USD",
+      "status": "ACTIVE",
+      "createdAt": "2025-01-14T09:50:22.539Z"
+    },
+    {
+      "clientIdentifier": "sherlockholmes",
+      "address": "0x7d3e8b7d8d1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
+      "chain": "ETHEREUM",
+      "network": "SEPOLIA",
+      "symbol": "USDC_USD",
+      "status": "INACTIVE",
+      "createdAt": "2025-01-14T09:50:22.539Z"
+    }
+  ],
+  "error": null
 }
 ```
 
@@ -413,7 +445,7 @@ To accept Payins, share the deposit wallet address received in the deposit walle
 
 ---
 
-### **Payin Lifecycle Webhooks**
+### **Payin lifecycle webhooks**
 
 When a customer transfers funds, you'll receive webhooks at different stages of the transaction. Here are the possible webhook events:
 
@@ -437,23 +469,19 @@ When a payin is created with Fuze, we will send a webhook.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "CREATED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0, 
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
 ```
-
-**Notes** 
-* `quantity` represents the amount in crypto.
-* `quoteQuantity` represents the amount in fiat, if currency conversion is applicable for the deposit wallet. Otherwise, it will be equal to `quantity`.
-* `symbol` will be of the type `<crypto>_<fiat>`, e.g. `USDC_USD`, if currency conversion is applicable for the deposit wallet. Otherwise, it will be of the type `<crypto>`, e.g. `USDC`.
-
 
 **Transaction recorded on Blockchain**
 
@@ -475,13 +503,15 @@ When the transaction is detected on the blockchain, we will notify you.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "TXN_CREATED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -507,13 +537,15 @@ When a customer initiates a transfer, we start the AML check and notify you.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "INITIATED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -539,13 +571,79 @@ After all checks pass successfully, you'll receive a confirmation webhook.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "PAID",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
+    "expiryTime": 1736849148122
+  }
+}
+```
+
+If the received amount is less than the expected amount, you'll receive a webhook with the status `UNDERPAID`.
+
+**Webhook Event:** `Payins.UNDERPAID`
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayins",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "POLYGON",
+    "network": "AMOY",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "UNDERPAID",
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 500,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "quantity": 500,
+    "quoteQuantity": 501.1,
+    "expiryTime": 1736849148122
+  }
+}
+```
+
+If the received amount is more than the expected amount, you'll receive a webhook with the status `OVERPAID`.
+
+**Webhook Event:** `Payins.OVERPAID`
+
+```json
+{
+  "event": {
+    "orgId": 10,
+    "entity": "GatewayPayins",
+    "numRetries": 0,
+    "updatedAt": "2023-12-14T12:35:02.894Z",
+    "createdAt": "2023-12-14T12:35:02.894Z"
+  },
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
+    "chain": "POLYGON",
+    "network": "AMOY",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "status": "OVERPAID",
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 2000.0,
+    "fee": 0.01,
+    "vat": 0.0005,
+    "quantity": 2000.0,
+    "quoteQuantity": 2011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -571,13 +669,15 @@ If a transaction is flagged by our automated AML checks, it undergoes manual com
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "COMPLIANCE_REVIEW",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -603,13 +703,15 @@ The customer is contacted for further clarifying information - on the basis of w
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "RFI",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -635,13 +737,15 @@ Customers would be told that funds cannot be processed from the specific wallet 
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "REJECTED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -667,13 +771,15 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FROZEN",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -681,16 +787,24 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 
 **Webhook Summary**
 
-| **Status**          | **Description**                                      |
-|---------------------|------------------------------------------------------|
-| `CREATED`           | Payin created by Fuze.                               |
-| `TXN_CREATED`       | Transaction is recorded on the blockchain.           |
-| `INITIATED`         | Transaction initiated and AML check started.         |
-| `COMPLIANCE_REVIEW` | Transaction flagged for manual compliance review.    |
-| `RFI`               | Additional information requested by compliance team. |
-| `REJECTED`          | Transaction rejected, funds to be returned.          |
-| `FROZEN`            | Funds have been frozen.                              |
-| `PAID`              | Transaction successfully completed.                  |
+| **Status**          | **Description**                                                         |
+|---------------------|-------------------------------------------------------------------------|
+| `CREATED`           | Payin created by Fuze.                                                  |
+| `TXN_CREATED`       | Transaction is recorded on the blockchain.                              |
+| `INITIATED`         | Transaction initiated and AML check started.                            |
+| `COMPLIANCE_REVIEW` | Transaction flagged for manual compliance review.                       |
+| `RFI`               | Additional information requested by compliance team.                    |
+| `REJECTED`          | Transaction rejected, funds to be returned.                             |
+| `FROZEN`            | Funds have been frozen.                                                 |
+| `PAID`              | Transaction successfully completed.                                     |
+| `UNDERPAID`         | Transaction successfully completed (received amount < expected amount). |
+| `OVERPAID`          | Transaction successfully completed (received amount > expected amount). |
+
+
+**Notes**
+* `quantity`, `quoteQuantity` and `expiryTime` fields will only be present in case fiat to crypto conversion is required for the merchant.
+* `symbol` will be of the type `<crypto>_<fiat>`, e.g. `USDC_USD`, if currency conversion is applicable for the deposit wallet. Otherwise, it will be of the type `<crypto>`, e.g. `USDC`.
+
 
 ### **Create a Payin Quote(Optional)**
 
@@ -712,39 +826,46 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
 - `chain`: The blockchain to use for the transaction.
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
-**Sample Request**
+**Request Body**
 
 ```json
 {
-    "clientIdentifier": "barbara_allen_2",
+  "clientIdentifier": "sherlockholmes",
+  "symbol": "USDC_USD",
+  "chain": "POLYGON",
+  "quantity": 1000,
+  "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "code": 200,
+  "data": {
+    "id": 107,
+    "clientIdentifier": "sherlockholmes",
+    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
+    "orgId": 28,
     "symbol": "USDC_USD",
+    "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
     "chain": "POLYGON",
+    "network": "AMOY",
+    "status": "CREATED",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "quantity": 1000,
-    "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a"
+    "quoteQuantity": 1000,
+    "expiryTime": "2023-06-09T07:53:12.658Z"
+  },
+  "error": null
 }
 ```
 
-A successful response will contain an `id` which can be used to query the status of the order later.
+**Notes**
+* A successful response will contain `clientOrderId` which can be used to fetch the status of the payin.
 
-```json
-{
-    "code": 200,
-    "data": {
-        "id": 107,
-        "clientIdentifier": "barbara_allen_2",
-        "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
-        "orgId": 28,
-        "symbol": "USDC_USD",
-        "quantity": 1000,
-        "address": "0x8f8e8b3b8b1f3f1f3f1f3f1f3f1f3f1f3f1f3f1f",
-        "chain": "POLYGON",
-        "network": "AMOY",
-        "expiryTime": "2023-06-09T07:53:12.658Z",
-        "status": "OPEN"
-    },
-    "error": null
-}
-```
 
 ### **List Payins**
 
@@ -758,13 +879,25 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
 
 **Body Parameters**
 
-- `clientIdentifier` (optional): The unique identifier of the customer. Example: `sherlockholmes`
-- `startDate`and `endDate` (optional, format: UTC): Filter by date range. Example: `2023-06-08`
-- `status` (optional): Filter by status Example: PAID, INITIATED, REJECTED
-- `pageSize` (optional, default: 50, max: 100): Number of records per page. Example: 50
-- `pageNumber`(optional): Page number. Example: 1
+- `clientIdentifier` (string, optional): The unique identifier of the customer. Example: `sherlockholmes`
+- `startDate`and `endDate` (string, optional, format: UTC): Filter by date range. Example: `2023-06-08`
+- `status` (string, optional): Filter by status Example: PAID, INITIATED, REJECTED
+- `pageSize` (number, optional, default: 50, max: 100): Number of records per page. Example: 50
+- `pageNumber` (number, optional): Page number with starting index as 0. Example: 0
 
-**Response Example**
+**Request Body**
+
+```json
+{
+  "clientIdentifier": "sherlockholmes",
+  "startDate": "2023-06-08",
+  "endDate": "2023-06-09",
+  "pageSize": 10,
+  "pageNumber": 0
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -775,11 +908,10 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
       "status": "PAID",
       "createdAt": "2025-01-14T10:19:45.680Z",
       "symbol": "USDC_USD",
-      "quantity": 0.1,
-      "quoteQuantity": 0.1,
+      "amount": 1000.0,
+      "receivedAmount": 1000.0,
       "fee": 0.001,
       "vat": 0.00005,
-      "expiryTime": 1736861661251,
       "targetName": "sherlock holmes"
     },
     {
@@ -787,8 +919,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/list/
       "status": "QUOTE_EXPIRED",
       "createdAt": "2025-01-14T10:17:27.539Z",
       "symbol": "USDC",
-      "quantity": 1,
-      "quoteQuantity": 1.1,
+      "amount": 1000.0,
+      "receivedAmount": 0,
       "fee": 0.1,
       "vat": 0.005,
       "targetName": "sherlock holmes"
@@ -813,7 +945,15 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/
 
 - `clientOrderId`: The unique ID of the Payin
 
-**Response Example**
+**Request Body**
+
+```json
+{
+  "clientOrderId": "9c99dd8e-6b76-45ce-9468-d141dabbf0e9"
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -826,10 +966,12 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/status/
     "clientOrderId": "9c99dd8e-6b76-45ce-9468-d141dabbf0e9",
     "status": "PAID",
     "symbol": "USDC_USD",
-    "quantity": 0.1,
-    "quoteQuantity": 0.11,
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.0011,
     "vat": 0.000055,
+    "quantity": 0.1,
+    "quoteQuantity": 0.11,
     "expiryTime": 1736849148122
   },
   "error": null
@@ -860,7 +1002,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
 - `quoteQuantity` (number, optional): Amount of fiat to transfer to the customer.
 
 
-**Sample Request**
+**Request Body**
 
 ```json
 {
@@ -871,7 +1013,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
 }
 ```
 
-**Sample Response**
+**Success Response**
 
 ```json
 {
@@ -889,8 +1031,8 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/quote
 }
 ```
 **Notes**
-* Either `quantity` or `quoteQuantity` must be specified for quote generation.
-* When using this API, note down the `quoteId` field returned, as it will be used in the Payout creation API.
+* Either `quantity` or `quoteQuantity` must be specified in request body for quote generation.
+* Successful response will return `quoteId` field, which will be used in the create Payout API.
 
 ### **Create a Payout** 
 
@@ -913,7 +1055,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 - `quoteId` (number, optional): Quote ID received from Payout Quote creation API.
 
 
-**Sample Request**
+**Request Body**
 
 ```json
 {
@@ -925,7 +1067,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 }
 ```
 
-**Sample Response**
+**Success Response**
 
 ```json
 {
@@ -938,10 +1080,13 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
     "clientOrderId": "c43b2dad-03a0-4d84-9f4b-b5a0cf9cc55b",
     "status": "CREATED",
     "symbol": "USDC",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
+    "fee": 0.01,
+    "vat": 0.0005,
     "quantity": 1,
     "quoteQuantity": 1,
-    "fee": 0.01,
-    "vat": 0.0005
+    "expiryTime": 1736853306929
   },
   "error": null
 }
@@ -950,7 +1095,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 **Notes**
 * One of `quoteId` or `quantity` must be specified in the request body. Specify `quoteId` if you wish to transfer fiat to the customer. If the customer is to be paid in crypto, pass `quantity`.
 
-### **Webhook Events for Payout Lifecycle**
+### Payout lifecycle webhooks
 
 Here are the webhook events you'll receive during a payout lifecycle. Each webhook will contain relevant transaction details and a status update. Weâ€™ve covered more details about our web-hooksÂ [here](https://docs.fuze.finance/advanced/webhooks).
 
@@ -973,13 +1118,15 @@ When a payout request is initiated, you'll receive this event confirming the req
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "INITIATED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1004,13 +1151,15 @@ This event indicates the payout transaction has been submitted to the blockchain
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "PAID",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1034,13 +1183,15 @@ This event confirms the funds have been received in the destination wallet. Youâ
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "SETTLED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1065,13 +1216,15 @@ This event indicates the payout could not be completed.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "FAILED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1095,13 +1248,15 @@ This event indicates the destination wallet requires a manual compliance review.
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "COMPLIANCE_REVIEW",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1125,13 +1280,15 @@ This event indicates the destination wallet was rejected by compliance and the p
     "address": "0x51980d9a87f5de7e1DcdBe2284C39D96eC4C4361",
     "chain": "POLYGON",
     "network": "AMOY",
-    "clientOrderId":  "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
+    "clientOrderId": "47e3bf05-1a91-4f3e-a6b4-3ac99c82eae3",
     "status": "REJECTED",
-    "symbol":  "USDC_USD",
-    "quantity": 1000.0,
-    "quoteQuantity":  1011.0,
+    "symbol": "USDC_USD",
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.01,
     "vat": 0.0005,
+    "quantity": 1000.0,
+    "quoteQuantity": 1011.0,
     "expiryTime": 1736849148122
   }
 }
@@ -1148,7 +1305,19 @@ This API allows you to fetch the status of a specific Payin using its `clientOrd
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/
 ```
 
-**Sample Response**
+**Body Parameters**
+
+- `clientOrderId` (string): The unique ID of the Payout
+
+**Request Body**
+
+```json
+{
+  "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3"
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -1161,10 +1330,12 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/
     "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
     "status": "PAID",
     "symbol": "USDC_USD",
-    "quantity": 1,
-    "quoteQuantity": 1.1,
+    "amount": 1000.0,
+    "receivedAmount": 1000.0,
     "fee": 0.005,
     "vat": 0.00025,
+    "quantity": 1,
+    "quoteQuantity": 1.1,
     "expiryTime": 1736861661251
   },
   "error": null
@@ -1173,7 +1344,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/status/
 
 ### List Payouts
 
-To get a list of payouts you can use the following API along with query parameters.
+To get a list of payouts you can use the following API along with the body parameters.
 
 **Endpoint**
 
@@ -1181,15 +1352,27 @@ To get a list of payouts you can use the following API along with query paramete
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list 
 ```
 
-**Query Parameters**
+**Body Parameters**
 
-- `clientIdentifier` (optional): The unique identifier of the customer. Example: `sherlockholmes`
-- `startDate`and `endDate` (optional, format: UTC): Filter by date range. Example: `2023-06-08`
-- `status` (optional): Filter by status Example: PAID, INITIATED, REJECTED
-- `pageSize` (optional, default: 50, max: 100): Number of records per page. Example: 50
-- `pageNumber`(optional): Page number. Example: 1
+- `clientIdentifier` (optional, string): The unique identifier of the customer. Example: `sherlockholmes`
+- `startDate`and `endDate` (optional, string, format: UTC): Filter by date range. Example: `2023-06-08`
+- `status` (optional, string): Filter by status Example: PAID, INITIATED, REJECTED
+- `pageSize` (number, optional, default: 50, max: 100): Number of records per page. Example: 50
+- `pageNumber` (number, optional): Page number with starting index as 0. Example: 0
 
-**Sample Response**
+**Request Body**
+
+```json
+{
+  "clientIdentifier": "sherlockholmes",
+  "startDate": "2023-06-08",
+  "endDate": "2023-06-09",
+  "pageSize": 10,
+  "pageNumber": 0
+}
+```
+
+**Success Response**
 
 ```json
 {
@@ -1200,11 +1383,10 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
       "status": "PAID",
       "createdAt": "2025-01-14T12:07:22.950Z",
       "symbol": "USDC_USD",
-      "quantity": 0.01,
-      "quoteQuantity": 0.11,
+      "amount": 1000.0,
+      "receivedAmount": 1000.0,
       "fee": 0.0001,
       "vat": 0.000005,
-      "expiryTime": 1736861661251,
       "targetName": "sherlock holmes"
     },
     {
@@ -1212,13 +1394,13 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/list
       "status": "SETTLED",
       "createdAt": "2025-01-14T11:59:03.751Z",
       "symbol": "USDC",
-      "quantity": 0.01,
-      "quoteQuantity": 0.01,
+      "amount": 1000.0,
+      "receivedAmount": 1000.0,
       "fee": 0.0001,
       "vat": 0.000005,
       "targetName": "sherlock holmes"
     }
-    ],
+  ],
   "error": null
 }
 ```
@@ -1234,7 +1416,18 @@ You can process refunds using the Payout creation API. The request structure is 
 POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 ```
 
-**Request Body:**
+**Body Parameters**
+- `clientIdentifier` (string): The counterparty identifier you passed while creating the counterparty. Example: `sherlockholmes`
+- `address` (string): The address to send the payout to.
+- `chain` (string): The blockchain to use for the transaction. Example: `POLYGON`
+- `symbol` (string): Crypto currency to transfer. Example: `USDC`
+- `parentClientOrderId` (string): ClientOrderId of the payin, for which a refund is to be created.
+- `clientOrderId` (string, optional): Idempotency key of the type uuid v4, which ensures the same order is not placed twice. Fuze will generate a random uuid if not supplied.
+- `quantity` (number, optional): Amount of crypto to transfer to the customer.
+- `quoteId` (number, optional): Quote ID received from Payout Quote creation API.
+
+
+**Request Body**
 
 ```json
 {
@@ -1244,30 +1437,32 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
   "chain": "POLYGON",
   "clientOrderId": "5468bbb7-5e5f-425c-a6eb-b89e19a0298a",
   "quoteId": 567890,
-  "parentUuid": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3"
+  "parentClientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3"
 }
 ```
 
-**Sample Response:**
+**Success Response**
 
 ```json
 {
-    "code": 200,
-    "data": {
-      "clientIdentifier": "sherlockholmes",
-      "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
-      "chain": "POLYGON",
-      "network": "AMOY",
-      "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
-      "status": "PAID",
-      "symbol": "USDC_USD",
-      "quantity": 1,
-      "quoteQuantity": 1.1,
-      "fee": 0.005,
-      "vat": 0.00025,
-      "expiryTime": 1736861661251
-    },
-    "error": null
+  "code": 200,
+  "data": {
+    "clientIdentifier": "sherlockholmes",
+    "address": "0x5A047dAc44Da3fd4dc7C038aCFD952C70D41781b",
+    "chain": "POLYGON",
+    "network": "AMOY",
+    "clientOrderId": "d91ce7f7-1445-4e23-bfa0-edcb1e69a2f3",
+    "status": "PAID",
+    "symbol": "USDC_USD",
+    "amount": 1.0,
+    "receivedAmount": 1.0,
+    "fee": 0.005,
+    "vat": 0.00025,
+    "quantity": 1,
+    "quoteQuantity": 1.1,
+    "expiryTime": 1736861661251
+  },
+  "error": null
 }
 ```
 
@@ -1290,17 +1485,7 @@ Use this endpoint to retrieve the balances for all fiat currencies associated wi
 GET https://staging.api.fuze.finance/api/v1/payment/gateway/account/balances
 ```
 
-**Sample Request**
-
-```bash
-curl -X GET "https://staging.api.fuze.finance/api/v1/payment/gateway/account/balances" \
-    -H "X-SIGNATURE: <signature>" \
-    -H "X-TIMESTAMP: <timestamp>" \
-    -H "X-API-KEY: <api_key>" \
-    -H "Content-Type: application/json"
-```
-
-**Successful Response**
+**Success Response**
 
 ```json
 {
@@ -1329,6 +1514,6 @@ curl -X GET "https://staging.api.fuze.finance/api/v1/payment/gateway/account/bal
 {
   "code": 403,
   "data": null,
-  "error": "Unathorized"
+  "error": "Unauthorized"
 }
 ```
