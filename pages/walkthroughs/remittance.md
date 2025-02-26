@@ -11,6 +11,12 @@ End to end, there are 4 main actions that that comprise a remittance transaction
 3. **Buying local currency.** Before you can make a transfer, you need balances in the local currency. This can be done by generating a quote and buying local currency (AED to INR, for example). This action can be done via Fuze’s dashboard as well. 
 4. **Making a transfer.** You can now make a transfer by passing the amount in local currency, along with the beneficiary id(which in turn in mapped to an originator). Funds will be deducted from the local currency purchased in step 3. 
 
+## Error Codes:
+1. **400** - Bad Request: This is returned when the request is not formed correctly.
+2. **401** - Unauthorized: This is returned when the API key is invalid.
+4. **404** - Not Found: This is returned when the requested resource is not found.
+5. **500** - Internal Server Error: This is returned when there is an issue with the server.
+
 ### 1. Adding an originator
 
 You can add an originator by passing the mandatory KYC data. In the example below, we’ve created an originator 
