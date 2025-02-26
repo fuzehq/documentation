@@ -9,13 +9,7 @@ End to end, there are 4 main actions that that comprise a remittance transaction
 1. **Adding an originator**. Here, originator data is passed to Fuze and an originator is created on Fuze.
 2. **Adding beneficiaries against the originator.** Beneficiary data include those related to the beneficiary identity and relationship with originator, and payout data like bank account data. Data to be passed, and validation will therefore differ based on the country + payout type.
 3. **Buying local currency.** Before you can make a transfer, you need balances in the local currency. This can be done by generating a quote and buying local currency (AED to INR, for example). This action can be done via Fuze’s dashboard as well. 
-4. **Making a transfer.** You can now make a transfer by passing the amount in local currency, along with the beneficiary id(which in turn in mapped to an originator). Funds will be deducted from the local currency purchased in step 3. 
-
-## Error Codes:
-1. **400** - Bad Request: This is returned when the request is not formed correctly.
-2. **401** - Unauthorized: This is returned when the API key is invalid.
-4. **404** - Not Found: This is returned when the requested resource is not found.
-5. **500** - Internal Server Error: This is returned when there is an issue with the server.
+4. **Making a transfer.** You can now make a transfer by passing the amount in local currency, along with the beneficiary id(which in turn in mapped to an originator). Funds will be deducted from the local currency purchased in step 3.
 
 ### 1. Adding an originator
 
@@ -103,6 +97,7 @@ In case the originator in Active, the response will be as follows.
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and create the originator
 - Rejection reason: AML checks failed
     - This would be in case the originator fails any AML checks on Fuze’s side, if any AML checks are carried out.
+- The error code is 400 for the above-mentioned errors.
 
 ### 2. Adding a beneficiary
 
@@ -214,6 +209,7 @@ The response will be as follows.
     - In this scenario, the failure would be at the initial creation stage itself, i.e. you’ll receive an error when you try and add a beneficiary with data missing
 - Unable to verify account (wherever possible)
     - If IBAN checks or other such account verification steps carried out indicates that the account is inactive.
+- The error code is 400 for the above-mentioned errors. 
 
 ### 3. Adding both originator and beneficiary together
 
@@ -408,6 +404,7 @@ If an order is successful, the response will look as follows
     - In case you have insufficient funds to fund the purchase
 - Issue with local provider
     - In case the local provider is unable to fulfill the order
+- The error code is 400 for the above-mentioned errors. 
 
 **Fetch balance** 
 
@@ -510,6 +507,7 @@ If a transfer is successful, the response will look as follows.
     - In case the local partner is unable to process the transaction due to a technical issue
 - Issue with account details
     - In case the local partner is unable to process the transfer due to an issue with the payment details given.
+- The error code is 400 for the above-mentioned errors. 
 
 In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
 
@@ -549,6 +547,7 @@ A successful response will look as follows
 
 - Issue with Bank provider
     - In case the bank is unable to process the transfer
+- The error code is 400 for the above-mentioned errors. 
 
 If the transfer is successful, the response will look as follows 
 
@@ -727,3 +726,9 @@ In the example below, a swap was created with the quoteId `1` and the status is 
 }
 ```
 
+
+## Generic Errors:
+1. **400** - For any other validation errors.
+2. **401** - Unauthorized: This is returned when the API key is invalid.
+3. **404** - Not Found: This is returned when the requested resource is not found or the endpoint is incorrect.
+4. **500** - Internal Server Error: This is returned when there is an issue with the server.
