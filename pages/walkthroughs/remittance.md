@@ -727,7 +727,7 @@ In the example below, a swap was created with the quoteId `1` and the status is 
 ```
 
 
-## Generic Errors ##
+## Error Codes ##
 1. **400** - For any other validation errors.
 2. **401** - Unauthorized: This is returned when the API key is invalid.
 3. **404** - Not Found: This is returned when the requested resource is not found or the endpoint is incorrect.
