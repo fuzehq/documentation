@@ -507,7 +507,14 @@ If a transfer is successful, the response will look as follows.
     - In case the local partner is unable to process the transaction due to a technical issue
 - Issue with account details
     - In case the local partner is unable to process the transfer due to an issue with the payment details given.
-- The error code is 400 for the above-mentioned errors. 
+- Error codes:
+  - code : **400**, message : **'amount must not be less than 1'**
+  - code : **400**, message : **'Invalid currency'**
+  - code : **400**, message : **'clientOrderId must be shorter than or equal to 128 characters,clientOrderId should not be empty,clientOrderId must be a string'**
+  - code : **400**, message : **'purpose must be shorter than or equal to 36 characters,purpose should not be empty,purpose must be a string'**
+  - code : **404**, message : **'Not Found'** (invalid clientIdentifier)
+  - code : **500**, message : **'Insufficient balance for the payout'**
+
 
 In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
 
