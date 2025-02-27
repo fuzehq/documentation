@@ -499,21 +499,15 @@ If a transfer is successful, the response will look as follows.
 - The payment reference, payment data and other payout data will differ based on country and/or payment mode. Fuze will share documentation of this data, including what the data fields represent.
 - Fee structure will vary based country and transfer channel. Data of fee charged, if any, will be a part of the transfer success response.
 
-**Error and rejection scenarios** 
-
-- Insufficient funds
-    - In case you have insufficient funds in the local currenct
-- Issue with local partner
-    - In case the local partner is unable to process the transaction due to a technical issue
-- Issue with account details
-    - In case the local partner is unable to process the transfer due to an issue with the payment details given.
-- Error codes:
+**Error and rejection scenarios**
+- The following error codes will be received if the payout request cannot be placed. In such cases, the status will not move to pending. Instead the response to the request will contain the following error codes. Currency-specific payout failure reasons will be shared separately for each corridor:
   - code : **400**, message : **'amount must not be less than 1'**
   - code : **400**, message : **'Invalid currency'**
   - code : **400**, message : **'clientOrderId must be shorter than or equal to 128 characters,clientOrderId should not be empty,clientOrderId must be a string'**
   - code : **400**, message : **'purpose must be shorter than or equal to 36 characters,purpose should not be empty,purpose must be a string'**
   - code : **404**, message : **'Not Found'** (invalid clientIdentifier)
   - code : **500**, message : **'Insufficient balance for the payout'**
+- In case there's a failure thanks to a local payout partner outage, the payout will move to pending state first. So you will receive a webhook with failure reason
 
 
 In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
@@ -687,7 +681,7 @@ In the example below, an order was created with the clientOrderId `12345` and th
   paymentReferenceNumber: 'HFC12121111'
   paymentDate: '24-11-2024'
   clientOrderId: '12345'
-  reason: 'Insufficient funds'
+  reason: 'Invalid bank details'
 }
 ```
 
@@ -700,7 +694,7 @@ In the example below, an order was created with the clientOrderId `12345` and th
   paymentReferenceNumber: 'HFC12121111'
   paymentDate: '24-11-2024'
   clientOrderId: '12345'
-  reason: 'Insufficient funds'
+  reason: 'Bank server down'
 }
 ```
 
