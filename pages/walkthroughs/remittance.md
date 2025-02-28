@@ -507,6 +507,7 @@ If a transfer is successful, the response will look as follows.
   - code : **400**, message : **'purpose must be shorter than or equal to 36 characters,purpose should not be empty,purpose must be a string'**
   - code : **404**, message : **'Not Found'** (invalid clientIdentifier)
   - code : **500**, message : **'Insufficient balance for the payout'**
+  - code : **500**, message : **'Payout already exists'**
 - In case there's a failure thanks to a local payout partner outage, the payout will move to pending state first. So you will receive a webhook with failure reason
 
 
