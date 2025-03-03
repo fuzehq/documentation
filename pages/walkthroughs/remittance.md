@@ -513,6 +513,8 @@ If a transfer is successful, the response will look as follows.
 
 In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
 
+**Payout List Fetch**
+
 You can then fetch the status of the payment using the endpoint below
 
 ```jsx
@@ -569,6 +571,71 @@ If the transfer is successful, the response will look as follows
             "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
+    "error": null
+}
+```
+
+**Payout Fetch**
+
+You can then fetch the status of the payout using the endpoint below
+
+```jsx
+POST /api/v1/payment/remittance/payout/fetch/
+```
+
+** Body Parameters **
+
+- `clientOrderId`: The unique identifier for the order (required)
+
+A successful response will look as follows
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "PENDING",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "",
+            "paymentDate": null
+   },
+   "error": null
+}
+```
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "COMPLETED",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "123456",
+            "paymentDate": "2025-03-03T11:03:33.879Z",
+    },
+    "error": null
+}
+```
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "REVERSED",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "123456",
+            "paymentDate": "2025-03-03T11:03:33.879Z",
+    },
     "error": null
 }
 ```
