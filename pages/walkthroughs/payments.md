@@ -343,7 +343,66 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 }
 ```
 
-Here is a list of supported crypto currencies along with their chains
+### Supported Currencies
+
+Use the following API to fetch a list of supported cryptocurrencies along with their chains and networks.
+
+
+**Endpoint**
+
+```
+GET https://staging.api.fuze.finance/api/v1/asset/assets
+```
+
+**Success Response**
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "asset": "USDC",
+      "chainsAndNetworks": [
+        {
+          "chain": "AVALANCHE_C_CHAIN",
+          "network": "TESTNET"
+        },
+        {
+          "chain": "ETHEREUM",
+          "network": "SEPOLIA"
+        },
+        {
+          "chain": "POLYGON",
+          "network": "AMOY"
+        }
+      ],
+      "description": "USDC is a fully collateralized US dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges. The technology behind CENTRE makes it possible to exchange value between people, businesses and financial institutions just like email between mail services and texts between SMS providers. We believe by removing artificial economic borders, we can create a more inclusive global economy.",
+      "policies": {
+        "NAME": "Circle USD",
+        "ICON": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+        "ASSET_ENABLE": true,
+        "QUOTE_LIMIT": 20000000,
+        "HIGH_24HR": 1.0008,
+        "LOW_24HR": 1,
+        "PRICE_CHANGE_PERCENT_24H": 0.03,
+        "PRICE_CHANGE_PERCENT_7D": -0.01,
+        "PRICE_CHANGE_PERCENT_30D": -0.01,
+        "PRICE_CHANGE_PERCENT_1Y": 0.02,
+        "MAX_SUPPLY": 0,
+        "CIRCULATING_SUPPLY": 56446744407.83,
+        "ATH": 1.17,
+        "ATL": 0.877647,
+        "MARKET_CAP": 56437025519,
+        "LOCAL_CURRENCY": "USD",
+        "CURRENT_PRICE": 1.0001
+      }
+    }
+  ],
+  "error": null
+}
+```
+
+Here is a sample list of supported crypto currencies along with their chains
 
 | Crypto Currencies | Symbol | Supported Blockchains   |
 | ----------------- | ------ |-------------------------|
