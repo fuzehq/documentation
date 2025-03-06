@@ -227,7 +227,8 @@ POST /api/v1/payment/remittance/third-party/create-with-account
 **Body Parameters**
 
 - `name`: Full name of the originator (required)
-- `email` : Email address of the originator (required)
+- `email` : Email address of the originator (optional)
+- `phoneNumber`: Phone number of the originator (optional)
 - `address`: Address of the originator (required)
 - `nationality`: Nationality of the originator (required)
 - `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard) (required)
@@ -244,6 +245,8 @@ POST /api/v1/payment/remittance/third-party/create-with-account
         - `accountNumber`: Bank account number of the beneficiary (required)
         - `ifscCode` : IFSC code of the bank account (required)
         - `name`: Full name of the beneficiary (required)
+
+**Either email or phone number is mandatory.**
 
 The request will look as follows
 
