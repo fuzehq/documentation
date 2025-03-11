@@ -863,6 +863,11 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 **Notes**
 * `quantity`, `quoteQuantity` and `expiryTime` fields will only be present in case fiat to crypto conversion is required for the merchant.
 * `symbol` will be of the type `<crypto>_<fiat>`, e.g. `USDC_USD`, if currency conversion is applicable for the deposit wallet. Otherwise, it will be of the type `<crypto>`, e.g. `USDC`.
+* Amount is the amount requested by the merchant.
+* ReceivedAmount is the amount received by the merchant. It will be zero until the customer pays.
+* Quantity is the crypto amount for the quote. This will only be present in case of crypto to fiat conversion payins.
+* QuoteQuantity is the fiat amount for the quote. This will only be present in case of crypto to fiat conversion payins.
+* Quote price can be derived by dividing `quoteQuantity` by `quantity`.
 
 
 ### **Create a Payin Quote(Optional)**
@@ -913,7 +918,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
     "network": "AMOY",
     "status": "CREATED",
     "amount": 1000.0,
-    "receivedAmount": 1000.0,
+    "receivedAmount": 0,
     "quantity": 1000,
     "quoteQuantity": 1000,
     "expiryTime": "2023-06-09T07:53:12.658Z"
@@ -924,7 +929,6 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
 
 **Notes**
 * A successful response will contain `clientOrderId` which can be used to fetch the status of the payin.
-
 
 ### **List Payins**
 
