@@ -22,7 +22,8 @@ POST /api/v1/payment/remittance/third-party/create
 **Body Parameters**
 
 - `name`: Full name of the originator (required)
-- `email` : Email address of the originator (required)
+- `email` : Email address of the originator (optional)
+- `phoneNumber`: Phone number of the originator (optional)
 - `address`: Address of the originator (required)
 - `nationality`: Nationality of the originator (required)
 - `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard) (required)
@@ -30,6 +31,8 @@ POST /api/v1/payment/remittance/third-party/create
 - `idNumber`: ID number collected (required)
 - `type`: For the purposes of this product, the type will always be “ORIGINATOR” (required)
 - `clientIdentifier`:  A unique identifier for the customer passed by you (required)
+
+**Either email or phone number is mandatory.**
 
 The request will look as follows
 
@@ -224,7 +227,8 @@ POST /api/v1/payment/remittance/third-party/create-with-account
 **Body Parameters**
 
 - `name`: Full name of the originator (required)
-- `email` : Email address of the originator (required)
+- `email` : Email address of the originator (optional)
+- `phoneNumber`: Phone number of the originator (optional)
 - `address`: Address of the originator (required)
 - `nationality`: Nationality of the originator (required)
 - `country`: Country where the originator is sending funds from / Country in which Id is issued. Country codes will be 2 alphabets (based on the ISO 3166 standard) (required)
@@ -241,6 +245,8 @@ POST /api/v1/payment/remittance/third-party/create-with-account
         - `accountNumber`: Bank account number of the beneficiary (required)
         - `ifscCode` : IFSC code of the bank account (required)
         - `name`: Full name of the beneficiary (required)
+
+**Either email or phone number is mandatory.**
 
 The request will look as follows
 
@@ -513,6 +519,8 @@ If a transfer is successful, the response will look as follows.
 
 In some countries, there can be a variation of a pending state where more data is required for AML reasons, the documentation and process flow for which will be shared separately. 
 
+**Payout List Fetch**
+
 You can then fetch the status of the payment using the endpoint below
 
 ```jsx
@@ -569,6 +577,71 @@ If the transfer is successful, the response will look as follows
             "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
         }
     ],
+    "error": null
+}
+```
+
+**Payout Fetch**
+
+You can then fetch the status of the payout using the endpoint below
+
+```jsx
+POST /api/v1/payment/remittance/payout/fetch/
+```
+
+** Body Parameters **
+
+- `clientOrderId`: The unique identifier for the order (required)
+
+A successful response will look as follows
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "PENDING",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "",
+            "paymentDate": null
+   },
+   "error": null
+}
+```
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "COMPLETED",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "123456",
+            "paymentDate": "2025-03-03T11:03:33.879Z",
+    },
+    "error": null
+}
+```
+
+```jsx
+{
+    "code": 200, 
+    "data": {
+            "status": "REVERSED",
+            "currency": "INR",
+            "amountDeducted": -10,
+            "amountSent": -10,
+            "createdAt": "2025-03-03T11:03:33.879Z",
+            "referenceId": "Bank-12345",
+            "paymentReferenceNumber": "123456",
+            "paymentDate": "2025-03-03T11:03:33.879Z",
+    },
     "error": null
 }
 ```

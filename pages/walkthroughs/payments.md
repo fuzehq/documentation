@@ -343,7 +343,66 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/third-party/deposit
 }
 ```
 
-Here is a list of supported crypto currencies along with their chains
+### Supported Currencies
+
+Use the following API to fetch a list of supported cryptocurrencies along with their chains and networks.
+
+
+**Endpoint**
+
+```
+GET https://staging.api.fuze.finance/api/v1/asset/assets
+```
+
+**Success Response**
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "asset": "USDC",
+      "chainsAndNetworks": [
+        {
+          "chain": "AVALANCHE_C_CHAIN",
+          "network": "TESTNET"
+        },
+        {
+          "chain": "ETHEREUM",
+          "network": "SEPOLIA"
+        },
+        {
+          "chain": "POLYGON",
+          "network": "AMOY"
+        }
+      ],
+      "description": "USDC is a fully collateralized US dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges. The technology behind CENTRE makes it possible to exchange value between people, businesses and financial institutions just like email between mail services and texts between SMS providers. We believe by removing artificial economic borders, we can create a more inclusive global economy.",
+      "policies": {
+        "NAME": "Circle USD",
+        "ICON": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+        "ASSET_ENABLE": true,
+        "QUOTE_LIMIT": 20000000,
+        "HIGH_24HR": 1.0008,
+        "LOW_24HR": 1,
+        "PRICE_CHANGE_PERCENT_24H": 0.03,
+        "PRICE_CHANGE_PERCENT_7D": -0.01,
+        "PRICE_CHANGE_PERCENT_30D": -0.01,
+        "PRICE_CHANGE_PERCENT_1Y": 0.02,
+        "MAX_SUPPLY": 0,
+        "CIRCULATING_SUPPLY": 56446744407.83,
+        "ATH": 1.17,
+        "ATL": 0.877647,
+        "MARKET_CAP": 56437025519,
+        "LOCAL_CURRENCY": "USD",
+        "CURRENT_PRICE": 1.0001
+      }
+    }
+  ],
+  "error": null
+}
+```
+
+Here is a sample list of supported crypto currencies along with their chains
 
 | Crypto Currencies | Symbol | Supported Blockchains   |
 | ----------------- | ------ |-------------------------|
@@ -804,6 +863,11 @@ If a customer / wallet is on a sanctioned list, then the funds will be frozen an
 **Notes**
 * `quantity`, `quoteQuantity` and `expiryTime` fields will only be present in case fiat to crypto conversion is required for the merchant.
 * `symbol` will be of the type `<crypto>_<fiat>`, e.g. `USDC_USD`, if currency conversion is applicable for the deposit wallet. Otherwise, it will be of the type `<crypto>`, e.g. `USDC`.
+* Amount is the amount requested by the merchant.
+* ReceivedAmount is the amount received by the merchant. It will be zero until the customer pays.
+* Quantity is the crypto amount for the quote. This will only be present in case of crypto to fiat conversion payins.
+* QuoteQuantity is the fiat amount for the quote. This will only be present in case of crypto to fiat conversion payins.
+* Quote price can be derived by dividing `quoteQuantity` by `quantity`.
 
 
 ### **Create a Payin Quote(Optional)**
@@ -854,7 +918,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
     "network": "AMOY",
     "status": "CREATED",
     "amount": 1000.0,
-    "receivedAmount": 1000.0,
+    "receivedAmount": 0,
     "quantity": 1000,
     "quoteQuantity": 1000,
     "expiryTime": "2023-06-09T07:53:12.658Z"
@@ -865,7 +929,6 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payin/create HTTP/1
 
 **Notes**
 * A successful response will contain `clientOrderId` which can be used to fetch the status of the payin.
-
 
 ### **List Payins**
 
