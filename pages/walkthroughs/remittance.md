@@ -546,7 +546,9 @@ A successful response will look as follows
             "referenceId": "Bank-49341737516206",
             "paymentReferenceNumber": "",
             "paymentDate": null,
-            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f',
+            "text": "Compliance check ongoing",
+            "beneficiaryId": "123456"
         }
     ],
     "error": null
@@ -574,7 +576,16 @@ If the transfer is successful, the response will look as follows
             "referenceId": "Bank-49341737461478",
             "paymentReferenceNumber": "Bank-49341737461478",
             "paymentDate": "2025-01-21T00:00:00.000Z",
-            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f'
+            "clientOrderId": '21a0194f-709e-4c62-8590-464ddb9abd8f',
+            "text": "Compliance check ongoing",
+            "metadata": {
+              "payoutCancelledReversal": {
+                "status": "COMPLETED",
+                "createdAt": "2025-03-12T12:50:08.049Z",
+                "updatedAt": "2025-03-12T12:50:08.049Z"
+              }
+            },
+            "beneficiaryId": "123456"
         }
     ],
     "error": null
