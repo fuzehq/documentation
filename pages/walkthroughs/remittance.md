@@ -31,7 +31,7 @@ POST /api/v1/payment/remittance/third-party/create
 - `idNumber`: ID number collected (required)
 - `type`: For the purposes of this product, the type will always be “ORIGINATOR” (required)
 - `clientIdentifier`:  A unique identifier for the customer passed by you (required)
-- `dob`: Date of birth of the originator (required)
+- `dob`: Date of birth of the originator (required) (format: YYYY-MM-DD)
 
 **Either email or phone number is mandatory.**
 
@@ -238,7 +238,7 @@ POST /api/v1/payment/remittance/third-party/create-with-account
 - `idNumber`: ID number collected (required)
 - `type`: For the purposes of this product, the type will always be “ORIGINATOR” (required)
 - `clientIdentifier`:  A unique identifier for the customer passed by you (required)
-- `dob`: Date of birth of the originator (required)
+- `dob`: Date of birth of the originator (required) (format: YYYY-MM-DD)
 - `account`: (This will be an object for details of the beneficiary) (required)
     - `currency`: The local currency of the beneficiary (required)
     - `accountType`: Type of payout method. A list of payout methods, and respective account data, will shared separately. (required)
