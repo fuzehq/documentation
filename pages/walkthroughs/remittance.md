@@ -248,6 +248,8 @@ POST /api/v1/payment/remittance/third-party/create-with-account
         - `accountNumber`: Bank account number of the beneficiary (required)
         - `ifscCode` : IFSC code of the bank account (required)
         - `name`: Full name of the beneficiary (required)
+        - `bankAccountType` : Type of bank account. 'NRO/SAVINGS' or 'NRE' is supported for India. (optional)
+    - `enableAccountVerification` : Whether to enable account verification (optional)
 
 **Either email or phone number is mandatory.**
 
