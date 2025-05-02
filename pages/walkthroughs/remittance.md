@@ -272,10 +272,12 @@ The request will look as follows
 	  accountType: 'BANK',
 	  country: 'IN',
 	  clientIdentifier: 'ACCT123456',
+      enableAccountVerification: false,
 	  accountData: {
 	    accountNumber: '123456789',
 	    ifscCode: 'ICIC0000001',
-	    name: 'Nick Fury'
+	    name: 'Nick Fury',
+        bankAccountType: 'NRO/SAVINGS'
 	  }
   }
 }
