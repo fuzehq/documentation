@@ -74,6 +74,36 @@ Since this is a user that was just created, there are currently no balances agai
 }
 ```
 
+### Get Price
+Before placing an order, you can fetch the price of the asset.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/price/current/BTC_USD HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+```
+
+In the response, you will get the price of the asset.
+
+```json
+{
+    "code": 200,
+    "data": {
+        "timestamp": 1746181915265,
+        "value": 356247.8757763
+    },
+    "error": null
+}
+```
+
 ### Place an order
 You can now place orders against the `orgUserId` we just created.
 
@@ -81,7 +111,8 @@ To place an order,  you will need to pass the `orgUserId`, along with the `symbo
 
 - `orgUserId`: The user.
 - `symbol`: The currency pair you want to trade.
-- `quantity`: The amount of tokens to buy or sell.
+- `quantity`: The amount of tokens (digital asset) to buy or sell.
+- `quoteQuantity`: The amount of base currency (USD/AED) to buy or sell.
 - `operations`: BUY or SELL
 - `clientOrderId`: Optional idempotency key which ensures the same order is not placed twice.
 
@@ -104,6 +135,30 @@ Content-Length: 75
     "symbol": "BTC_USD",
     "operation": "BUY",
     "quantity": 0.01,
+    "quoteQuantity": 0.01,
+    "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
+}
+```
+
+Or you could send an order of `quoteQuantity`.
+
+```bash
+POST https://staging.api.fuze.finance/api/v1/trading/ HTTP/1.1
+X-SIGNATURE: <>
+X-TIMESTAMP: <>
+X-API-KEY: <>
+User-Agent: PostmanRuntime/7.32.2
+Accept: */*
+Postman-Token: <>
+Host: staging.api.fuze.finance
+Accept-Encoding: gzip, deflate, br
+Content-Length: 75
+
+{
+    "orgUserId": "barbara_allen_2",
+    "symbol": "BTC_USD",
+    "operation": "BUY",
+    "quoteQuantity": 100,
     "clientOrderId": '5468bbb7-5e5f-425c-a6eb-b89e19a0298a',
 }
 ```
@@ -167,10 +222,10 @@ Accept-Encoding: gzip, deflate, br
 ```
 
 ### View Portfolio
-You can now fetch the current holdings of a user by passing the `orgUserId` in the endpoint below.
+You can now fetch the current balances of a user by passing the `orgUserId` in the endpoint below.
 
 ```bash
-POST https://staging.api.fuze.finance/api/v1/user/holdings/ HTTP/1.1
+POST https://staging.api.fuze.finance/api/v1/user/balances/ HTTP/1.1
 X-SIGNATURE: <>
 X-TIMESTAMP: <>
 X-API-KEY: <>
@@ -186,7 +241,7 @@ Connection: keep-alive
 }
 ```
 
-In the response, you will see all the users’ holdings.
+In the response, you will see all the users’ balances.
 
 ```json
 {
