@@ -1112,6 +1112,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
 - `clientIdentifier` (string): The counterparty identifier you passed while creating the counterparty. Example: `sherlockholmes`
 - `address` (string): The address to send the payout to. 
 - `chain` (string): The blockchain to use for the transaction. Example: `POLYGON`
+- `walletType` (string): The type of wallet to use for the transaction. Example: `DECENTRALIZED` or `CUSTODIAL`.
 - `symbol` (string): Crypto currency to transfer. Example: `USDC`
 - `clientOrderId` (string, optional): Idempotency key of the type uuid v4, which ensures the same order is not placed twice. Fuze will generate a random uuid if not supplied.
 - `quantity` (number, optional): Amount of crypto to transfer to the customer.
@@ -1125,6 +1126,7 @@ POST https://staging.api.fuze.finance/api/v1/payment/gateway/payout/create
   "clientIdentifier": "sherlockholmes",
   "address": "0x98BCBd9Bd0896A73d5aa0cC880512a3cBCE78401",
   "chain": "POLYGON",
+  "walletType": "DECENTRALIZED",
   "symbol": "USDC",
   "quantity": 1
 }
