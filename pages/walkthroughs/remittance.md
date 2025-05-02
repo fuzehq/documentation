@@ -124,6 +124,8 @@ POST /api/v1/payment/remittance/third-party/account/create
     - `ifscCode` : IFSC code of the bank account (required)
     - `name`: Full name of the beneficiary (required)
     - `relationship`: Relationship between beneficiary and originator. This list can be different for different countries, and will be shared separately. (optional)
+    - `bankAccountType` : Type of bank account. 'NRO/SAVINGS' or 'NRE' is supported for India. (optional)
+- `enableAccountVerification` : Whether to enable account verification (optional)
 
 The request would be as follows
 
@@ -134,11 +136,13 @@ The request would be as follows
   currency: 'INR',
   accountType: 'BANK',
   country: 'IN',
+  enableAccountVerification: false,
   accountData: {
     accountNumber: '123456789',
     ifscCode: 'ICIC0000001',
     name: 'Nick Fury'
     relationship: 'FAMILY',
+    bankAccountType: 'NRO/SAVINGS'
   }
 }
 ```
