@@ -185,6 +185,19 @@ In case the beneficiary is verified, the response will be as follows.
 }
 ```
 
+```jsx
+{
+  code: 200,
+  data: {
+	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+	  clientIdentifier: 'ACCT123456',
+	  status: 'INACTIVE', 
+      reason: 'Issue with account details'
+  }
+  error: null
+}
+```
+
 <aside>
 💡
 
@@ -629,7 +642,8 @@ A successful response will look as follows
             "createdAt": "2025-03-03T11:03:33.879Z",
             "referenceId": "Bank-12345",
             "paymentReferenceNumber": "",
-            "paymentDate": null
+            "paymentDate": null,
+            "clientOrderId": '12345'
    },
    "error": null
 }
@@ -647,6 +661,7 @@ A successful response will look as follows
             "referenceId": "Bank-12345",
             "paymentReferenceNumber": "123456",
             "paymentDate": "2025-03-03T11:03:33.879Z",
+            "clientOrderId": '12345'
     },
     "error": null
 }
@@ -664,6 +679,8 @@ A successful response will look as follows
             "referenceId": "Bank-12345",
             "paymentReferenceNumber": "123456",
             "paymentDate": "2025-03-03T11:03:33.879Z",
+            "clientOrderId": '12345',
+            "reason": "Bank server down",
     },
     "error": null
 }
@@ -715,36 +732,22 @@ To push the latest status of the third party.
 - `clientIdentifier`: The identifier of the beneficiary verified.
 - `status`: The status of the beneficiary. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
 
-In the example below, an beneficiary was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+In the example below, an beneficiary was created with the clientIdentifier `ACCT123456` and the status is `ACTIVE`
 
 ```jsx
 {
-  currency: "INR"
-  status: "ACTIVE"
-  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
-  createdAt: 1738846398537
-  country: "IN"
-  accountNumber: "1111111111111111"
-  name: "Account name"
-  bankCode: "HDFC0002453"
-  orgId: "4934"
-  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
+  uuid: "21a0194f-709e-4c62-8590-464ddb9abd8f",
+  clientIdentifier: "ACCT123456",
+  status: "ACTIVE",
 }
 ```
 
 ```jsx
 {
-  currency: "INR"
-  status: "INACTIVE"
-  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
-  createdAt: 1738846398537
-  country: "IN"
-  accountNumber: "1111111111111111"
-  name: "Account name"
-  bankCode: "HDFC0002453"
-  orgId: "4934"
-  uuid: "399bad23-b500-40cb-b07b-502f6d7238d5"
-  reason: 'Issue with account details'       
+  uuid: "21a0194f-709e-4c62-8590-464ddb9abd8f",
+  clientIdentifier: "ACCT123456",
+  status: "INACTIVE",
+  reason: 'Issue with account details'
 }
 ```
 
@@ -760,38 +763,59 @@ In the example below, an order was created with the clientOrderId `12345` and th
 
 ```jsx
 {
-  id: 2
-  amount: 1000
-  currency: 'INR'
-  status: 'SUCCESS'
-  paymentReferenceNumber: 'HFC12121111'
-  paymentDate: '24-11-2024'
-  clientOrderId: '12345'
-}
-```
-```jsx
-{
-  id: 2
-  amount: 1000
-  currency: 'INR'
-  status: 'CANCELED'
-  paymentReferenceNumber: 'HFC12121111'
-  paymentDate: '24-11-2024'
-  clientOrderId: '12345'
-  reason: 'Invalid bank details'
+  "status": "PENDING",
+  "currency": "INR",
+  "amountDeducted": -10,
+  "amountSent": -10,
+  "createdAt": "2025-03-03T11:03:33.879Z",
+  "referenceId": "Bank-12345",
+  "paymentReferenceNumber": "",
+  "paymentDate": null
+  "clientOrderId": '12345'
 }
 ```
 
 ```jsx
 {
-  id: 2
-  amount: 1000
-  currency: 'INR'
-  status: 'REVERSED'
-  paymentReferenceNumber: 'HFC12121111'
-  paymentDate: '24-11-2024'
-  clientOrderId: '12345'
-  reason: 'Bank server down'
+  "status": "COMPLETED",
+  "currency": "INR",
+  "amountDeducted": -10,
+  "amountSent": -10,
+  "createdAt": "2025-03-03T11:03:33.879Z",
+  "referenceId": "Bank-12345",
+  "paymentReferenceNumber": "123456",
+  "paymentDate": "2025-03-03T11:03:33.879Z",
+  "clientOrderId": '12345'
+}
+```
+
+```jsx
+{
+  "status": "CANCELED",
+  "currency": "INR",
+  "amountDeducted": -10,
+  "amountSent": -10,
+  "createdAt": "2025-03-03T11:03:33.879Z",
+  "referenceId": "Bank-12345",
+  "paymentReferenceNumber": "",
+  "paymentDate": null
+  "clientOrderId": '12345'
+  "reason": "Invalid bank details"
+}
+```
+
+```jsx
+{
+  "status": "REVERSED",
+  "currency": "INR",
+  "amountDeducted": -10,
+  "amountSent": -10,
+  "createdAt": "2025-03-03T11:03:33.879Z",
+  "referenceId": "Bank-12345",
+  "paymentReferenceNumber": "123456",
+  "paymentDate": "2025-03-03T11:03:33.879Z",
+  "clientOrderId": '12345',
+  "reason": "Bank server down"
 }
 ```
 
@@ -800,26 +824,26 @@ To push the latest status of the swap.
 
 **Body Parameters**
 
-- `quoteId`: The identifier of the swap.
+- `uuid`: The identifier of the swap.
 - `status`: The status of the swap. This can be either `COMPLETED` or `PENDING` or `CANCELED`
 
 In the example below, a swap was created with the quoteId `1` and the status is `COMPLETED`
 
 ```jsx
 {
-    uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-    fromCurrency: 'AED'
-    toCurrency: 'INR'
-    quantity: 100
-    status: 'SUCCESS'
+  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+  fromCurrency: 'AED',
+  toCurrency: 'INR',
+  quantity: 100,
+  status: 'SUCCESS'
 }
 ```
 ```jsx
 {
-  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-  fromCurrency: 'AED'
-  toCurrency: 'INR'
-  quantity: 100
+  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
+  fromCurrency: 'AED',
+  toCurrency: 'INR',
+  quantity: 100,
   status: 'CANCELLED'
 }
 ```
