@@ -815,7 +815,7 @@ In the example below, an order was created with the clientOrderId `12345` and th
   "paymentReferenceNumber": "123456",
   "paymentDate": "2025-03-03T11:03:33.879Z",
   "clientOrderId": '12345',
-  "reason": "Invalid bank details"
+  "reason": "Bank server down"
 }
 ```
 
