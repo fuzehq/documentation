@@ -80,6 +80,21 @@ POST /api/v1/payment/remittance/third-party/fetch
 - `clientIdentifier`:  A unique identifier for the customer passed by you (required)
 
 In case the originator in Active, the response will be as follows. 
+```jsx
+{
+    "code": 200,
+    "data": {
+        "name": "Nick",
+        "email": "nickfury@gmail.com",
+        "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
+        "type": "ORIGINATOR",
+        "address": "1-A, Baker's street",
+        "status": "ACTIVE",
+        "clientIdentifier": "NICK123456"
+    },
+    "error": null
+}
+```            
 
 ```jsx
 {
@@ -123,14 +138,14 @@ In case the originator in Active, the response will be as follows.
 {
     "code": 200,
     "data": {
-    "name": "Nick",
-    "email": "nickfury@gmail.com",
-    "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
-    "type": "ORIGINATOR",
-    "address": "1-A, Baker's street",
-    "status": "INACTIVE",
-    "clientIdentifier": "NICK123456",
-    "reason": 'Invalid details'       
+        "name": "Nick",
+        "email": "nickfury@gmail.com",
+        "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
+        "type": "ORIGINATOR",
+        "address": "1-A, Baker's street",
+        "status": "INACTIVE",
+        "clientIdentifier": "NICK123456",
+        "reason": 'Invalid details'       
     },
     "error": null
 }
@@ -742,6 +757,17 @@ To push the latest status of the originator.
 - `status`: The status of the originator. This can be either `ACTIVE` or `INACTIVE` or `PENDING`
 
 In the example below, an originator was created with the clientIdentifier `21a0194f-709e-4c62-8590-464ddb9abd8f` and the status is `ACTIVE`
+
+```jsx
+{
+  name: "test"
+  email: "test@test.com"
+  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
+  type: "ORIGINATOR"
+  status: "ACTIVE"
+  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+}
+```
 
 ```jsx
 {
