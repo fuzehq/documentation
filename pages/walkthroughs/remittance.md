@@ -844,7 +844,6 @@ In the example below, a swap was created with the quoteId `1` and the status is 
   fromCurrency: 'AED',
   toCurrency: 'INR',
   quantity: 100,
-  status: 'SUCCESS'
   status: 'CANCELLED'
 }
 ```
