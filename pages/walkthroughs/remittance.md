@@ -232,9 +232,16 @@ In case the beneficiary is verified, the response will be as follows.
 {
   code: 200,
   data: {
-	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
-	  clientIdentifier: 'ACCT123456',
-	  status: 'ACTIVE'
+	  "currency": "INR",
+      "status": "PENDING",
+      "clientIdentifier": "ACCT123456",
+      "createdAt": 1746554566456,
+      "country": "IN",
+      "accountNumber": "123456789",
+      "name": "Nick Fury",
+      "bankCode": "ICIC0000001",
+      "orgId": "orgId",
+      "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa"
   }
   error: null
 }
@@ -244,10 +251,38 @@ In case the beneficiary is verified, the response will be as follows.
 {
   code: 200,
   data: {
-	  uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f',
-	  clientIdentifier: 'ACCT123456',
-	  status: 'INACTIVE', 
-      reason: 'Issue with account details'
+	  "currency": "INR",
+      "status": "ACTIVE",
+      "clientIdentifier": "ACCT123456",
+      "createdAt": 1746554566456,
+      "country": "IN",
+      "accountNumber": "123456789",
+      "name": "Nick Fury",
+      "bankCode": "ICIC0000001",
+      "orgId": "orgId",
+      "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa"
+  }
+  error: null
+}
+```
+
+
+
+```jsx
+{
+  code: 200,
+  data: {
+	  "currency": "INR",
+      "status": "INACTIVE",
+      "clientIdentifier": "ACCT123456",
+      "createdAt": 1746554566456,
+      "country": "IN",
+      "accountNumber": "123456789",
+      "name": "Nick Fury",
+      "bankCode": "ICIC0000001",
+      "orgId": "orgId",
+      "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa",
+      "reason": "Issue with account details"      
   }
   error: null
 }
@@ -828,18 +863,48 @@ In the example below, an beneficiary was created with the clientIdentifier `ACCT
 
 ```jsx
 {
-  uuid: "21a0194f-709e-4c62-8590-464ddb9abd8f",
-  clientIdentifier: "ACCT123456",
-  status: "ACTIVE",
+  "currency": "INR",
+  "status": "PENDING",
+  "clientIdentifier": "ACCT123456",
+  "createdAt": 1746554566456,
+  "country": "IN",
+  "accountNumber": "123456789",
+  "name": "Nick Fury",
+  "bankCode": "ICIC0000001",
+  "orgId": "orgId",
+  "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa"        
 }
 ```
 
 ```jsx
 {
-  uuid: "21a0194f-709e-4c62-8590-464ddb9abd8f",
-  clientIdentifier: "ACCT123456",
-  status: "INACTIVE",
-  reason: 'Issue with account details'
+  "currency": "INR",
+  "status": "ACTIVE",
+  "clientIdentifier": "ACCT123456",
+  "createdAt": 1746554566456,
+  "country": "IN",
+  "accountNumber": "123456789",
+  "name": "Nick Fury",
+  "bankCode": "ICIC0000001",
+  "orgId": "orgId",
+  "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa"        
+}
+```
+
+
+```jsx
+{
+  "currency": "INR",
+  "status": "INACTIVE",
+  "clientIdentifier": "ACCT123456",
+  "createdAt": 1746554566456,
+  "country": "IN",
+  "accountNumber": "123456789",
+  "name": "Nick Fury",
+  "bankCode": "ICIC0000001",
+  "orgId": "orgId",
+  "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa",
+  "reason": "Issue with account details"    
 }
 ```
 
