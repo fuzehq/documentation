@@ -83,16 +83,56 @@ In case the originator in Active, the response will be as follows.
 
 ```jsx
 {
-  code: 200,
-  data: {
-    name: 'Nick',
-    email: 'nickfury@gmail.com',
-    uuid: '21a0194f-709e-4c62-8590-464ddb9abd8f'
-    type: 'ORIGINATOR',
-    status: 'ACTIVE',
-    clientIdentifier: 'NICK123456'
-  },
-    error: null
+    "code": 200,
+    "data": {
+    "name": "Nick",
+    "email": "nickfury@gmail.com",
+    "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
+    "type": "ORIGINATOR",
+    "address": "1-A, Baker's street",
+    "status": "ACTIVE",
+    "clientIdentifier": "NICK123456",
+    "beneficiaryAccounts": [
+          {
+            "currency": "INR",
+            "beneficiaryId": "beneficiaryId",
+            "verifiedAt": 1746554567027,
+            "status": "PENDING",
+            "clientIdentifier": "ACCT123456",
+            "createdAt": 1746554566456,
+            "accountNumber": "123456789",
+            "country": "IN",
+            "name": "John",
+            "ifscCode": "ICIC0000001",
+            "thirdPartyId": "2641",
+            "enableAccountVerification": true,
+            "actualName": "John Fury",
+            "originatorId": "sendersId",
+            "orgId": "orgId",
+            "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa",
+            "uniqueKey": "uniqueKey",
+            "type": "BANK"
+          }
+    ]
+    },
+    "error": null
+}
+```
+
+```jsx
+{
+    "code": 200,
+    "data": {
+    "name": "Nick",
+    "email": "nickfury@gmail.com",
+    "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
+    "type": "ORIGINATOR",
+    "address": "1-A, Baker's street",
+    "status": "INACTIVE",
+    "clientIdentifier": "NICK123456",
+    "reason": 'Invalid details'       
+    },
+    "error": null
 }
 ```
 
@@ -517,13 +557,18 @@ A successful response will be as follows.
 If a transfer is successful, the response will look as follows.
 
 ```jsx
-{ id: 2
-  amount: 1000
-  currency: 'INR'
-  status: 'SUCCESS'
-  paymentReferenceNumber: 'HFC12121111'
-  paymentDate: '24-11-2024'
-  clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+{
+  code: 200
+  data: {
+    id: 2
+    amount: 1000
+    currency: 'INR'
+    status: 'SUCCESS'
+    paymentReferenceNumber: 'HFC12121111'
+    paymentDate: '24-11-2024'
+    clientOrderId: '21a0194f-709e-4c62-8590-464ddb9abd8f'
+  }
+  error: null
 }
 ```
 
@@ -700,13 +745,35 @@ In the example below, an originator was created with the clientIdentifier `21a01
 
 ```jsx
 {
-  name: "test"
-  email: "test@test.com"
-  phoneNumber: ""
-  uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
-  type: "ORIGINATOR"
-  status: "ACTIVE"
-  clientIdentifier: "21a0194f-709e-4c62-8590-464ddb9abd8f"
+  "name": "Nick",
+  "email": "nickfury@gmail.com",
+  "uuid": "21a0194f-709e-4c62-8590-464ddb9abd8f",
+  "type": "ORIGINATOR",
+  "address": "1-A, Baker's street",
+  "status": "ACTIVE",
+  "clientIdentifier": "NICK123456",
+  "beneficiaryAccounts": [
+      {
+        "currency": "INR",
+        "beneficiaryId": "beneficiaryId",
+        "verifiedAt": 1746554567027,
+        "status": "PENDING",
+        "clientIdentifier": "ACCT123456",
+        "createdAt": 1746554566456,
+        "accountNumber": "123456789",
+        "country": "IN",
+        "name": "John",
+        "ifscCode": "ICIC0000001",
+        "thirdPartyId": "2641",
+        "enableAccountVerification": true,
+        "actualName": "John Fury",
+        "originatorId": "sendersId",
+        "orgId": "orgId",
+        "uuid": "b759ed90-3cc5-4d21-bd82-fcc3c2e2d3fa",
+        "uniqueKey": "uniqueKey",
+        "type": "BANK"
+      }
+  ]
 }
 ```
 
@@ -714,7 +781,6 @@ In the example below, an originator was created with the clientIdentifier `21a01
 {
   name: "test"
   email: "test@test.com"
-  phoneNumber: ""
   uuid: "0e557e45-05bd-40a1-828f-95444955fc71"
   type: "ORIGINATOR"
   status: "INACTIVE"
@@ -825,7 +891,7 @@ To push the latest status of the swap.
 **Body Parameters**
 
 - `uuid`: The identifier of the swap.
-- `status`: The status of the swap. This can be either `COMPLETED` or `PENDING` or `CANCELED`
+- `status`: The status of the swap. This can be either `COMPLETED` or `PENDING` or `CANCELLED`
 
 In the example below, a swap was created with the quoteId `1` and the status is `COMPLETED`
 
