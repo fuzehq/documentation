@@ -107,7 +107,7 @@ JSON Payload:
 ```
 
 Note that the value of "ts" is the value of X-TIMESTAMP header that you would pass in the same API call.
-The JSON bosy passed in the API request should be exactly matching the one provided in the "body" field of the above JSON payload.
+The JSON body passed in the API request should be exactly matching the one provided in the "body" field of the above JSON payload.
 You would need to stringify the above JSON Payload before using it as value in the HMAC SHA256 signing operation.
 
 <hr/>
@@ -161,7 +161,7 @@ PHP Sample code:
   $orgUserId = "ankitshubham97"; // Might change this.
 
   $API_ENDPOINT = "https://staging.api.fuze.finance";
-  $body = array('orgUserId' => $orgUserId, 'kyc' => True, 'tnc' => True);
+  $body = array('orgUserId' => $orgUserId, 'kyc' => true, 'tnc' => true);
   $query = new \stdClass();
   $url = "/api/v1/user/";
   $ts = time() + 3600;
